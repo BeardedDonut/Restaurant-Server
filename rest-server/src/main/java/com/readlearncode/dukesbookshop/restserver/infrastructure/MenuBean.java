@@ -89,22 +89,22 @@ public class MenuBean implements Menu {
     public Optional<MenuItem> findMenuItemByName(String name) {
         //TODO find a way to remove the overhead of search
 
-        for(MenuItem itm:drinks) {
-            if(itm.getName().equals(name)) {
+        for (MenuItem itm : drinks) {
+            if (itm.getName().equals(name)) {
                 return Optional.of(itm);
             }
         }
 
 
-        for(MenuItem itm:desserts) {
-            if(itm.getName().equals(name)) {
+        for (MenuItem itm : desserts) {
+            if (itm.getName().equals(name)) {
                 return Optional.of(itm);
             }
         }
 
 
-        for(MenuItem itm:foods) {
-            if(itm.getName().equals(name)) {
+        for (MenuItem itm : foods) {
+            if (itm.getName().equals(name)) {
                 return Optional.of(itm);
             }
         }

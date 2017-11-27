@@ -22,10 +22,10 @@ public class ConstraintViolationExceptionMapper
                 .collect(Collectors.joining(", "));
 
         return Response.status(Response.Status.BAD_REQUEST)
-                .header("X-Vadilation-Failure", message).build();
+                .header("X-Validation-Failure", message).build();
     }
 
-    private String extractPropertyName(String path){
+    private String extractPropertyName(String path) {
         return path.substring(path.lastIndexOf(".") + 1);
     }
 }

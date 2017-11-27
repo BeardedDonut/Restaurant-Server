@@ -4,7 +4,6 @@ import com.readlearncode.dukesbookshop.restserver.domain.MenuItem;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.repositories.Menu;
 
 import javax.ejb.EJB;
-import javax.ejb.Stateless;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -32,7 +31,8 @@ public class MenuResource {
         allItems.addAll(myRestaurantMenu.getDrinks());
         allItems.addAll(myRestaurantMenu.getFoods());
 
-        GenericEntity<List<MenuItem>> allMenuItems = new GenericEntity<List<MenuItem>>(allItems){};
+        GenericEntity<List<MenuItem>> allMenuItems = new GenericEntity<List<MenuItem>>(allItems) {
+        };
         return Response.ok(allMenuItems).build();
     }
 
@@ -44,7 +44,8 @@ public class MenuResource {
 
         allItems.addAll(myRestaurantMenu.getDrinks());
 
-        GenericEntity<List<MenuItem>> allMenuItems = new GenericEntity<List<MenuItem>>(allItems){};
+        GenericEntity<List<MenuItem>> allMenuItems = new GenericEntity<List<MenuItem>>(allItems) {
+        };
         return Response.ok(allMenuItems).build();
     }
 
@@ -56,7 +57,8 @@ public class MenuResource {
 
         allItems.addAll(myRestaurantMenu.getFoods());
 
-        GenericEntity<List<MenuItem>> allMenuItems = new GenericEntity<List<MenuItem>>(allItems){};
+        GenericEntity<List<MenuItem>> allMenuItems = new GenericEntity<List<MenuItem>>(allItems) {
+        };
         return Response.ok(allMenuItems).build();
     }
 
@@ -68,7 +70,8 @@ public class MenuResource {
 
         allItems.addAll(myRestaurantMenu.getDesserts());
 
-        GenericEntity<List<MenuItem>> allMenuItems = new GenericEntity<List<MenuItem>>(allItems){};
+        GenericEntity<List<MenuItem>> allMenuItems = new GenericEntity<List<MenuItem>>(allItems) {
+        };
         return Response.ok(allMenuItems).build();
     }
 

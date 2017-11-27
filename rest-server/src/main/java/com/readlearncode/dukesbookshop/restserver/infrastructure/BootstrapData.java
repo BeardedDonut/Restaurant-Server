@@ -68,12 +68,13 @@ public class BootstrapData {
             myRestaurantMenu.addToDesserts(new MenuItem("Faloode-shirazi", 5.00f));
             myRestaurantMenu.addToDesserts(new MenuItem("Bastani Sonnati", 4.00f));
 
-            Reservation reservation = resRepo.saveReserve(tb1,3, Date.valueOf("2017-02-03"),new TimeSpan("1400","1600"));
+            Reservation reservation = resRepo.saveReserve(tb1, 3, Date.valueOf("2017-02-03"), new TimeSpan("1400", "1600"));
 
             HashMap<String, Integer> myOrderItems = new HashMap<>();
-            myOrderItems.put("Abgoosht",3);
-            myOrderItems.put("Shole-zard",3);
-            myOrderItems.put("Doogh Ab-Ali",3);
+            myOrderItems.put("Abgoosht", 3);
+            myOrderItems.put("Shole-zard", 3);
+            myOrderItems.put("Doogh Ab-Ali", 3);
+            myOrderItems.put("Faloode-shirazi",4);
 
 
             Order myOrder = new Order(1, reservation, myOrderItems);
@@ -82,9 +83,8 @@ public class BootstrapData {
                 following line saves an order its also included in the postman test...
                 so if you want to add it you can un comment the line below...
                 or just call the api from postman
-             */
+            */
             orderRepo.saveOrderForReservation(reservation, myOrder);
-
 
         } catch (Exception e) {
             System.out.println("Exception thrown while bootstrapping. " + e);
