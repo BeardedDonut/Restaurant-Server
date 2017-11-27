@@ -159,6 +159,56 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "menu api",
+			"description": "",
+			"item": [
+				{
+					"name": "get drinks menu",
+					"request": {
+						"url": "http://localhost:8080/rest-server/api/menu/drinks",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "get foods menu",
+					"request": {
+						"url": "http://localhost:8080/rest-server/api/menu/foods",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "get desserts menu",
+					"request": {
+						"url": "http://localhost:8080/rest-server/api/menu/desserts",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "get  menu",
+					"request": {
+						"url": "http://localhost:8080/rest-server/api/menu",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }

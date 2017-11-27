@@ -37,19 +37,6 @@ public class OrderResource {
         return Response.ok(ordersWrapper).build();
     }
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/menu")
-    public Response getMenu() {
-        ArrayList<MenuItem> allItems = new ArrayList<>();
-
-        allItems.addAll(myRestaurantMenu.getDesserts());
-        allItems.addAll(myRestaurantMenu.getDrinks());
-        allItems.addAll(myRestaurantMenu.getFoods());
-
-        GenericEntity<List<MenuItem>> allMenuItems = new GenericEntity<List<MenuItem>>(allItems){};
-        return Response.ok(allMenuItems).build();
-    }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
