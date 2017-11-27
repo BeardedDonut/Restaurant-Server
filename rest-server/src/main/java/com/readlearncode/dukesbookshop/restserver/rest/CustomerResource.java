@@ -1,9 +1,9 @@
 package com.readlearncode.dukesbookshop.restserver.rest;
 
 import com.readlearncode.dukesbookshop.restserver.domain.Customer;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.repositories.CustomerRepository;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.CustomerAlreadySigned;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.CustomerNotFoundException;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.repositories.CustomerRepository;
 
 import javax.ejb.EJB;
 import javax.validation.Valid;
@@ -29,7 +29,8 @@ public class CustomerResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllCustomers() throws CustomerNotFoundException {
         List<Customer> customers = customerRepo.getAllCustomers();
-        GenericEntity<List<Customer>> customersWrapper = new GenericEntity<List<Customer>>(customers){};
+        GenericEntity<List<Customer>> customersWrapper = new GenericEntity<List<Customer>>(customers) {
+        };
         return Response.ok(customersWrapper).build();
     }
 
@@ -39,7 +40,7 @@ public class CustomerResource {
     public Response getCustomerById(final @PathParam("customerId") int id) throws CustomerNotFoundException {
         Optional<Customer> customer = customerRepo.getCustomerById(id);
 
-        if(customer.isPresent()) {
+        if (customer.isPresent()) {
             return Response.ok(customer.get()).build();
         }
 
@@ -51,7 +52,7 @@ public class CustomerResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createProfile(@Valid final Customer cs) throws CustomerAlreadySigned {
 
-        if(customerRepo.getCustomerByTel(cs.getTelephoneNumber()).isPresent()) {
+        if (customerRepo.getCustomerByTel(cs.getTelephoneNumber()).isPresent()) {
             throw new CustomerAlreadySigned();
         } else {
             Optional<Customer> regCs = customerRepo.createNewProfile(cs);

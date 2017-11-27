@@ -13,4 +13,9 @@ public class CustomerAlreadySigned extends Exception {
     public CustomerAlreadySigned(String message) {
         this.message = message;
     }
+
+    @Override
+    public String getMessage(){
+        return this.message;
+    }
 }

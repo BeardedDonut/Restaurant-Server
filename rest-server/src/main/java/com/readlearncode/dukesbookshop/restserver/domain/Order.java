@@ -19,7 +19,7 @@ public class Order implements Serializable {
     @Min(0)
     private int orderId;
 
-    private int totalCost;
+    private Float totalCost;
 
     @NotNull
     private Reservation accordingReservation;
@@ -56,11 +56,11 @@ public class Order implements Serializable {
         this.orderItems = orderItems;
     }
 
-    public int getTotalCost() {
+    public Float getTotalCost() {
         return totalCost;
     }
 
-    public void setTotalCost(int totalCost) {
+    public void setTotalCost(Float totalCost) {
         this.totalCost = totalCost;
     }
 
@@ -91,7 +91,7 @@ public class Order implements Serializable {
 
         Order order = (Order) o;
 
-        if (totalCost != order.totalCost) return false;
+        if (totalCost.equals(order.totalCost)) return false;
         if (orderItems != null ? !orderItems.equals(order.orderItems) : order.orderItems != null) return false;
         if (accordingReservation != null ? !accordingReservation.equals(order.accordingReservation) : order.accordingReservation != null)
             return false;
@@ -101,15 +101,17 @@ public class Order implements Serializable {
     @Override
     public int hashCode() {
         int result = orderItems != null ? orderItems.hashCode() : 0;
-        result = 31 * result + totalCost;
+        result = 31 * result + orderId;
+        result = 31 * result + (totalCost != null ? totalCost.hashCode() : 0);
         result = 31 * result + (accordingReservation != null ? accordingReservation.hashCode() : 0);
         result = 31 * result + (status != null ? status.hashCode() : 0);
         return result;
     }
 
-    //</editor-fold>
+//</editor-fold>
 
+    @XmlRootElement
     public enum OrderStatus {
-        ON_HOLD, PREPARING, DELIVERED, PAYED
+        ON_HOLD, CONFIRMED, PREPARING, DELIVERED, PAYED
     }
 }
