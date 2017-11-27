@@ -37,7 +37,6 @@ public class OrderResource {
         return Response.ok(ordersWrapper).build();
     }
 
-
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
