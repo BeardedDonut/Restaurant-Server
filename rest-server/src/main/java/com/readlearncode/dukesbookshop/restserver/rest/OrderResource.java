@@ -85,8 +85,7 @@ public class OrderResource {
         //TODO throw exception cause we could'nt create the order
         return null;
     }
-
-
+    
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/status")
