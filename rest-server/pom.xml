@@ -1,0 +1,128 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.readlearncode</groupId>
+        <artifactId>dukesbookshop</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>rest-server</artifactId>
+    <packaging>war</packaging>
+
+    <name>rest-server</name>
+    <url>http://localhost:8081</url>
+
+    <properties>
+        <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
+        <java.version>1.8</java.version>
+        <javaee-api.version>7.0</javaee-api.version>
+    </properties>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>${javaee-api.version}</version>
+        </dependency>
+
+    </dependencies>
+
+
+    <profiles>
+
+        <!-- GlassFish specific version of build -->
+        <profile>
+            <id>glassfish</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.cargo</groupId>
+                        <artifactId>cargo-maven2-plugin</artifactId>
+                        <version>1.4.14</version>
+                        <configuration>
+                            <container>
+                                <containerId>glassfish4x</containerId>
+                                <zipUrlInstaller>
+                                    <url>http://download.java.net/glassfish/4.1/release/glassfish-4.1.zip</url>
+                                </zipUrlInstaller>
+                            </container>
+                            <deployables>
+                                <deployable>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>${project.artifactId}</artifactId>
+                                    <type>war</type>
+                                    <properties>
+                                        <context>/rest-server</context>
+                                    </properties>
+                                </deployable>
+                            </deployables>
+                            <configuration>
+                                <properties>
+                                    <cargo.servlet.port>8081</cargo.servlet.port>
+                                    <cargo.glassfish.admin.port>4881</cargo.glassfish.admin.port>
+                                    <cargo.glassfish.jms.port>7681</cargo.glassfish.jms.port>
+                                    <cargo.glassfish.domain.jmxPort>8681</cargo.glassfish.domain.jmxPort>
+                                    <cargo.glassfish.http.ssl.port>8180</cargo.glassfish.http.ssl.port>
+                                    <cargo.glassfish.orb.ssl.port>3881</cargo.glassfish.orb.ssl.port>
+                                    <cargo.glassfish.orb.mutualauth.port>3981</cargo.glassfish.orb.mutualauth.port>
+                                    <cargo.glassfish.osgi.shell.telnet.port>6681
+                                    </cargo.glassfish.osgi.shell.telnet.port>
+                                    <cargo.glassfish.orb.listener.port>3781</cargo.glassfish.orb.listener.port>
+                                </properties>
+                            </configuration>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+    </profiles>
+
+
+    <build>
+        <finalName>rest-server</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.6.0</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <compilerArguments>
+                        <endorseddirs>${endorsed.dir}</endorseddirs>
+                    </compilerArguments>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.18.1</version>
+                <configuration>
+                    <skipTests>true</skipTests>
+                    <systemPropertyVariables>
+                        <!-- This is needed to tell the unit tests which profile we are running. -->
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>

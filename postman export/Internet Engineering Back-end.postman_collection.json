@@ -1,0 +1,164 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Internet Engineering Back-end",
+		"_postman_id": "d8264922-39fd-f3a0-c98b-4c2d05fdf48d",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "tables api",
+			"description": "",
+			"item": [
+				{
+					"name": "get table info passing id",
+					"request": {
+						"url": "http://localhost:8080/rest-server/api/tables/1",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "get all tables",
+					"request": {
+						"url": "http://localhost:8080/rest-server/api/tables",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "fetch all tables"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "customers api",
+			"description": "",
+			"item": [
+				{
+					"name": "get all signed customers info",
+					"request": {
+						"url": "http://localhost:8080/rest-server/api/customers/",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "get all signed customers info"
+					},
+					"response": []
+				},
+				{
+					"name": "get a customer info passing it's id",
+					"request": {
+						"url": "http://localhost:8080/rest-server/api/customers/2",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "get a customer info passing it's id"
+					},
+					"response": []
+				},
+				{
+					"name": "sign up new customer",
+					"request": {
+						"url": "http://localhost:8080/rest-server/api/customers/",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"customerId\":12,\n\t\"fullName\":\"Robin Williams\",\n\t\"telephoneNumber\":\"9363891278\"\n\t\n}"
+						},
+						"description": "sign up new customer"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "table booking api",
+			"description": "",
+			"item": [
+				{
+					"name": "reserve a table ",
+					"request": {
+						"url": "http://localhost:8080/rest-server/api/reserve",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"customerId\":4,\n\t\"ts\":{\n\t\t\"start\":\"1600\",\n\t\t\"end\":\"1900\"\n\t},\n\t\"date\":\"2017-02-03\",\n\t\"seats\":6\n}"
+						},
+						"description": "reserve a table "
+					},
+					"response": []
+				},
+				{
+					"name": "get all the reservation for the given date",
+					"request": {
+						"url": "http://localhost:8080/rest-server/api/reserve/2017-02-03",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "get all the reservation for the given date"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ordering api",
+			"description": "",
+			"item": [
+				{
+					"name": "submit an order",
+					"request": {
+						"url": "http://localhost:8080/rest-server/api/orders/",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\n        \"accordingReservation\": {\n            \"customerId\": 3,\n            \"otherRequirements\": \"\",\n            \"reservationDate\": \"2017-02-03\",\n            \"reservationId\": 1,\n            \"reservationTime\": {\n                \"end\": \"1600\",\n                \"start\": \"1400\"\n            },\n            \"tableId\": 1\n        },\n        \"orderId\": 2,\n        \"orderItems\": {\n            \"entry\": [\n                {\n                    \"key\": \"Abgoosht\",\n                    \"value\": 3\n                },\n                {\n                    \"key\": \"Doogh Ab-Ali\",\n                    \"value\": 3\n                },\n                {\n                    \"key\": \"Shole-zard\",\n                    \"value\": 3\n                }\n            ]\n        },\n        \"status\": \"ON_HOLD\",\n        \"totalCost\": 0\n    }"
+						},
+						"description": "make sure you've reserved a table before making this request"
+					},
+					"response": []
+				},
+				{
+					"name": "get a list of all orders made so far",
+					"request": {
+						"url": "http://localhost:8080/rest-server/api/orders/listOrders",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
