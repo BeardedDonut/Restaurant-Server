@@ -157,6 +157,95 @@
 						"description": ""
 					},
 					"response": []
+                },
+              {
+                "name": "update order status",
+                "request": {
+                  "url": {
+                    "raw": "http://localhost:8080/rest-server/api/orders/status?orderId=2&status=2",
+                    "protocol": "http",
+                    "host": [
+                      "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                      "rest-server",
+                      "api",
+                      "orders",
+                      "status"
+                    ],
+                    "query": [
+                      {
+                        "key": "orderId",
+                        "value": "2",
+                        "equals": true,
+                        "description": ""
+                      },
+                      {
+                        "key": "status",
+                        "value": "2",
+                        "equals": true,
+                        "description": ""
+                      }
+                    ],
+                    "variable": []
+                  },
+                  "method": "PUT",
+                  "header": [],
+                  "body": {},
+                  "description": "update order status provided the corresponding status number of desired OrderStatus and the orderId of the order which it's status must be updated"
+                },
+                "response": []
+              },
+              {
+                "name": "confirm an order",
+                "request": {
+                  "url": {
+                    "raw": "http://localhost:8080/rest-server/api/orders/status?orderId=2&status=1",
+                    "protocol": "http",
+                    "host": [
+                      "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                      "rest-server",
+                      "api",
+                      "orders",
+                      "status"
+                    ],
+                    "query": [
+                      {
+                        "key": "orderId",
+                        "value": "2",
+                        "equals": true,
+                        "description": ""
+                      },
+                      {
+                        "key": "status",
+                        "value": "1",
+                        "equals": true,
+                        "description": ""
+                      }
+                    ],
+                    "variable": []
+                  },
+                  "method": "PUT",
+                  "header": [],
+                  "body": {},
+                  "description": "update order status provided the corresponding status number of desired OrderStatus and the orderId of the order which it's status must be updated\n\nNOTE: when status is updated to confirmed the totalcost will be calculated... here the purpose is to demonstrate the cost update"
+                },
+                "response": []
+              },
+              {
+                "name": "get a list of order which are in a given status",
+                "request": {
+                  "url": "http://localhost:8080/rest-server/api/orders/listOrders/2",
+                  "method": "GET",
+                  "header": [],
+                  "body": {},
+                  "description": "for example get all orders which they are all \"<CONFIRMED, 1>\" or they are \"<PREPARING,2>\".\n\na <GET> request to :\napi/orders/listOrder/<Order-Status-Number>"
+                },
+                "response": []
 				}
 			]
 		},
