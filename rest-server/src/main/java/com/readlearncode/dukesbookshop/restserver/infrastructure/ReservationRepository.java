@@ -3,6 +3,7 @@ package com.readlearncode.dukesbookshop.restserver.infrastructure;
 import com.readlearncode.dukesbookshop.restserver.domain.Reservation;
 import com.readlearncode.dukesbookshop.restserver.domain.Table;
 import com.readlearncode.dukesbookshop.restserver.domain.TimeSpan;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.ejb.Stateless;
 import java.sql.Date;
@@ -36,6 +37,16 @@ public class ReservationRepository {
 
     public Reservation getByResId(int resId, Date date) {
         return reservations.get(date.toString()).get(resId);
+    }
+
+    public ArrayList<Reservation> getAllResBetweenDates(Date startDate, Date endDate) throws Exception {
+        /*
+            NOTE:   since we will eventually use an dbms to fetch data from
+                    and since we have not yet get to there we are going to just
+                    throw an exception..
+         */
+        //TODO:
+        throw new NotImplementedException();
     }
 
     //TODO : test
