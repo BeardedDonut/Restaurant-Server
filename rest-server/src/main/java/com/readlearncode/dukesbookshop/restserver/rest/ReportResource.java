@@ -8,6 +8,7 @@ import com.readlearncode.dukesbookshop.restserver.infrastructure.ReservationRepo
 import com.readlearncode.dukesbookshop.restserver.infrastructure.repositories.Menu;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.repositories.OrderRepository;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -24,6 +25,7 @@ import java.util.Optional;
  */
 
 @Path("/report")
+@RolesAllowed({"ADMIN", "USER"})
 public class ReportResource {
 
     @EJB
@@ -38,6 +40,7 @@ public class ReportResource {
     @EJB
     private ReservationRepository resRepo;
 
+    @RolesAllowed("Admin")
     @GET
     @Path("/reservation")
     public Response reservationReports(

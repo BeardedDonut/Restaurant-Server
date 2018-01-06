@@ -44,7 +44,7 @@ public class CustomerRepositoryBean implements CustomerRepository {
 
     @Override
     public Optional<Customer> createNewProfile(Customer newCs) {
-        Optional<Customer> registeredCustomer = this.createNewProfile(newCs.getFullName(), newCs.getTelephoneNumber());
+        Optional<Customer> registeredCustomer = this.createNewProfile(newCs.getFullName(), newCs.getPhoneNumber());
         return registeredCustomer;
     }
 
@@ -55,7 +55,7 @@ public class CustomerRepositoryBean implements CustomerRepository {
         Customer foundOne = null;
 
         for (Customer cs : allCs) {
-            if (cs.getTelephoneNumber().equals(telNumber)) {
+            if (cs.getPhoneNumber().equals(telNumber)) {
                 foundOne = cs;
                 return Optional.of(foundOne);
             }

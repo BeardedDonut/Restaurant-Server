@@ -52,7 +52,7 @@ public class CustomerResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createProfile(@Valid final Customer cs) throws CustomerAlreadySigned {
 
-        if (customerRepo.getCustomerByTel(cs.getTelephoneNumber()).isPresent()) {
+        if (customerRepo.getCustomerByTel(cs.getPhoneNumber()).isPresent()) {
             throw new CustomerAlreadySigned();
         } else {
             Optional<Customer> regCs = customerRepo.createNewProfile(cs);

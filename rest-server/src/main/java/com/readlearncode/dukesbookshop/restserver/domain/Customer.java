@@ -1,5 +1,8 @@
 package com.readlearncode.dukesbookshop.restserver.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -13,17 +16,22 @@ import java.util.Objects;
  */
 
 @XmlRootElement
+@Entity(name = "customer")
 public class Customer implements Serializable {
 
     @Min(0)
     @Max(120)
+    @Id
+    @Column(name = "id")
     private Integer customerId;
 
     @NotNull
+    @Column(name = "fullName")
     private String fullName;
 
     @NotNull
-    private String telephoneNumber;
+    @Column(name = "phoneNumber")
+    private String phoneNumber;
 
     //TODO: add authentication properties
 
@@ -31,10 +39,10 @@ public class Customer implements Serializable {
 
     }
 
-    public Customer(Integer id, String name, String telephoneNumber) {
+    public Customer(Integer id, String name, String phoneNumber) {
         this.customerId = id;
         this.fullName = name;
-        this.telephoneNumber = telephoneNumber;
+        this.phoneNumber = phoneNumber;
     }
 
     public Integer getCustomerId() {
@@ -53,12 +61,12 @@ public class Customer implements Serializable {
         this.fullName = fullName;
     }
 
-    public String getTelephoneNumber() {
-        return telephoneNumber;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setTelephoneNumber(String telephoneNumber) {
-        this.telephoneNumber = telephoneNumber;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     @Override
@@ -70,14 +78,14 @@ public class Customer implements Serializable {
 
         if (!Objects.equals(customerId, customer.customerId)) return false;
         if (fullName != null ? !fullName.equals(customer.fullName) : customer.fullName != null) return false;
-        return telephoneNumber != null ? telephoneNumber.equals(customer.telephoneNumber) : customer.telephoneNumber == null;
+        return phoneNumber != null ? phoneNumber.equals(customer.phoneNumber) : customer.phoneNumber == null;
     }
 
     @Override
     public int hashCode() {
         int result = customerId;
         result = 31 * result + (fullName != null ? fullName.hashCode() : 0);
-        result = 31 * result + (telephoneNumber != null ? telephoneNumber.hashCode() : 0);
+        result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
         return result;
     }
 }
