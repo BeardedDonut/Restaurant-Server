@@ -5,8 +5,8 @@ import com.readlearncode.dukesbookshop.restserver.domain.Order;
 import com.readlearncode.dukesbookshop.restserver.domain.Reservation;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.concreteRepositories.CustomerRepositoryBean;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.concreteRepositories.ReservationRepository;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.repositories.Menu;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.repositories.OrderRepository;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.abstractRepositories.Menu;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.abstractRepositories.OrderRepository;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
@@ -103,7 +103,7 @@ public class ReportResource {
     @GET
     @Path("/customers")
     public Response customerReport() {
-        ArrayList<Customer> customers = customerRepo.getAllCustomers();
+        List<Customer> customers = customerRepo.getAllCustomers();
 
         GenericEntity<List<Customer>> customerWrapper = new GenericEntity<List<Customer>>(customers) {
         };

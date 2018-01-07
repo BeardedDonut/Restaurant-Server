@@ -1,8 +1,8 @@
-package com.readlearncode.dukesbookshop.restserver.infrastructure.repositories;
+package com.readlearncode.dukesbookshop.restserver.infrastructure.abstractRepositories;
 
 import com.readlearncode.dukesbookshop.restserver.domain.Customer;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -15,7 +15,7 @@ public interface CustomerRepository {
 
     Optional<Customer> getCustomerById(final int id);
 
-    ArrayList<Customer> getAllCustomers();
+    List<Customer> getAllCustomers();
 
     Optional<Customer> createNewProfile(final Customer newCs);
 

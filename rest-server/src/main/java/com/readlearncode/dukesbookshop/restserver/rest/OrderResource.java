@@ -2,9 +2,7 @@ package com.readlearncode.dukesbookshop.restserver.rest;
 
 import com.readlearncode.dukesbookshop.restserver.domain.Order;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.OrderNotFoundException;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.repositories.Menu;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.repositories.OrderRepository;
-import com.sun.org.apache.xpath.internal.operations.Or;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.abstractRepositories.OrderRepository;
 
 import javax.ejb.EJB;
 import javax.validation.Valid;

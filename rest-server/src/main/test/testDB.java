@@ -39,17 +39,14 @@ public class testDB {
     @Test
     public void test1() {
         Customer cs1 = new Customer();
-        cs1.setCustomerId(12);
         cs1.setFullName("Navid");
         cs1.setPhoneNumber("989383709786");
 
         Customer cs2 = new Customer();
-        cs2.setCustomerId(14);
         cs2.setFullName("Mehdi");
         cs2.setPhoneNumber("123456789111");
 
         Customer cs3 = new Customer();
-        cs3.setCustomerId(11);
         cs3.setFullName("Kamran");
         cs3.setPhoneNumber("123456789112");
 
@@ -66,6 +63,15 @@ public class testDB {
 
         System.out.println("====DELETE====");
         delete(cs1.getCustomerId());
+
+        System.out.println("====READ====");
+        customers = read();
+        for (Customer cs : customers) {
+            System.out.println(cs.toString());
+        }
+
+        System.out.println("====UPDATE====");
+        cs2.setFullName("Ahmad");
 
         System.out.println("====READ====");
         customers = read();
@@ -91,7 +97,6 @@ public class testDB {
         List<Customer> customers = session.createQuery("FROM customer").list();
         System.out.println("Found " + customers.size() + " Customers");
         return customers;
-
     }
 
     public static void delete(Integer id) {

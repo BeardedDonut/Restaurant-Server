@@ -3,9 +3,9 @@ package com.readlearncode.dukesbookshop.restserver.infrastructure;
 import com.readlearncode.dukesbookshop.restserver.domain.*;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.concreteRepositories.ReservationRepository;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.concreteRepositories.TableRepository;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.repositories.CustomerRepository;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.repositories.Menu;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.repositories.OrderRepository;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.abstractRepositories.CustomerRepository;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.abstractRepositories.Menu;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.abstractRepositories.OrderRepository;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;

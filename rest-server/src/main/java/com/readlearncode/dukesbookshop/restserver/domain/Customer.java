@@ -1,8 +1,6 @@
 package com.readlearncode.dukesbookshop.restserver.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -23,6 +21,7 @@ public class Customer implements Serializable {
     @Max(120)
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer customerId;
 
     @NotNull
@@ -41,6 +40,11 @@ public class Customer implements Serializable {
 
     public Customer(Integer id, String name, String phoneNumber) {
         this.customerId = id;
+        this.fullName = name;
+        this.phoneNumber = phoneNumber;
+    }
+
+    public Customer(String name, String phoneNumber) {
         this.fullName = name;
         this.phoneNumber = phoneNumber;
     }

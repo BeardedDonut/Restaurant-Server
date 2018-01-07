@@ -1,11 +1,16 @@
 package com.readlearncode.dukesbookshop.restserver.infrastructure.concreteRepositories;
 
+import com.readlearncode.dukesbookshop.restserver.DatabaseConfig;
 import com.readlearncode.dukesbookshop.restserver.domain.Customer;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.repositories.CustomerRepository;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.abstractRepositories.CustomerRepository;
+import org.hibernate.Query;
+import org.hibernate.Session;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -14,32 +19,40 @@ import java.util.Optional;
 
 @Stateless
 public class CustomerRepositoryBean implements CustomerRepository {
-    public static int numberOfCustomers = 1;
-
-    private HashMap<Integer, Customer> customersMap = new HashMap<>();
+    @EJB
+    private DatabaseConfig db;
 
     public static int getNumberOfCustomers() {
-        return numberOfCustomers;
-    }
-
-    public static void setNumberOfCustomers(int numberOfCustomers) {
-        CustomerRepositoryBean.numberOfCustomers = numberOfCustomers;
+        //TODO
+        return 0;
     }
 
     public Optional<Customer> createNewProfile(final String fullName, final String telephoneNumber) {
-        Customer newCs = new Customer(++numberOfCustomers, fullName, telephoneNumber);
-        customersMap.put(newCs.getCustomerId(), newCs);
-        return Optional.of(newCs);
+        Customer cs = new Customer(fullName, telephoneNumber);
+
+        Session session = db.getSession();
+        session.beginTransaction();
+        session.save(cs);
+        session.getTransaction().commit();
+        System.out.println("Customer Created:" + cs.toString());
+
+        return Optional.ofNullable(cs);
     }
 
     @Override
     public Optional<Customer> getCustomerById(final int id) {
-        return Optional.ofNullable(customersMap.get(id));
+        Session session = db.getSession();
+        Customer cs = (Customer) session.load(Customer.class, id);
+        return Optional.ofNullable(cs);
     }
 
     @Override
-    public ArrayList<Customer> getAllCustomers() {
-        return new ArrayList<>(customersMap.values());
+    public List<Customer> getAllCustomers() {
+        Session session = db.getSession();
+        @SuppressWarnings("unchecked")
+        List<Customer> customers = session.createQuery("FROM customer").list();
+        System.out.println("Found " + customers.size() + " Customers");
+        return customers;
     }
 
     @Override
@@ -50,17 +63,18 @@ public class CustomerRepositoryBean implements CustomerRepository {
 
     @Override
     public Optional<Customer> getCustomerByTel(String telNumber) {
-        ArrayList<Customer> allCs = new ArrayList<>(customersMap.values());
+        Session session = db.getSession();
 
-        Customer foundOne = null;
+        String hql = "FROM customer WHERE phoneNumber = :telNumber";
+        Query query = session.createQuery(hql);
+        query.setParameter("telNumber", telNumber);
 
-        for (Customer cs : allCs) {
-            if (cs.getPhoneNumber().equals(telNumber)) {
-                foundOne = cs;
-                return Optional.of(foundOne);
-            }
-        }
+        @SuppressWarnings("unchecked")
+        List<Customer> customers = query.list();
+        Customer cs = customers.get(0);
 
-        return Optional.ofNullable(foundOne);
+        System.out.println("Found Customer By PhoneNumber:" + cs.toString());
+
+        return Optional.ofNullable(cs);
     }
 }

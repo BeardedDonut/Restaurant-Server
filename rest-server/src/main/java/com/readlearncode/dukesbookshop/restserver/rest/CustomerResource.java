@@ -3,7 +3,7 @@ package com.readlearncode.dukesbookshop.restserver.rest;
 import com.readlearncode.dukesbookshop.restserver.domain.Customer;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.CustomerAlreadySigned;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.CustomerNotFoundException;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.repositories.CustomerRepository;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.abstractRepositories.CustomerRepository;
 
 import javax.ejb.EJB;
 import javax.validation.Valid;
