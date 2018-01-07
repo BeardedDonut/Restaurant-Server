@@ -79,4 +79,16 @@ public class MenuItem implements Serializable {
         result = 31 * result + (imageFileName != null ? imageFileName.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder x = new StringBuilder();
+
+        x.append("Menu Item---");
+        x.append("name:" + name + "\n");
+        x.append("price:" + price + "\n");
+        x.append("imageFileName:" + imageFileName + "\n");
+
+        return x.toString();
+    }
 }

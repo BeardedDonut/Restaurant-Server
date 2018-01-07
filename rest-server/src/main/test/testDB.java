@@ -36,7 +36,6 @@ public class testDB {
         session.close();
     }
 
-
     @Test
     public void test1() {
         Customer cs1 = new Customer();
@@ -74,6 +73,9 @@ public class testDB {
             System.out.println(cs.toString());
         }
 
+        System.out.println("====DELETE_ALL====");
+        deleteAll();
+
 
     }
 
@@ -87,7 +89,7 @@ public class testDB {
     public static List<Customer> read() {
         @SuppressWarnings("unchecked")
         List<Customer> customers = session.createQuery("FROM customer").list();
-        System.out.println("Found " + customers.size() + " Employees");
+        System.out.println("Found " + customers.size() + " Customers");
         return customers;
 
     }
@@ -106,13 +108,13 @@ public class testDB {
         Query query = session.createQuery("DELETE FROM customer");
         query.executeUpdate();
         session.getTransaction().commit();
-        System.out.println("Successfully deleted all employees.");
+        System.out.println("Successfully deleted all customers.");
 
     }
 
     public static Customer findByID(Integer id) {
-        Customer e = (Customer) session.load(Customer.class, id);
-        return e;
+        Customer cs = (Customer) session.load(Customer.class, id);
+        return cs;
     }
 
 

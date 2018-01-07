@@ -1,4 +1,4 @@
-package com.readlearncode.dukesbookshop.restserver.infrastructure;
+package com.readlearncode.dukesbookshop.restserver.infrastructure.concreteRepositories;
 
 import com.readlearncode.dukesbookshop.restserver.domain.MenuItem;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.repositories.Menu;

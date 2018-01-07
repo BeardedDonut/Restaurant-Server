@@ -88,4 +88,16 @@ public class Customer implements Serializable {
         result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder x = new StringBuilder();
+
+        x.append("Customer---");
+        x.append("Customer id: " + customerId + "\n");
+        x.append("FullName: " + fullName + "\n");
+        x.append("Phone Number: " + phoneNumber + "\n");
+
+        return x.toString();
+    }
 }

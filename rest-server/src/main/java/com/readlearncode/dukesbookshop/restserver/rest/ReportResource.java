@@ -3,8 +3,8 @@ package com.readlearncode.dukesbookshop.restserver.rest;
 import com.readlearncode.dukesbookshop.restserver.domain.Customer;
 import com.readlearncode.dukesbookshop.restserver.domain.Order;
 import com.readlearncode.dukesbookshop.restserver.domain.Reservation;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.CustomerRepositoryBean;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.ReservationRepository;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.concreteRepositories.CustomerRepositoryBean;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.concreteRepositories.ReservationRepository;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.repositories.Menu;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.repositories.OrderRepository;
 

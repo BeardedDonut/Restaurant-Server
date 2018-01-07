@@ -1,7 +1,7 @@
 package com.readlearncode.dukesbookshop.restserver.rest;
 
 import com.readlearncode.dukesbookshop.restserver.domain.Table;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.TableRepository;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.concreteRepositories.TableRepository;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.TableNotFoundException;
 
 import javax.ejb.EJB;
