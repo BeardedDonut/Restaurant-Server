@@ -19,18 +19,13 @@ import java.util.Optional;
 
 @Stateless
 public class CustomerRepositoryBean implements CustomerRepository {
-    @EJB
-    private DatabaseConfig db;
 
-    public static int getNumberOfCustomers() {
-        //TODO
-        return 0;
-    }
 
+    @Override
     public Optional<Customer> createNewProfile(final String fullName, final String telephoneNumber) {
         Customer cs = new Customer(fullName, telephoneNumber);
 
-        Session session = db.getSession();
+        Session session = DatabaseConfig.getSession();
         session.beginTransaction();
         session.save(cs);
         session.getTransaction().commit();
@@ -41,14 +36,14 @@ public class CustomerRepositoryBean implements CustomerRepository {
 
     @Override
     public Optional<Customer> getCustomerById(final int id) {
-        Session session = db.getSession();
+        Session session = DatabaseConfig.getSession();
         Customer cs = (Customer) session.load(Customer.class, id);
         return Optional.ofNullable(cs);
     }
 
     @Override
     public List<Customer> getAllCustomers() {
-        Session session = db.getSession();
+        Session session = DatabaseConfig.getSession();
         @SuppressWarnings("unchecked")
         List<Customer> customers = session.createQuery("FROM customer").list();
         System.out.println("Found " + customers.size() + " Customers");
@@ -63,7 +58,7 @@ public class CustomerRepositoryBean implements CustomerRepository {
 
     @Override
     public Optional<Customer> getCustomerByTel(String telNumber) {
-        Session session = db.getSession();
+        Session session = DatabaseConfig.getSession();
 
         String hql = "FROM customer WHERE phoneNumber = :telNumber";
         Query query = session.createQuery(hql);

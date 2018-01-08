@@ -17,7 +17,7 @@ public class DatabaseConfig {
 
     private static Session session;
 
-    private DatabaseConfig() {
+    public DatabaseConfig() {
     }
 
     private static void createSessionFactory() {
