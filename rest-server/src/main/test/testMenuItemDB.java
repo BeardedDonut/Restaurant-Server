@@ -1,11 +1,9 @@
-import com.readlearncode.dukesbookshop.restserver.domain.Customer;
-
+import com.readlearncode.dukesbookshop.restserver.domain.MenuItem;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -13,10 +11,9 @@ import org.junit.Test;
 import java.util.List;
 
 /**
- * Created by navid on 1/7/18.
+ * Created by navid on 1/10/18.
  */
-public class testDB {
-
+public class testMenuItemDB {
     static Session session;
 
     @BeforeClass
@@ -37,74 +34,70 @@ public class testDB {
     }
 
     @Test
-    public void test1() {
-        Customer cs1 = new Customer();
-        cs1.setFullName("Navid");
-        cs1.setPhoneNumber("989383709786");
+    public void MenuItemDatabaseTest() {
+        MenuItem mi1 = new MenuItem();
+        mi1.setName("Doogh Ab Ali");
+        mi1.setPrice(10.50f);
+        mi1.setImageFileName("/images/Doogh-Ab-Ali.jpg");
 
-        Customer cs2 = new Customer();
-        cs2.setFullName("Mehdi");
-        cs2.setPhoneNumber("123456789111");
-
-        Customer cs3 = new Customer();
-        cs3.setFullName("Kamran");
-        cs3.setPhoneNumber("123456789112");
+        MenuItem mi2 = new MenuItem();
+        mi2.setName("Potato Dish");
+        mi2.setPrice(14.50f);
+        mi2.setImageFileName("/images/Potato.jpg");
 
         System.out.println("====CREATE====");
-        create(cs1);
-        create(cs2);
-        create(cs3);
+        create(mi1);
+        create(mi2);
 
         System.out.println("====READ====");
-        List<Customer> customers = read();
-        for (Customer cs : customers) {
-            System.out.println(cs.toString());
+        List<MenuItem> items = read();
+        for (MenuItem mi : items) {
+            System.out.println(mi.toString());
         }
 
         System.out.println("====DELETE====");
-        delete(cs1.getCustomerId());
+        delete(mi1.getId());
 
         System.out.println("====READ====");
-        customers = read();
-        for (Customer cs : customers) {
-            System.out.println(cs.toString());
+        items = read();
+        for (MenuItem menuItem : items) {
+            System.out.println(menuItem.toString());
         }
 
         System.out.println("====UPDATE====");
-        cs2.setFullName("Ahmad");
+        mi2.setName("Boshghab Sib-Zamini");
 
         System.out.println("====READ====");
-        customers = read();
-        for (Customer cs : customers) {
-            System.out.println(cs.toString());
+        items = read();
+        for (MenuItem menuItem : items) {
+            System.out.println(menuItem.toString());
         }
 
         System.out.println("====DELETE_ALL====");
         deleteAll();
 
-
     }
 
-    public static void create(Customer cs) {
+    public static void create(MenuItem mi) {
         session.beginTransaction();
-        session.save(cs);
+        session.save(mi);
         session.getTransaction().commit();
         System.out.println("SuccessFully created!");
     }
 
-    public static List<Customer> read() {
+    public static List<MenuItem> read() {
         @SuppressWarnings("unchecked")
-        List<Customer> customers = session.createQuery("FROM customer").list();
-        System.out.println("Found " + customers.size() + " Customers");
-        return customers;
+        List<MenuItem> items = session.createQuery("FROM menuItem").list();
+        System.out.println("Found " + items.size() + " Customers");
+        return items;
     }
 
     public static void delete(Integer id) {
         session.beginTransaction();
-        Customer cs = findByID(id);
-        session.delete(cs);
+        MenuItem mi = findByID(id);
+        session.delete(mi);
         session.getTransaction().commit();
-        System.out.println("Successfully deleted " + cs.toString());
+        System.out.println("Successfully deleted " + mi.toString());
 
     }
 
@@ -117,10 +110,9 @@ public class testDB {
 
     }
 
-    public static Customer findByID(Integer id) {
-        Customer cs = (Customer) session.load(Customer.class, id);
-        return cs;
+    public static MenuItem findByID(Integer id) {
+        MenuItem mi = (MenuItem) session.load(MenuItem.class, id);
+        return mi;
     }
-
 
 }

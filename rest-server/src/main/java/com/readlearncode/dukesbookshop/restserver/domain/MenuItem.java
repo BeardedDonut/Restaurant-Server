@@ -1,23 +1,35 @@
 package com.readlearncode.dukesbookshop.restserver.domain;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
 /**
  * Created by navid on 11/26/17.
- * Menu Item Bean
+ * Menu Item POJO
  */
+
 @XmlRootElement
+@Entity(name = "menuItem")
+@javax.persistence.Table(name = "menuItem")
 public class MenuItem implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int id;
+
     @NotNull
+    @Column(name = "name")
     private String name;
 
     @NotNull
+    @Column(name = "price")
     private Float price;
 
     @NotNull
+    @Column(name = "imageFileName")
     private String imageFileName;
 
     public MenuItem() {
@@ -58,6 +70,14 @@ public class MenuItem implements Serializable {
 
     public void setPrice(Float price) {
         this.price = price;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override

@@ -18,8 +18,9 @@ import java.util.HashMap;
 import java.util.Optional;
 
 /**
- * @author Alex Theedom www.readlearncode.com
+ * @author navid
  * @version 1.0
+ * Deleted since the hibernate and database connected to the project!
  */
 
 public class BootstrapData {

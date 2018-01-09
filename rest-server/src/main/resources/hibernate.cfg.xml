@@ -5,6 +5,7 @@
 
 <hibernate-configuration>
     <session-factory>
+        <!--Hibernate Properties Setup-->
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/jersey</property>
         <property name="hibernate.connection.username">jersey</property>
@@ -13,6 +14,10 @@
         <property name="show_sql">true</property>
         <property name="format_sql">true</property>
         <property name="hbm2ddl.auto">update</property>
+
+        <!--Domain Object Maping-->
         <mapping class="com.readlearncode.dukesbookshop.restserver.domain.Customer"/>
+        <mapping class="com.readlearncode.dukesbookshop.restserver.domain.MenuItem"/>
+
     </session-factory>
 </hibernate-configuration>

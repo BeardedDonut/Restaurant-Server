@@ -1,7 +1,6 @@
 package com.readlearncode.dukesbookshop.restserver.domain;
 
 import javax.persistence.*;
-import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -11,12 +10,12 @@ import java.util.Objects;
 
 /**
  * Created by navid on 11/24/17.
- * Customer Bean
+ * Customer POJO
  */
 
 @XmlRootElement
 @Entity(name = "customer")
-@Table(name = "customer")
+@javax.persistence.Table(name = "customer")
 public class Customer implements Serializable {
 
     @Min(0)
