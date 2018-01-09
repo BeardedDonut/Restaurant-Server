@@ -1,6 +1,7 @@
 package com.readlearncode.dukesbookshop.restserver.domain;
 
 import javax.persistence.*;
+import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -15,13 +16,14 @@ import java.util.Objects;
 
 @XmlRootElement
 @Entity(name = "customer")
+@Table(name = "customer")
 public class Customer implements Serializable {
 
     @Min(0)
     @Max(120)
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Integer customerId;
 
     @NotNull
@@ -87,7 +89,7 @@ public class Customer implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = customerId;
+        int result = 0;
         result = 31 * result + (fullName != null ? fullName.hashCode() : 0);
         result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
         return result;

@@ -17,36 +17,45 @@ import java.util.Optional;
  * Created by navid on 11/24/17.
  */
 
-@Stateless
+@Stateless(name = "CustomerRepositoryBean")
 public class CustomerRepositoryBean implements CustomerRepository {
 
 
     @Override
     public Optional<Customer> createNewProfile(final String fullName, final String telephoneNumber) {
-        Customer cs = new Customer(fullName, telephoneNumber);
+        Customer cs = new Customer();
+        cs.setFullName(fullName);
+        cs.setPhoneNumber(telephoneNumber);
+        Session session = DatabaseConfig.createSessionFactory().openSession();
 
-        Session session = DatabaseConfig.getSession();
         session.beginTransaction();
         session.save(cs);
         session.getTransaction().commit();
         System.out.println("Customer Created:" + cs.toString());
 
+        session.close();
         return Optional.ofNullable(cs);
     }
 
     @Override
     public Optional<Customer> getCustomerById(final int id) {
-        Session session = DatabaseConfig.getSession();
+        Session session = DatabaseConfig.createSessionFactory().openSession();
+
         Customer cs = (Customer) session.load(Customer.class, id);
+
+        session.close();
         return Optional.ofNullable(cs);
     }
 
     @Override
     public List<Customer> getAllCustomers() {
-        Session session = DatabaseConfig.getSession();
+        Session session = DatabaseConfig.createSessionFactory().openSession();
+
         @SuppressWarnings("unchecked")
         List<Customer> customers = session.createQuery("FROM customer").list();
         System.out.println("Found " + customers.size() + " Customers");
+
+        session.close();
         return customers;
     }
 
@@ -58,7 +67,7 @@ public class CustomerRepositoryBean implements CustomerRepository {
 
     @Override
     public Optional<Customer> getCustomerByTel(String telNumber) {
-        Session session = DatabaseConfig.getSession();
+        Session session = DatabaseConfig.createSessionFactory().openSession();
 
         String hql = "FROM customer WHERE phoneNumber = :telNumber";
         Query query = session.createQuery(hql);
@@ -66,10 +75,13 @@ public class CustomerRepositoryBean implements CustomerRepository {
 
         @SuppressWarnings("unchecked")
         List<Customer> customers = query.list();
-        Customer cs = customers.get(0);
+        Customer cs = null;
+        if (customers.size() != 0) {
+            cs = customers.get(0);
+            System.out.println("Found Customer By PhoneNumber:" + cs.toString());
+        }
 
-        System.out.println("Found Customer By PhoneNumber:" + cs.toString());
-
+        session.close();
         return Optional.ofNullable(cs);
     }
 }

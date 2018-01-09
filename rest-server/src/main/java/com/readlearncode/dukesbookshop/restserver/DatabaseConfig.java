@@ -15,31 +15,16 @@ import javax.ejb.Stateless;
 @Stateless
 public class DatabaseConfig {
 
-    private static Session session;
-
     public DatabaseConfig() {
     }
 
-    private static void createSessionFactory() {
+    public static SessionFactory createSessionFactory() {
         System.out.println("Creating Database Connection");
         Configuration configuration = new Configuration().configure();
         StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
                 .applySettings(configuration.getProperties());
         SessionFactory newSessionFactory = configuration
                 .buildSessionFactory(builder.build());
-        session = newSessionFactory.openSession();
-    }
-
-    public static Session getSession() {
-
-        if (session == null) {
-            createSessionFactory();
-        }
-
-        return session;
-    }
-
-    public static void closeSession() {
-
+        return newSessionFactory;
     }
 }

@@ -21,8 +21,7 @@ import java.util.Optional;
  * @author Alex Theedom www.readlearncode.com
  * @version 1.0
  */
-@Singleton
-@Startup
+
 public class BootstrapData {
 
     private static final String API_URL = "http://localhost:8081/rest-server";
