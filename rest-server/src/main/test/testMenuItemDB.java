@@ -1,4 +1,5 @@
 import com.readlearncode.dukesbookshop.restserver.domain.MenuItem;
+import com.readlearncode.dukesbookshop.restserver.domain.MenuItemCategory;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -39,11 +40,13 @@ public class testMenuItemDB {
         mi1.setName("Doogh Ab Ali");
         mi1.setPrice(10.50f);
         mi1.setImageFileName("/images/Doogh-Ab-Ali.jpg");
+        mi1.setCategory(MenuItemCategory.DRINK);
 
         MenuItem mi2 = new MenuItem();
         mi2.setName("Potato Dish");
         mi2.setPrice(14.50f);
         mi2.setImageFileName("/images/Potato.jpg");
+        mi2.setCategory(MenuItemCategory.FOOD);
 
         System.out.println("====CREATE====");
         create(mi1);
@@ -88,7 +91,7 @@ public class testMenuItemDB {
     public static List<MenuItem> read() {
         @SuppressWarnings("unchecked")
         List<MenuItem> items = session.createQuery("FROM menuItem").list();
-        System.out.println("Found " + items.size() + " Customers");
+        System.out.println("Found " + items.size() + " MenuItems");
         return items;
     }
 

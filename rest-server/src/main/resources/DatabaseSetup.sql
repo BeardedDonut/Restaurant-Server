@@ -1,9 +1,12 @@
 # MenuItem Table
+# NOTE: To make sure the enum constraint does not get violated put line below in database
+# SET sql_mode = "traditional";
 CREATE TABLE `menuItem` (
-  `id`            INT(5)      NOT NULL AUTO_INCREMENT,
-  `name`          VARCHAR(20) NOT NULL,
-  `price`         FLOAT(4, 2) NOT NULL,
+  `id`            INT(5)                            NOT NULL AUTO_INCREMENT,
+  `name`          VARCHAR(20)                       NOT NULL,
+  `price`         FLOAT(4, 2)                       NOT NULL,
   `imageFileName` VARCHAR(24),
+  `category`      ENUM ('FOOD', 'DRINK', 'DESSERT') NOT NULL,
   PRIMARY KEY (`id`)
 );
 

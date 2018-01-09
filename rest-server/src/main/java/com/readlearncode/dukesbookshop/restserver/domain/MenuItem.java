@@ -9,7 +9,6 @@ import java.io.Serializable;
  * Created by navid on 11/26/17.
  * Menu Item POJO
  */
-
 @XmlRootElement
 @Entity(name = "menuItem")
 @javax.persistence.Table(name = "menuItem")
@@ -32,17 +31,18 @@ public class MenuItem implements Serializable {
     @Column(name = "imageFileName")
     private String imageFileName;
 
+    @Enumerated(EnumType.STRING)
+    private MenuItemCategory category;
+
     public MenuItem() {
 
     }
-
 
     public MenuItem(String name, Float price, String imageFileName) {
         this.name = name;
         this.price = price;
         this.imageFileName = imageFileName;
     }
-
 
     public MenuItem(String name, Float price) {
         this(name, price, "somewhere far far away");
@@ -98,6 +98,14 @@ public class MenuItem implements Serializable {
         result = 31 * result + (price != null ? price.hashCode() : 0);
         result = 31 * result + (imageFileName != null ? imageFileName.hashCode() : 0);
         return result;
+    }
+
+    public MenuItemCategory getCategory() {
+        return category;
+    }
+
+    public void setCategory(MenuItemCategory category) {
+        this.category = category;
     }
 
     @Override
