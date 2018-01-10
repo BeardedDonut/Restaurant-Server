@@ -1,6 +1,7 @@
 package com.readlearncode.dukesbookshop.restserver.rest;
 
 import com.readlearncode.dukesbookshop.restserver.domain.Order;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.MenuItemNotFoundException;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.OrderNotFoundException;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.abstractRepositories.OrderRepository;
 
@@ -89,7 +90,8 @@ public class OrderResource {
     @Path("/status")
     public Response updateStatus(
             @QueryParam("orderId") final int orderId,
-            @QueryParam("status") final int statusNumber) throws OrderNotFoundException {
+            @QueryParam("status") final int statusNumber)
+            throws OrderNotFoundException, MenuItemNotFoundException {
 
         Optional<Order> order = orderRepo.getByOrderId(orderId);
         //TODO check if the status number is valid
