@@ -4,6 +4,7 @@ import com.readlearncode.dukesbookshop.restserver.domain.Customer;
 import com.readlearncode.dukesbookshop.restserver.domain.MenuItem;
 import com.readlearncode.dukesbookshop.restserver.domain.Order;
 import com.readlearncode.dukesbookshop.restserver.domain.Reservation;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.MenuItemNotFoundException;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.OrderNotFoundException;
 
 import java.util.ArrayList;
@@ -20,13 +21,13 @@ public interface OrderRepository {
 
     Optional<Order> getByOrderId(int orderId);
 
-    Optional<Order> changeOrderStatus(Order order, Order.OrderStatus status);
+    Optional<Order> changeOrderStatus(Order order, Order.OrderStatus status) throws MenuItemNotFoundException;
 
-    Optional<Order> confirmOrder(int orderId) throws OrderNotFoundException;
+    Optional<Order> confirmOrder(int orderId) throws OrderNotFoundException, MenuItemNotFoundException;
 
-    Optional<Order> addItemToOrder(Order order, MenuItem item, int itemOrderedNumber);
+    Optional<Order> addItemToOrder(Order order, MenuItem item, int itemOrderedNumber) throws MenuItemNotFoundException;
 
-    float calculateTotalCost(Order order);
+    float calculateTotalCost(Order order) throws MenuItemNotFoundException;
 
     ArrayList<Order> getAllOrders();
 

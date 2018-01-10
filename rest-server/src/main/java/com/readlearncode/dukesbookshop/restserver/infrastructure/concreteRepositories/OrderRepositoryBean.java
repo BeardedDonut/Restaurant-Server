@@ -4,6 +4,7 @@ import com.readlearncode.dukesbookshop.restserver.domain.Customer;
 import com.readlearncode.dukesbookshop.restserver.domain.MenuItem;
 import com.readlearncode.dukesbookshop.restserver.domain.Order;
 import com.readlearncode.dukesbookshop.restserver.domain.Reservation;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.MenuItemNotFoundException;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.OrderNotFoundException;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.abstractRepositories.Menu;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.abstractRepositories.OrderRepository;
@@ -71,7 +72,10 @@ public class OrderRepositoryBean implements OrderRepository {
     }
 
     @Override
-    public Optional<Order> changeOrderStatus(Order order, Order.OrderStatus status) {
+    public Optional<Order>
+    changeOrderStatus(Order order, Order.OrderStatus status)
+            throws MenuItemNotFoundException {
+
         Optional<Order> registeredOrder = this.getByOrderId(order.getOrderId());
 
         if (registeredOrder.isPresent()) {
@@ -95,7 +99,10 @@ public class OrderRepositoryBean implements OrderRepository {
 
     @Override
     @Deprecated
-    public Optional<Order> confirmOrder(int orderId) throws OrderNotFoundException {
+    public Optional<Order>
+    confirmOrder(int orderId)
+            throws OrderNotFoundException, MenuItemNotFoundException {
+
         Optional<Order> order = this.getByOrderId(orderId);
 
         if (order.isPresent()) {
@@ -107,7 +114,9 @@ public class OrderRepositoryBean implements OrderRepository {
     }
 
     @Override
-    public Optional<Order> addItemToOrder(Order order, MenuItem item, int itemOrderedNumber) {
+    public Optional<Order>
+    addItemToOrder(Order order, MenuItem item, int itemOrderedNumber)
+            throws MenuItemNotFoundException {
 
         if (order.getOrderItems() == null) {
             order.setOrderItems(new HashMap<>());
@@ -120,7 +129,7 @@ public class OrderRepositoryBean implements OrderRepository {
     }
 
     @Override
-    public float calculateTotalCost(Order order) {
+    public float calculateTotalCost(Order order) throws MenuItemNotFoundException {
         float totalCost = 0;
         Set<String> orderedItems = order.getOrderItems().keySet();
 

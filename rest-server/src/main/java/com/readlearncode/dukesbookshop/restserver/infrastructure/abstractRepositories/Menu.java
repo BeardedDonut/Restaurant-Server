@@ -1,6 +1,8 @@
 package com.readlearncode.dukesbookshop.restserver.infrastructure.abstractRepositories;
 
 import com.readlearncode.dukesbookshop.restserver.domain.MenuItem;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.MenuItemCannotBeAddedException;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.MenuItemNotFoundException;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -16,18 +18,16 @@ public interface Menu {
 
     ArrayList<MenuItem> getDesserts();
 
-    Optional<MenuItem> addToDrinks(MenuItem newItem);
+    Optional<MenuItem> addToDrinks(MenuItem newItem) throws MenuItemCannotBeAddedException, MenuItemNotFoundException;
 
-    Optional<MenuItem> addToFoods(MenuItem newItem);
+    Optional<MenuItem> addToFoods(MenuItem newItem) throws MenuItemCannotBeAddedException, MenuItemNotFoundException;
 
-    Optional<MenuItem> addToDesserts(MenuItem newItem);
+    Optional<MenuItem> addToDesserts(MenuItem newItem) throws MenuItemCannotBeAddedException, MenuItemNotFoundException;
 
-    Optional<MenuItem> updateDrinkByName(String name, MenuItem newItem);
+    Optional<MenuItem> updateMenuItem(String name, MenuItem newItem) throws MenuItemNotFoundException;
 
-    Optional<MenuItem> updateFoodByName(String name, MenuItem newItem);
+    Optional<MenuItem> findMenuItemByName(String name) throws MenuItemNotFoundException;
 
-    Optional<MenuItem> updateDessertByName(String name, MenuItem newItem);
-
-    Optional<MenuItem> findMenuItemByName(String name);
+    Optional<MenuItem> findMenuItemById(int id) throws MenuItemNotFoundException;
 
 }
