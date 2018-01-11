@@ -86,7 +86,6 @@ public class testCustomerDB {
 
     }
 
-
     public static void create(Customer cs) {
         session.beginTransaction();
         session.save(cs);

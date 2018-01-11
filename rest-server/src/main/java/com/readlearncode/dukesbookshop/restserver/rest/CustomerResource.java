@@ -61,4 +61,6 @@ public class CustomerResource {
         }
     }
 
+    //TODO add delete api!
+
 }

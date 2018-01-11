@@ -1,10 +1,11 @@
 package com.readlearncode.dukesbookshop.restserver.infrastructure.abstractRepositories;
 
 import com.readlearncode.dukesbookshop.restserver.domain.MenuItem;
+import com.readlearncode.dukesbookshop.restserver.domain.MenuItemCategory;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.MenuItemCannotBeAddedException;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.MenuItemNotFoundException;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -12,11 +13,13 @@ import java.util.Optional;
  */
 public interface Menu {
 
-    ArrayList<MenuItem> getDrinks();
+    List<MenuItem> getMenuItemByCategory(MenuItemCategory givenCategory);
 
-    ArrayList<MenuItem> getFoods();
+    List<MenuItem> getDrinks() throws MenuItemCannotBeAddedException, MenuItemNotFoundException;
 
-    ArrayList<MenuItem> getDesserts();
+    List<MenuItem> getFoods() throws MenuItemCannotBeAddedException, MenuItemNotFoundException;
+
+    List<MenuItem> getDesserts() throws MenuItemCannotBeAddedException, MenuItemNotFoundException;
 
     Optional<MenuItem> addToDrinks(MenuItem newItem) throws MenuItemCannotBeAddedException, MenuItemNotFoundException;
 
@@ -24,10 +27,13 @@ public interface Menu {
 
     Optional<MenuItem> addToDesserts(MenuItem newItem) throws MenuItemCannotBeAddedException, MenuItemNotFoundException;
 
-    Optional<MenuItem> updateMenuItem(String name, MenuItem newItem) throws MenuItemNotFoundException;
-
     Optional<MenuItem> findMenuItemByName(String name) throws MenuItemNotFoundException;
 
     Optional<MenuItem> findMenuItemById(int id) throws MenuItemNotFoundException;
+
+    Optional<MenuItem> createNewMenuItem(MenuItem newItem);
+
+    Optional<MenuItem> updateMenuItem(String name, MenuItem newItem) throws MenuItemNotFoundException;
+
 
 }

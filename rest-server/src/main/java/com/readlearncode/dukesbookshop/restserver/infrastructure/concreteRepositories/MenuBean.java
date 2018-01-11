@@ -1,7 +1,6 @@
 package com.readlearncode.dukesbookshop.restserver.infrastructure.concreteRepositories;
 
 import com.readlearncode.dukesbookshop.restserver.DatabaseConfig;
-import com.readlearncode.dukesbookshop.restserver.domain.Customer;
 import com.readlearncode.dukesbookshop.restserver.domain.MenuItem;
 import com.readlearncode.dukesbookshop.restserver.domain.MenuItemCategory;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.abstractRepositories.Menu;
@@ -11,7 +10,6 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 
 import javax.ejb.Stateless;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +17,7 @@ import java.util.Optional;
  * Created by navid on 11/26/17.
  */
 
-@Stateless
+@Stateless(name = "MenuBean")
 public class MenuBean implements Menu {
 
     public Optional<MenuItem>
@@ -41,20 +39,20 @@ public class MenuBean implements Menu {
         }
     }
 
+    @Override
     public List<MenuItem>
-    getMenuItemByCategory(MenuItemCategory givenCategory)
-            throws MenuItemCannotBeAddedException, MenuItemNotFoundException {
+    getMenuItemByCategory(MenuItemCategory givenCategory) {
 
         Session session = DatabaseConfig.createSessionFactory().openSession();
 
-        String hql = "FROM menuItem WHERE menuItem.category = :givenCategory";
+        String hql = "FROM menuItem WHERE category = :givenCategory";
         Query query = session.createQuery(hql).setParameter("givenCategory", givenCategory);
 
         @SuppressWarnings("unchecked")
         List<MenuItem> menuItems = query.list();
 
         if (menuItems.size() == 0) {
-            throw new MenuItemNotFoundException("No Menu Item Found With Specified Category");
+            return null;
         }
 
         session.close();
@@ -63,21 +61,36 @@ public class MenuBean implements Menu {
 
 
     @Override
-    public ArrayList<MenuItem> getDrinks() {
-        //TODO
-        return null;
+    public List<MenuItem> getDrinks() throws MenuItemCannotBeAddedException, MenuItemNotFoundException {
+        List<MenuItem> x = getMenuItemByCategory(MenuItemCategory.DRINK);
+
+        if (x == null) {
+            throw new MenuItemNotFoundException("No Drink Is Found!");
+        }
+
+        return x;
     }
 
     @Override
-    public ArrayList<MenuItem> getFoods() {
-        //TODO
-        return null;
+    public List<MenuItem> getFoods() throws MenuItemCannotBeAddedException, MenuItemNotFoundException {
+        List<MenuItem> x = getMenuItemByCategory(MenuItemCategory.FOOD);
+
+        if (x == null) {
+            throw new MenuItemNotFoundException("No Food Is Found!");
+        }
+
+        return x;
     }
 
     @Override
-    public ArrayList<MenuItem> getDesserts() {
-        //TODO
-        return null;
+    public List<MenuItem> getDesserts() throws MenuItemCannotBeAddedException, MenuItemNotFoundException {
+        List<MenuItem> x = getMenuItemByCategory(MenuItemCategory.DESSERT);
+
+        if (x == null) {
+            throw new MenuItemNotFoundException("No Dessert Is Found!");
+        }
+
+        return x;
     }
 
     @Override
@@ -103,22 +116,21 @@ public class MenuBean implements Menu {
 
     @Override
     public Optional<MenuItem> updateMenuItem(String name, MenuItem newItem) throws MenuItemNotFoundException {
-        MenuItem retreviedMenuItem = findMenuItemByName(name).get();
+        MenuItem retrievedMenuItem = findMenuItemByName(name).get();
 
-        retreviedMenuItem.setCategory(newItem.getCategory());
-        retreviedMenuItem.setName(newItem.getName());
-        retreviedMenuItem.setPrice(newItem.getPrice());
-        retreviedMenuItem.setImageFileName(newItem.getImageFileName());
+        retrievedMenuItem.setCategory(newItem.getCategory());
+        retrievedMenuItem.setName(newItem.getName());
+        retrievedMenuItem.setPrice(newItem.getPrice());
+        retrievedMenuItem.setImageFileName(newItem.getImageFileName());
 
-        return Optional.of(retreviedMenuItem);
-
+        return Optional.of(retrievedMenuItem);
     }
 
     @Override
     public Optional<MenuItem> findMenuItemByName(String name) throws MenuItemNotFoundException {
         Session session = DatabaseConfig.createSessionFactory().openSession();
 
-        String query = "FROM menuItem WHERE menuItem.name = :menuItemName";
+        String query = "FROM menuItem WHERE name = :menuItemName";
 
         @SuppressWarnings("unchecked")
         List<MenuItem> items = session.createQuery(query).setParameter("menuItemName", name).list();
@@ -144,6 +156,25 @@ public class MenuBean implements Menu {
         }
 
         return Optional.ofNullable(cs);
+    }
+
+    @Override
+    public Optional<MenuItem> createNewMenuItem(final MenuItem newItem) {
+        MenuItem mi = new MenuItem();
+        mi.setImageFileName(newItem.getImageFileName());
+        mi.setCategory(newItem.getCategory());
+        mi.setPrice(newItem.getPrice());
+        mi.setName(newItem.getName());
+
+        Session session = DatabaseConfig.createSessionFactory().openSession();
+
+        session.beginTransaction();
+        session.save(mi);
+        session.getTransaction().commit();
+        System.out.println("MenuItem Created:" + mi.toString());
+
+        session.close();
+        return Optional.ofNullable(mi);
     }
 
 }

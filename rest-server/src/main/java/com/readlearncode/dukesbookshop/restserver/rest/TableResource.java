@@ -36,7 +36,9 @@ public class TableResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("{tableId}")
-    public Response getTableById(final @PathParam("tableId") int tableId) throws TableNotFoundException {
+    public Response getTableById(final @PathParam("tableId") int tableId)
+            throws TableNotFoundException {
+
         Optional<Table> table = tableRepo.getTableById(tableId);
 
         if (table.isPresent()) {
