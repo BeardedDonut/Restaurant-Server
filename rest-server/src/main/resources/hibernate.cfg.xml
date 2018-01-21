@@ -18,6 +18,6 @@
         <!--Domain Object Maping-->
         <mapping class="com.readlearncode.dukesbookshop.restserver.domain.Customer"/>
         <mapping class="com.readlearncode.dukesbookshop.restserver.domain.MenuItem"/>
-
+        <mapping class="com.readlearncode.dukesbookshop.restserver.domain.Table"/>
     </session-factory>
 </hibernate-configuration>

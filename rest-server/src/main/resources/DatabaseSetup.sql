@@ -20,9 +20,9 @@ CREATE TABLE `customer` (
 );
 
 # Restaurant's Table Table :D
-CREATE TABLE `Table` (
+CREATE TABLE `restaurantTable` (
   `id`            INT(5) NOT NULL AUTO_INCREMENT,
   `numberOfSeats` INT,
   CHECK (`numberOfSeats` > 1),
   PRIMARY KEY (`id`)
-)
+);

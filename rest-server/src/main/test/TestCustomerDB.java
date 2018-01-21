@@ -1,10 +1,12 @@
+import com.readlearncode.dukesbookshop.restserver.domain.Customer;
+
 import com.readlearncode.dukesbookshop.restserver.domain.MenuItem;
-import com.readlearncode.dukesbookshop.restserver.domain.MenuItemCategory;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -12,9 +14,10 @@ import org.junit.Test;
 import java.util.List;
 
 /**
- * Created by navid on 1/10/18.
+ * Created by navid on 1/7/18.
  */
-public class testMenuItemDB {
+public class TestCustomerDB {
+
     static Session session;
 
     @BeforeClass
@@ -35,72 +38,74 @@ public class testMenuItemDB {
     }
 
     @Test
-    public void MenuItemDatabaseTest() {
-        MenuItem mi1 = new MenuItem();
-        mi1.setName("Doogh Ab Ali");
-        mi1.setPrice(10.50f);
-        mi1.setImageFileName("/images/Doogh-Ab-Ali.jpg");
-        mi1.setCategory(MenuItemCategory.DRINK);
+    public void customerDatabaseTest() {
+        Customer cs1 = new Customer();
+        cs1.setFullName("Navid");
+        cs1.setPhoneNumber("989383709786");
 
-        MenuItem mi2 = new MenuItem();
-        mi2.setName("Potato Dish");
-        mi2.setPrice(14.50f);
-        mi2.setImageFileName("/images/Potato.jpg");
-        mi2.setCategory(MenuItemCategory.FOOD);
+        Customer cs2 = new Customer();
+        cs2.setFullName("Mehdi");
+        cs2.setPhoneNumber("123456789111");
+
+        Customer cs3 = new Customer();
+        cs3.setFullName("Kamran");
+        cs3.setPhoneNumber("123456789112");
 
         System.out.println("====CREATE====");
-        create(mi1);
-        create(mi2);
+        create(cs1);
+        create(cs2);
+        create(cs3);
 
         System.out.println("====READ====");
-        List<MenuItem> items = read();
-        for (MenuItem mi : items) {
-            System.out.println(mi.toString());
+        List<Customer> customers = read();
+        for (Customer cs : customers) {
+            System.out.println(cs.toString());
         }
 
         System.out.println("====DELETE====");
-        delete(mi1.getId());
+        delete(cs1.getCustomerId());
 
         System.out.println("====READ====");
-        items = read();
-        for (MenuItem menuItem : items) {
-            System.out.println(menuItem.toString());
+        customers = read();
+        for (Customer cs : customers) {
+            System.out.println(cs.toString());
         }
 
         System.out.println("====UPDATE====");
-        mi2.setName("Boshghab Sib-Zamini");
+        cs2.setFullName("Ahmad");
 
         System.out.println("====READ====");
-        items = read();
-        for (MenuItem menuItem : items) {
-            System.out.println(menuItem.toString());
+        customers = read();
+        for (Customer cs : customers) {
+            System.out.println(cs.toString());
         }
 
         System.out.println("====DELETE_ALL====");
         deleteAll();
 
+
     }
 
-    public static void create(MenuItem mi) {
+    public static void create(Customer cs) {
         session.beginTransaction();
-        session.save(mi);
+        session.save(cs);
         session.getTransaction().commit();
         System.out.println("SuccessFully created!");
     }
 
-    public static List<MenuItem> read() {
+    public static List<Customer> read() {
         @SuppressWarnings("unchecked")
-        List<MenuItem> items = session.createQuery("FROM menuItem").list();
-        System.out.println("Found " + items.size() + " MenuItems");
-        return items;
+        List<Customer> customers = session.createQuery("FROM customer").list();
+        System.out.println("Found " + customers.size() + " Customers");
+        return customers;
     }
 
     public static void delete(Integer id) {
         session.beginTransaction();
-        MenuItem mi = findByID(id);
-        session.delete(mi);
+        Customer cs = findByID(id);
+        session.delete(cs);
         session.getTransaction().commit();
-        System.out.println("Successfully deleted " + mi.toString());
+        System.out.println("Successfully deleted " + cs.toString());
 
     }
 
@@ -113,9 +118,10 @@ public class testMenuItemDB {
 
     }
 
-    public static MenuItem findByID(Integer id) {
-        MenuItem mi = (MenuItem) session.load(MenuItem.class, id);
-        return mi;
+    public static Customer findByID(Integer id) {
+        Customer cs = (Customer) session.load(Customer.class, id);
+        return cs;
     }
+
 
 }

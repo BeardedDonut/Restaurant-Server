@@ -18,7 +18,7 @@ import java.util.List;
 public class ReservationManager {
 
     @EJB
-    TableRepository tableRepo;
+    ConcreteTableRepository tableRepo;
 
     @EJB
     ReservationRepository reserveRepo;
@@ -40,7 +40,7 @@ public class ReservationManager {
     }
 
     private Reservation processRequest(Request r) {
-        ArrayList<Table> fittingTables = tableRepo.getTableBySeatSorted(r.getSeats());
+        List<Table> fittingTables = tableRepo.getTableBySeatSorted(r.getSeats());
 
         Table availableTable = isAvailable(r.getDate(), fittingTables, r.getTs());// check if they are available for the given time
 
@@ -55,7 +55,7 @@ public class ReservationManager {
         return null;
     }
 
-    private Table isAvailable(Date date, ArrayList<Table> fittingTables, TimeSpan reqTimeSpan) {
+    private Table isAvailable(Date date, List<Table> fittingTables, TimeSpan reqTimeSpan) {
          /*
             check for each table whether it is available or not:
                 return the first one that is not even booked for the given date.
@@ -69,7 +69,7 @@ public class ReservationManager {
 
         for (Table table : fittingTables) {
             /* fetch all the reservation for this table */
-            ArrayList<Reservation> allResForThisTable = reserveRepo.getByTableId(table.getTableId(), date);
+            ArrayList<Reservation> allResForThisTable = reserveRepo.getByTableId(table.getId(), date);
 
             if (allResForThisTable == null || allResForThisTable.size() == 0) {    // if not reserved before
                 return table;

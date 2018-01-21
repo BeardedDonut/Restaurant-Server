@@ -1,5 +1,6 @@
 package com.readlearncode.dukesbookshop.restserver.domain;
 
+import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -9,17 +10,23 @@ import java.util.Objects;
 
 /**
  * Created by navid on 11/24/17.
- * Table Bean
+ * Table POJO
  */
 @XmlRootElement
+@Entity(name = "restaurantTable")
+@javax.persistence.Table(name = "restaurantTable")
 public class Table implements Serializable {
 
     @Min(1)
     @Max(100)
     @NotNull
-    private Integer tableId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Integer id;
 
     @Min(1)
+    @Column(name = "numberOfSeats")
     private Integer numberOfSeats;
 
     public Table() {
@@ -27,7 +34,7 @@ public class Table implements Serializable {
     }
 
     public Table(Integer id, Integer numberOfSeats) {
-        this.tableId = id;
+        this.id = id;
         this.numberOfSeats = numberOfSeats;
     }
 
@@ -39,12 +46,12 @@ public class Table implements Serializable {
         this.numberOfSeats = numberOfSeats;
     }
 
-    public int getTableId() {
-        return tableId;
+    public int getId() {
+        return id;
     }
 
-    public void setTableId(int tableId) {
-        this.tableId = tableId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override
@@ -54,7 +61,7 @@ public class Table implements Serializable {
 
         Table table = (Table) o;
 
-        if (!Objects.equals(tableId, table.tableId)) {
+        if (!Objects.equals(id, table.id)) {
             return false;
         }
 
@@ -63,8 +70,8 @@ public class Table implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = tableId;
-        result = 31 * result + numberOfSeats;
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + numberOfSeats.hashCode();
         return result;
     }
 }

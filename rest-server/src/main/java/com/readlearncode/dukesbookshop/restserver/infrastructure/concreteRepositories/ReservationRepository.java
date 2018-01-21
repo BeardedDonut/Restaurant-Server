@@ -28,7 +28,7 @@ public class ReservationRepository {
             reservations.put(date.toString(), resMap);
         }
 
-        Reservation newRes = new Reservation(reservationNumber++, csId, table.getTableId(), date, ts, "");
+        Reservation newRes = new Reservation(reservationNumber++, csId, table.getId(), date, ts, "");
 
         resMap.put(newRes.getReservationId(), newRes);
 

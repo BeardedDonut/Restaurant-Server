@@ -1,7 +1,7 @@
 package com.readlearncode.dukesbookshop.restserver.rest;
 
 import com.readlearncode.dukesbookshop.restserver.domain.Table;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.concreteRepositories.TableRepository;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.concreteRepositories.ConcreteTableRepository;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.TableNotFoundException;
 
 import javax.ejb.EJB;
@@ -22,7 +22,7 @@ public class TableResource {
     private UriInfo uriInfo;
 
     @EJB
-    private TableRepository tableRepo;
+    private ConcreteTableRepository tableRepo;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -47,5 +47,11 @@ public class TableResource {
 
         throw new TableNotFoundException();
     }
+
+    // TODO: add a table api
+
+    // TODO: update table api
+
+    // TODO: remove table api
 
 }

@@ -1,12 +1,9 @@
-import com.readlearncode.dukesbookshop.restserver.domain.Customer;
-
-import com.readlearncode.dukesbookshop.restserver.domain.MenuItem;
+import com.readlearncode.dukesbookshop.restserver.domain.Table;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -14,10 +11,9 @@ import org.junit.Test;
 import java.util.List;
 
 /**
- * Created by navid on 1/7/18.
+ * Created by navid on 1/21/18.
  */
-public class testCustomerDB {
-
+public class TestTableDB {
     static Session session;
 
     @BeforeClass
@@ -38,90 +34,87 @@ public class testCustomerDB {
     }
 
     @Test
-    public void customerDatabaseTest() {
-        Customer cs1 = new Customer();
-        cs1.setFullName("Navid");
-        cs1.setPhoneNumber("989383709786");
+    public void tableDatabaseTest() {
+        Table tb1 = new Table();
+        tb1.setNumberOfSeats(12);
 
-        Customer cs2 = new Customer();
-        cs2.setFullName("Mehdi");
-        cs2.setPhoneNumber("123456789111");
+        Table tb2 = new Table();
+        tb2.setNumberOfSeats(4);
 
-        Customer cs3 = new Customer();
-        cs3.setFullName("Kamran");
-        cs3.setPhoneNumber("123456789112");
+        Table tb3 = new Table();
+        tb3.setNumberOfSeats(4);
+
+        Table tb4 = new Table();
+        tb4.setNumberOfSeats(6);
 
         System.out.println("====CREATE====");
-        create(cs1);
-        create(cs2);
-        create(cs3);
+        create(tb1);
+        create(tb2);
+        create(tb3);
+        create(tb4);
 
         System.out.println("====READ====");
-        List<Customer> customers = read();
-        for (Customer cs : customers) {
-            System.out.println(cs.toString());
+        List<Table> tables = read();
+        for (Table tbl : tables) {
+            System.out.println(tbl.toString());
         }
 
         System.out.println("====DELETE====");
-        delete(cs1.getCustomerId());
+        delete(tb1.getId());
 
         System.out.println("====READ====");
-        customers = read();
-        for (Customer cs : customers) {
-            System.out.println(cs.toString());
+        tables = read();
+        for (Table tbl : tables) {
+            System.out.println(tbl.toString());
         }
 
         System.out.println("====UPDATE====");
-        cs2.setFullName("Ahmad");
+        tb3.setNumberOfSeats(8);
 
         System.out.println("====READ====");
-        customers = read();
-        for (Customer cs : customers) {
-            System.out.println(cs.toString());
+        tables = read();
+        for (Table tbl : tables) {
+            System.out.println(tbl.toString());
         }
 
         System.out.println("====DELETE_ALL====");
         deleteAll();
-
-
     }
 
-    public static void create(Customer cs) {
+    public static void create(Table tbl) {
         session.beginTransaction();
-        session.save(cs);
+        session.save(tbl);
         session.getTransaction().commit();
         System.out.println("SuccessFully created!");
     }
 
-    public static List<Customer> read() {
+    public static List<Table> read() {
         @SuppressWarnings("unchecked")
-        List<Customer> customers = session.createQuery("FROM customer").list();
-        System.out.println("Found " + customers.size() + " Customers");
-        return customers;
+        List<Table> tables = session.createQuery("FROM restaurantTable").list();
+        System.out.println("Found " + tables.size() + " Tables");
+        return tables;
     }
 
     public static void delete(Integer id) {
         session.beginTransaction();
-        Customer cs = findByID(id);
-        session.delete(cs);
+        Table tbl = findByID(id);
+        session.delete(tbl);
         session.getTransaction().commit();
-        System.out.println("Successfully deleted " + cs.toString());
+        System.out.println("Successfully deleted " + tbl.toString());
 
     }
 
     public static void deleteAll() {
         session.beginTransaction();
-        Query query = session.createQuery("DELETE FROM customer");
+        Query query = session.createQuery("DELETE FROM restaurantTable");
         query.executeUpdate();
         session.getTransaction().commit();
-        System.out.println("Successfully deleted all customers.");
+        System.out.println("Successfully deleted all tables.");
 
     }
 
-    public static Customer findByID(Integer id) {
-        Customer cs = (Customer) session.load(Customer.class, id);
-        return cs;
+    public static Table findByID(Integer id) {
+        Table tbl = (Table) session.load(Table.class, id);
+        return tbl;
     }
-
-
 }
