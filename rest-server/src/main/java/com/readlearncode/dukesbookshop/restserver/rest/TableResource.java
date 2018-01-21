@@ -2,13 +2,14 @@ package com.readlearncode.dukesbookshop.restserver.rest;
 
 import com.readlearncode.dukesbookshop.restserver.domain.Table;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.concreteRepositories.ConcreteTableRepository;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.TableCannotBeCreatedException;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.TableNotFoundException;
+import org.jboss.logging.annotations.Pos;
 
 import javax.ejb.EJB;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.print.attribute.standard.Media;
+import javax.validation.Valid;
+import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.util.List;
 import java.util.Optional;
@@ -48,10 +49,48 @@ public class TableResource {
         throw new TableNotFoundException();
     }
 
-    // TODO: add a table api
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response createNewTable(final @Valid Table table) throws TableCannotBeCreatedException {
+        Optional<Table> createdTable = tableRepo.createTable(table);
 
-    // TODO: update table api
+        if (createdTable.isPresent()) {
+            return Response.ok(createdTable.get()).build();
+        }
 
-    // TODO: remove table api
+        throw new TableCannotBeCreatedException();
+    }
+
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updateTable(final @Valid Table table) throws TableNotFoundException {
+
+        Optional<Table> tableToUpdate = tableRepo.getTableById(table.getId());
+        if (!tableToUpdate.isPresent()) {
+            throw new TableNotFoundException("No Table Found To Update");
+        }
+
+        Optional<Table> updateTable = tableRepo.updateTable(tableToUpdate.get(), table);
+
+        return Response.ok(updateTable.get()).build();
+    }
+
+
+    @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response deleteTable(final @Valid Table table) throws TableNotFoundException {
+
+        Optional<Table> tableToUpdate = tableRepo.getTableById(table.getId());
+        if (!tableToUpdate.isPresent()) {
+            throw new TableNotFoundException("No Table Found To Delete");
+        }
+
+        tableRepo.deleteTableById(table.getId());
+
+        return Response.ok("Done!").build();
+    }
 
 }

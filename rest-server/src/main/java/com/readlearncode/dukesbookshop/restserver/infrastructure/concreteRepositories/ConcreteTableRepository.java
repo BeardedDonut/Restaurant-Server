@@ -4,6 +4,7 @@ package com.readlearncode.dukesbookshop.restserver.infrastructure.concreteReposi
 import com.readlearncode.dukesbookshop.restserver.DatabaseConfig;
 import com.readlearncode.dukesbookshop.restserver.domain.Table;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.abstractRepositories.TableRepository;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.TableNotFoundException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -86,5 +87,16 @@ public class ConcreteTableRepository implements TableRepository {
         System.out.println("Successfully deleted " + tbl.toString());
     }
 
+    public Optional<Table> updateTable(Table existingTable, Table newTable) throws TableNotFoundException {
+
+        if (!getTableById(existingTable.getId()).isPresent()) {
+            throw new TableNotFoundException("No Table Found To Update!");
+        }
+
+        /* Changing the attributes of the existingTable with newTable */
+        existingTable.setNumberOfSeats(newTable.getNumberOfSeats());
+
+        return Optional.of(existingTable);
+    }
 
 }
