@@ -17,6 +17,7 @@ public class TestTableDB {
     static Session session;
 
     @BeforeClass
+    @SuppressWarnings("Duplicates")
     public static void createSessionFactory() {
         System.out.println("Creating Database Connection");
         Configuration configuration = new Configuration().configure();

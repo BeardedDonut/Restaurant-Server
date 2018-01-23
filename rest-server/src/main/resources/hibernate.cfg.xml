@@ -22,5 +22,6 @@
         <mapping class="com.readlearncode.dukesbookshop.restserver.domain.Customer"/>
         <mapping class="com.readlearncode.dukesbookshop.restserver.domain.MenuItem"/>
         <mapping class="com.readlearncode.dukesbookshop.restserver.domain.Table"/>
+        <mapping class="com.readlearncode.dukesbookshop.restserver.domain.CheckRequest"/>
     </session-factory>
 </hibernate-configuration>

@@ -6,6 +6,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -32,6 +33,9 @@ public class Customer implements Serializable {
     @NotNull
     @Column(name = "phoneNumber")
     private String phoneNumber;
+
+    @OneToMany(mappedBy = "relatedCustomer", fetch = FetchType.LAZY)
+    private List<CheckRequest> myCheckRequests;
 
     //TODO: add authentication properties
 
@@ -86,6 +90,15 @@ public class Customer implements Serializable {
         return phoneNumber != null ? phoneNumber.equals(customer.phoneNumber) : customer.phoneNumber == null;
     }
 
+
+    public List<CheckRequest> getMyCheckRequests() {
+        return myCheckRequests;
+    }
+
+    public void setMyCheckRequests(List<CheckRequest> myCheckRequests) {
+        this.myCheckRequests = myCheckRequests;
+    }
+
     @Override
     public int hashCode() {
         int result = 0;
@@ -96,13 +109,11 @@ public class Customer implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder x = new StringBuilder();
-
-        x.append("Customer---");
-        x.append("Customer id: " + customerId + "\n");
-        x.append("FullName: " + fullName + "\n");
-        x.append("Phone Number: " + phoneNumber + "\n");
-
-        return x.toString();
+        return "Customer{" +
+                "customerId=" + customerId +
+                ", fullName='" + fullName + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", myCheckRequests=" + myCheckRequests +
+                '}';
     }
 }

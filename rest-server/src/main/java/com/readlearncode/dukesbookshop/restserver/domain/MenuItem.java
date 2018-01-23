@@ -108,15 +108,15 @@ public class MenuItem implements Serializable {
         this.category = category;
     }
 
+
     @Override
     public String toString() {
-        StringBuilder x = new StringBuilder();
-
-        x.append("MenuItemRepository Item---");
-        x.append("name:" + name + "\n");
-        x.append("price:" + price + "\n");
-        x.append("imageFileName:" + imageFileName + "\n");
-
-        return x.toString();
+        return "MenuItem{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", imageFileName='" + imageFileName + '\'' +
+                ", category=" + category +
+                '}';
     }
 }

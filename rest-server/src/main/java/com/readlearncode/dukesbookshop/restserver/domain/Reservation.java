@@ -1,7 +1,5 @@
 package com.readlearncode.dukesbookshop.restserver.domain;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -51,11 +49,8 @@ public class Reservation implements Serializable {
         int myTimeSpanEnd = Integer.parseInt(this.reservationTime.getEnd());
         int givenTimeSpanStart = Integer.parseInt(ts.getStart());
 
-        if (myTimeSpanEnd > givenTimeSpanStart) {
-            return true;
-        }
+        return myTimeSpanEnd > givenTimeSpanStart;
 
-        return false;
     }
 
     public boolean tableIdMatches(int tableId) {
@@ -148,5 +143,17 @@ public class Reservation implements Serializable {
         result = 31 * result + (reservationTime != null ? reservationTime.hashCode() : 0);
         result = 31 * result + (otherRequirements != null ? otherRequirements.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Reservation{" +
+                "reservationId=" + reservationId +
+                ", customerId=" + customerId +
+                ", tableId=" + tableId +
+                ", reservationDate=" + reservationDate +
+                ", reservationTime=" + reservationTime +
+                ", otherRequirements='" + otherRequirements + '\'' +
+                '}';
     }
 }

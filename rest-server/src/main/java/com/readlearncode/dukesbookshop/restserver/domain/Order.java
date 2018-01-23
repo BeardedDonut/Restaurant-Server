@@ -114,4 +114,15 @@ public class Order implements Serializable {
     public enum OrderStatus {
         ON_HOLD, CONFIRMED, PREPARING, DELIVERED, PAYED
     }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "orderItems=" + orderItems +
+                ", orderId=" + orderId +
+                ", totalCost=" + totalCost +
+                ", accordingReservation=" + accordingReservation +
+                ", status=" + status +
+                '}';
+    }
 }

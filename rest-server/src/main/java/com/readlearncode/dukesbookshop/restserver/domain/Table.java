@@ -63,4 +63,12 @@ public class Table implements Serializable {
         result = 31 * result + numberOfSeats.hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Table{" +
+                "id=" + id +
+                ", numberOfSeats=" + numberOfSeats +
+                '}';
+    }
 }

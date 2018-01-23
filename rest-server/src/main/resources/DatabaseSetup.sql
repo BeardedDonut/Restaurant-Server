@@ -22,7 +22,18 @@ CREATE TABLE `customer` (
 # Restaurant's Table Table :D
 CREATE TABLE `restaurantTable` (
   `id`            INT(5) NOT NULL AUTO_INCREMENT,
-  `numberOfSeats` INT,
+  `numberOfSeats` INT(2),
   CHECK (`numberOfSeats` > 1),
   PRIMARY KEY (`id`)
 );
+
+# CheckRequest Table
+CREATE TABLE `checkRequest` (
+  `id`            INT(10) NOT NULL AUTO_INCREMENT,
+  `date`          DATE    NOT NULL,
+  `numberOfSeats` INT(2)  NOT NULL,
+  `customerId`    INT(11) NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (`customerId`) REFERENCES `customer` (id),
+  CHECK (`numberOfSeats` > 2)
+)

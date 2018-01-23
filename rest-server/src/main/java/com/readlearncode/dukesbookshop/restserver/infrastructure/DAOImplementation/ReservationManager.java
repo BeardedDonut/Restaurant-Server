@@ -42,7 +42,7 @@ public class ReservationManager {
     }
 
     private Reservation processRequest(CheckRequest r) {
-        List<Table> fittingTables = tableRepo.getTableBySeatSorted(r.getSeats());
+        List<Table> fittingTables = tableRepo.getTableBySeatSorted(r.getNumberOfSeats());
 
         Table availableTable = isAvailable(r.getDate(), fittingTables, r.getTs());// check if they are available for the given time
 
@@ -52,7 +52,7 @@ public class ReservationManager {
                     2- update the table state
                     3- return true
              */
-            return reserveRepo.saveReserve(availableTable, r.getCustomerId(), r.getDate(), r.getTs());
+            return reserveRepo.saveReserve(availableTable, r.getRelatedCustomer().getCustomerId(), r.getDate(), r.getTs());
         }
         return null;
     }

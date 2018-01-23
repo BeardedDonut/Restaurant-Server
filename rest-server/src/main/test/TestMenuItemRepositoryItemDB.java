@@ -17,6 +17,7 @@ import java.util.List;
 public class TestMenuItemRepositoryItemDB {
     static Session session;
 
+    @SuppressWarnings("Duplicates")
     @BeforeClass
     public static void createSessionFactory() {
         System.out.println("Creating Database Connection");
@@ -77,7 +78,7 @@ public class TestMenuItemRepositoryItemDB {
         }
 
         System.out.println("====DELETE_ALL====");
-        deleteAll();
+        //deleteAll();
 
     }
 
@@ -101,9 +102,9 @@ public class TestMenuItemRepositoryItemDB {
         session.delete(mi);
         session.getTransaction().commit();
         System.out.println("Successfully deleted " + mi.toString());
-
     }
 
+    @SuppressWarnings("Duplicates")
     public static void deleteAll() {
         session.beginTransaction();
         Query query = session.createQuery("DELETE FROM customer");
