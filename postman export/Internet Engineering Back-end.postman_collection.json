@@ -14,7 +14,7 @@
 				{
 					"name": "get table info passing id",
 					"request": {
-						"url": "http://localhost:8080/rest-server/api/tables/1",
+                      "url": "http://localhost:8080/rest-server/api/tables/4",
 						"method": "GET",
 						"header": [],
 						"body": {},
@@ -35,6 +35,66 @@
 						"description": "fetch all tables"
 					},
 					"response": []
+                },
+              {
+                "name": "Create New Table",
+                "request": {
+                  "url": "http://localhost:8080/rest-server/api/tables",
+                  "method": "POST",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json",
+                      "description": ""
+                    }
+                  ],
+                  "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"numberOfSeats\": 12\n}"
+                  },
+                  "description": "This API creates a new table provided the number of seats"
+                },
+                "response": []
+              },
+              {
+                "name": "Update an already existing table",
+                "request": {
+                  "url": "http://localhost:8080/rest-server/api/tables",
+                  "method": "PUT",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json",
+                      "description": ""
+                    }
+                  ],
+                  "body": {
+                    "mode": "raw",
+                    "raw": "{\n\t\"id\": 3,\n    \"numberOfSeats\": 6\n}"
+                  },
+                  "description": "This API updates a table provided the new attributes and the table id"
+                },
+                "response": []
+              },
+              {
+                "name": "Delete Table",
+                "request": {
+                  "url": "http://localhost:8080/rest-server/api/tables",
+                  "method": "DELETE",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json",
+                      "description": ""
+                    }
+                  ],
+                  "body": {
+                    "mode": "raw",
+                    "raw": "{\n\t\"id\": 3,\n    \"numberOfSeats\": 6\n}"
+                  },
+                  "description": "This API deletes a table provided its id"
+                },
+                "response": []
 				}
 			]
 		},
@@ -311,7 +371,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n        \"category\": \"DRINK\",\n        \"imageFileName\": \"./doogh-ab-ali.jpg\",\n        \"name\": \"Doogh Ab Ali\",\n        \"price\": 2.00\n}"
+                          "raw": "{\n        \"category\": \"DRINK\",\n        \"imageFileName\": \"./coke.jpg\",\n        \"name\": \"Coke\",\n        \"price\": 2.00\n}"
 						},
 						"description": "This API adds the described menu item to the menu"
 					},
@@ -331,7 +391,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n        \"category\": \"DRINK\",\n        \"imageFileName\": \"./doogh-ab-ali.jpg\",\n        \"name\": \"Doogh Ab Ali\",\n        \"price\": 2.00\n}"
+                          "raw": "{\n        \"category\": \"DRINK\",\n        \"imageFileName\": \"./doogh-ab-ali1.jpg\",\n        \"name\": \"Doogh Ab Ali\",\n        \"price\": 2.00\n}"
 						},
 						"description": "This API Updates the described menu item to the menu"
 					},
