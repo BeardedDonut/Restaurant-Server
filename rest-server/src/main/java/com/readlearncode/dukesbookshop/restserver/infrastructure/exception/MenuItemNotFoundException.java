@@ -7,7 +7,7 @@ public class MenuItemNotFoundException extends Exception {
     private String message;
 
     public MenuItemNotFoundException() {
-        this.message = "Menu Item Not Found!";
+        this.message = "MenuItemRepository Item Not Found!";
     }
 
     public MenuItemNotFoundException(String message) {

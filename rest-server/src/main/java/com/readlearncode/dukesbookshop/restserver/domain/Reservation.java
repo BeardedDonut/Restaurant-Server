@@ -16,18 +16,12 @@ import java.util.Objects;
 @XmlRootElement
 public class Reservation implements Serializable {
 
-    @Min(1)
-    @Max(1000)
-    @NotNull
+
     private Integer reservationId;
 
-    @Min(1)
-    @Max(100)
     @NotNull
     private Integer customerId;
 
-    @Min(1)
-    @Max(100)
     @NotNull
     private Integer tableId;
 

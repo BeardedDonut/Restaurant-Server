@@ -1,4 +1,4 @@
-package com.readlearncode.dukesbookshop.restserver.infrastructure.abstractRepositories;
+package com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface;
 
 import com.readlearncode.dukesbookshop.restserver.domain.Customer;
 

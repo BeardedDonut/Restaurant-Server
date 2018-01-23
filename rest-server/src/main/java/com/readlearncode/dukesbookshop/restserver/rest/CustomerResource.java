@@ -1,10 +1,9 @@
 package com.readlearncode.dukesbookshop.restserver.rest;
 
 import com.readlearncode.dukesbookshop.restserver.domain.Customer;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.concreteRepositories.CustomerRepositoryBean;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.CustomerAlreadySigned;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.CustomerNotFoundException;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.abstractRepositories.CustomerRepository;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.CustomerRepository;
 
 import javax.ejb.EJB;
 import javax.validation.Valid;

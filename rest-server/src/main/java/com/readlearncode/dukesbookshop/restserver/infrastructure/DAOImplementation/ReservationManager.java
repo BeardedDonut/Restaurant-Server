@@ -1,9 +1,11 @@
-package com.readlearncode.dukesbookshop.restserver.infrastructure.concreteRepositories;
+package com.readlearncode.dukesbookshop.restserver.infrastructure.DAOImplementation;
 
 import com.readlearncode.dukesbookshop.restserver.domain.Request;
 import com.readlearncode.dukesbookshop.restserver.domain.Reservation;
 import com.readlearncode.dukesbookshop.restserver.domain.Table;
 import com.readlearncode.dukesbookshop.restserver.domain.TimeSpan;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.ReservationRepository;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.TableRepository;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -14,11 +16,11 @@ import java.util.List;
 /**
  * Created by navid on 11/24/17.
  */
-@Stateless
+@Stateless(name = "ReservationManager")
 public class ReservationManager {
 
     @EJB
-    ConcreteTableRepository tableRepo;
+    TableRepository tableRepo;
 
     @EJB
     ReservationRepository reserveRepo;

@@ -3,10 +3,10 @@ package com.readlearncode.dukesbookshop.restserver.rest;
 import com.readlearncode.dukesbookshop.restserver.domain.Customer;
 import com.readlearncode.dukesbookshop.restserver.domain.Order;
 import com.readlearncode.dukesbookshop.restserver.domain.Reservation;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.concreteRepositories.CustomerRepositoryBean;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.concreteRepositories.ReservationRepository;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.abstractRepositories.Menu;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.abstractRepositories.OrderRepository;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.CustomerRepository;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.MenuItemRepository;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.OrderRepository;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.ReservationRepository;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
@@ -32,10 +32,10 @@ public class ReportResource {
     private OrderRepository orderRepo;
 
     @EJB
-    private Menu myMenu;
+    private MenuItemRepository myMenu;
 
     @EJB
-    private CustomerRepositoryBean customerRepo;
+    private CustomerRepository customerRepo;
 
     @EJB
     private ReservationRepository resRepo;

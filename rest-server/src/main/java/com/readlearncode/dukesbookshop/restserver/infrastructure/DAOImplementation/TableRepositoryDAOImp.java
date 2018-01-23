@@ -1,9 +1,9 @@
-package com.readlearncode.dukesbookshop.restserver.infrastructure.concreteRepositories;
+package com.readlearncode.dukesbookshop.restserver.infrastructure.DAOImplementation;
 
 
 import com.readlearncode.dukesbookshop.restserver.DatabaseConfig;
 import com.readlearncode.dukesbookshop.restserver.domain.Table;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.abstractRepositories.TableRepository;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.TableRepository;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.TableNotFoundException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -15,14 +15,14 @@ import java.util.Optional;
 /**
  * Created by navid on 11/24/17.
  */
-@Stateless
-public class ConcreteTableRepository implements TableRepository {
+@Stateless(name = "TableRepositoryDAOImp")
+public class TableRepositoryDAOImp implements TableRepository {
 
     @Override
-    public Optional<Table> getTableById(int id) {
+    public Optional<Table> getTableById(final int id) {
         Session session = DatabaseConfig.createSessionFactory().openSession();
 
-        Table tbl = (Table) session.load(Table.class, id);
+        Table tbl = (Table) session.get(Table.class, id);
 
         session.close();
         return Optional.ofNullable(tbl);
@@ -87,16 +87,25 @@ public class ConcreteTableRepository implements TableRepository {
         System.out.println("Successfully deleted " + tbl.toString());
     }
 
-    public Optional<Table> updateTable(Table existingTable, Table newTable) throws TableNotFoundException {
+    @Override
+    public Optional<Table> updateTable(int numberOfSeats, int id) throws TableNotFoundException {
 
-        if (!getTableById(existingTable.getId()).isPresent()) {
+        if (!getTableById(id).isPresent()) {
             throw new TableNotFoundException("No Table Found To Update!");
         }
 
         /* Changing the attributes of the existingTable with newTable */
-        existingTable.setNumberOfSeats(newTable.getNumberOfSeats());
+        Session session = DatabaseConfig.createSessionFactory().openSession();
 
-        return Optional.of(existingTable);
+
+        session.beginTransaction();
+        Table tbl = (Table) session.byId(Table.class).load(id);
+        tbl.setNumberOfSeats(numberOfSeats);
+        session.merge(tbl);
+        session.getTransaction().commit();
+        session.close();
+
+        return Optional.of(getTableById(id).get());
     }
 
 }

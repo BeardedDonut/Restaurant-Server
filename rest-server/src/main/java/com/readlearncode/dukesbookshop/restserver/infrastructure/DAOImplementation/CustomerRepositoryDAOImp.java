@@ -1,15 +1,12 @@
-package com.readlearncode.dukesbookshop.restserver.infrastructure.concreteRepositories;
+package com.readlearncode.dukesbookshop.restserver.infrastructure.DAOImplementation;
 
 import com.readlearncode.dukesbookshop.restserver.DatabaseConfig;
 import com.readlearncode.dukesbookshop.restserver.domain.Customer;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.abstractRepositories.CustomerRepository;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.CustomerRepository;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,8 +14,8 @@ import java.util.Optional;
  * Created by navid on 11/24/17.
  */
 
-@Stateless(name = "CustomerRepositoryBean")
-public class CustomerRepositoryBean implements CustomerRepository {
+@Stateless(name = "CustomerRepositoryDAOImp")
+public class CustomerRepositoryDAOImp implements CustomerRepository {
 
 
     @Override

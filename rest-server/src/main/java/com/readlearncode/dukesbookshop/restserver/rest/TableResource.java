@@ -1,13 +1,11 @@
 package com.readlearncode.dukesbookshop.restserver.rest;
 
 import com.readlearncode.dukesbookshop.restserver.domain.Table;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.concreteRepositories.ConcreteTableRepository;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.TableRepository;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.TableCannotBeCreatedException;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.TableNotFoundException;
-import org.jboss.logging.annotations.Pos;
 
 import javax.ejb.EJB;
-import javax.print.attribute.standard.Media;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
@@ -23,7 +21,7 @@ public class TableResource {
     private UriInfo uriInfo;
 
     @EJB
-    private ConcreteTableRepository tableRepo;
+    private TableRepository tableRepo;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -67,12 +65,7 @@ public class TableResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateTable(final @Valid Table table) throws TableNotFoundException {
 
-        Optional<Table> tableToUpdate = tableRepo.getTableById(table.getId());
-        if (!tableToUpdate.isPresent()) {
-            throw new TableNotFoundException("No Table Found To Update");
-        }
-
-        Optional<Table> updateTable = tableRepo.updateTable(tableToUpdate.get(), table);
+        Optional<Table> updateTable = tableRepo.updateTable(table.getNumberOfSeats(), table.getId());
 
         return Response.ok(updateTable.get()).build();
     }
@@ -81,7 +74,8 @@ public class TableResource {
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response deleteTable(final @Valid Table table) throws TableNotFoundException {
+    // TODO: Test delete endpoint
+    public Response deleteTable(final Table table) throws TableNotFoundException {
 
         Optional<Table> tableToUpdate = tableRepo.getTableById(table.getId());
         if (!tableToUpdate.isPresent()) {
@@ -90,7 +84,7 @@ public class TableResource {
 
         tableRepo.deleteTableById(table.getId());
 
-        return Response.ok("Done!").build();
+        return Response.ok(table).build();
     }
 
 }

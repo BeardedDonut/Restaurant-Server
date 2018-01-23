@@ -17,41 +17,33 @@ import java.util.Objects;
 @javax.persistence.Table(name = "restaurantTable")
 public class Table implements Serializable {
 
-    @Min(1)
-    @Max(100)
-    @NotNull
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
-    @Min(1)
     @Column(name = "numberOfSeats")
+    @Min(2)
     private Integer numberOfSeats;
 
     public Table() {
 
     }
 
-    public Table(Integer id, Integer numberOfSeats) {
-        this.id = id;
-        this.numberOfSeats = numberOfSeats;
-    }
-
-    public int getNumberOfSeats() {
-        return numberOfSeats;
-    }
-
-    public void setNumberOfSeats(int numberOfSeats) {
-        this.numberOfSeats = numberOfSeats;
-    }
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getNumberOfSeats() {
+        return numberOfSeats;
+    }
+
+    public void setNumberOfSeats(Integer numberOfSeats) {
+        this.numberOfSeats = numberOfSeats;
     }
 
     @Override
@@ -61,11 +53,8 @@ public class Table implements Serializable {
 
         Table table = (Table) o;
 
-        if (!Objects.equals(id, table.id)) {
-            return false;
-        }
-
-        return Objects.equals(numberOfSeats, table.numberOfSeats);
+        if (id != null ? !id.equals(table.id) : table.id != null) return false;
+        return numberOfSeats.equals(table.numberOfSeats);
     }
 
     @Override

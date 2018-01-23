@@ -1,13 +1,14 @@
-package com.readlearncode.dukesbookshop.restserver.infrastructure.concreteRepositories;
+package com.readlearncode.dukesbookshop.restserver.infrastructure.DAOImplementation;
 
 import com.readlearncode.dukesbookshop.restserver.domain.Customer;
 import com.readlearncode.dukesbookshop.restserver.domain.MenuItem;
 import com.readlearncode.dukesbookshop.restserver.domain.Order;
 import com.readlearncode.dukesbookshop.restserver.domain.Reservation;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.ReservationRepository;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.MenuItemNotFoundException;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.OrderNotFoundException;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.abstractRepositories.Menu;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.abstractRepositories.OrderRepository;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.MenuItemRepository;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.OrderRepository;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -19,8 +20,8 @@ import java.util.Set;
 /**
  * Created by navid on 11/27/17.
  */
-@Stateless
-public class OrderRepositoryBean implements OrderRepository {
+@Stateless(name = "OrderRepositoryDAOImp")
+public class OrderRepositoryDAOImp implements OrderRepository {
 
     private static int orderNumber = 1;
 
@@ -35,7 +36,7 @@ public class OrderRepositoryBean implements OrderRepository {
     private ReservationRepository resRepo;
 
     @EJB
-    private Menu myRestaurantMenu;
+    private MenuItemRepository myRestaurantMenu;
 
     public Optional<Order> createNewOrder(Reservation res, HashMap<String, Integer> orderedItems) {
         Order newOrder = new Order(++orderNumber, res, orderedItems);

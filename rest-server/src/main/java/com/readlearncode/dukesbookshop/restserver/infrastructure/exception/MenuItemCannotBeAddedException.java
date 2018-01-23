@@ -7,7 +7,7 @@ public class MenuItemCannotBeAddedException extends Exception {
     private String message;
 
     public MenuItemCannotBeAddedException() {
-        this.message = "Cannot Add The Menu Item!";
+        this.message = "Cannot Add The MenuItemRepository Item!";
     }
 
     public MenuItemCannotBeAddedException(String message) {

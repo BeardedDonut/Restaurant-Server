@@ -1,6 +1,7 @@
-package com.readlearncode.dukesbookshop.restserver.infrastructure.abstractRepositories;
+package com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface;
 
 import com.readlearncode.dukesbookshop.restserver.domain.Table;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.TableNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,5 +20,8 @@ public interface TableRepository {
 
     Optional<Table> createTable(Table newTable);
 
+    Optional<Table> updateTable(int numberOfSeats, int id) throws TableNotFoundException;
+
     void deleteTableById(int id);
+
 }

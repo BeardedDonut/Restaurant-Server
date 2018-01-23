@@ -2,7 +2,7 @@ package com.readlearncode.dukesbookshop.restserver.rest;
 
 import com.readlearncode.dukesbookshop.restserver.domain.Request;
 import com.readlearncode.dukesbookshop.restserver.domain.Reservation;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.concreteRepositories.ReservationManager;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOImplementation.ReservationManager;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.ReservationException;
 
 import javax.ejb.EJB;

@@ -6,6 +6,9 @@
 <hibernate-configuration>
     <session-factory>
         <!--Hibernate Properties Setup-->
+        <property name="hibernate.current_session_context_class">
+            org.hibernate.context.internal.ThreadLocalSessionContext
+        </property>
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/jersey</property>
         <property name="hibernate.connection.username">jersey</property>

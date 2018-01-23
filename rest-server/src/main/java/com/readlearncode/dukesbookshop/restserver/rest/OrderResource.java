@@ -3,7 +3,7 @@ package com.readlearncode.dukesbookshop.restserver.rest;
 import com.readlearncode.dukesbookshop.restserver.domain.Order;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.MenuItemNotFoundException;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.OrderNotFoundException;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.abstractRepositories.OrderRepository;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.OrderRepository;
 
 import javax.ejb.EJB;
 import javax.validation.Valid;

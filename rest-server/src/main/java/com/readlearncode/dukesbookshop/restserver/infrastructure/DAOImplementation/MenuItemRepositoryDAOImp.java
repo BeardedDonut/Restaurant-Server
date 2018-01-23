@@ -1,9 +1,9 @@
-package com.readlearncode.dukesbookshop.restserver.infrastructure.concreteRepositories;
+package com.readlearncode.dukesbookshop.restserver.infrastructure.DAOImplementation;
 
 import com.readlearncode.dukesbookshop.restserver.DatabaseConfig;
 import com.readlearncode.dukesbookshop.restserver.domain.MenuItem;
 import com.readlearncode.dukesbookshop.restserver.domain.MenuItemCategory;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.abstractRepositories.Menu;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.MenuItemRepository;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.MenuItemCannotBeAddedException;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.MenuItemNotFoundException;
 import org.hibernate.Query;
@@ -17,8 +17,8 @@ import java.util.Optional;
  * Created by navid on 11/26/17.
  */
 
-@Stateless(name = "MenuBean")
-public class MenuBean implements Menu {
+@Stateless(name = "MenuItemRepositoryDAOImp")
+public class MenuItemRepositoryDAOImp implements MenuItemRepository {
 
     public Optional<MenuItem>
     addToMenuItem(MenuItem newItem, MenuItemCategory acceptedCategory)
@@ -118,6 +118,7 @@ public class MenuBean implements Menu {
     public Optional<MenuItem> updateMenuItem(String name, MenuItem newItem) throws MenuItemNotFoundException {
         MenuItem retrievedMenuItem = findMenuItemByName(name).get();
 
+        //TODO: fix updating -> check out table update process!
         retrievedMenuItem.setCategory(newItem.getCategory());
         retrievedMenuItem.setName(newItem.getName());
         retrievedMenuItem.setPrice(newItem.getPrice());
@@ -141,7 +142,7 @@ public class MenuBean implements Menu {
             return Optional.ofNullable(items.get(0));
         }
 
-        throw new MenuItemNotFoundException("Menu Item With The Given Name Not Found!");
+        throw new MenuItemNotFoundException("MenuItemRepository Item With The Given Name Not Found!");
     }
 
     @Override
@@ -152,7 +153,7 @@ public class MenuBean implements Menu {
 
         session.close();
         if (cs == null) {
-            throw new MenuItemNotFoundException("Menu Item With The Given ID Not Found!");
+            throw new MenuItemNotFoundException("MenuItemRepository Item With The Given ID Not Found!");
         }
 
         return Optional.ofNullable(cs);

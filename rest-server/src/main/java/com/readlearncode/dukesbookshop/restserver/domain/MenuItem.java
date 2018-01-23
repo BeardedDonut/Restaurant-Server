@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 /**
  * Created by navid on 11/26/17.
- * Menu Item POJO
+ * MenuItemRepository Item POJO
  */
 @XmlRootElement
 @Entity(name = "menuItem")
@@ -112,7 +112,7 @@ public class MenuItem implements Serializable {
     public String toString() {
         StringBuilder x = new StringBuilder();
 
-        x.append("Menu Item---");
+        x.append("MenuItemRepository Item---");
         x.append("name:" + name + "\n");
         x.append("price:" + price + "\n");
         x.append("imageFileName:" + imageFileName + "\n");

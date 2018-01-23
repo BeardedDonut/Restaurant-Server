@@ -2,7 +2,7 @@ package com.readlearncode.dukesbookshop.restserver.rest;
 
 import com.readlearncode.dukesbookshop.restserver.domain.MenuItem;
 import com.readlearncode.dukesbookshop.restserver.domain.MenuItemCategory;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.abstractRepositories.Menu;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.MenuItemRepository;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.MenuItemCannotBeAddedException;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.MenuItemNotFoundException;
 
@@ -23,7 +23,7 @@ import java.util.Optional;
 public class MenuResource {
 
     @EJB
-    private Menu myRestaurantMenu;
+    private MenuItemRepository myRestaurantMenu;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -110,7 +110,7 @@ public class MenuResource {
             return Response.ok(x.get()).build();
         }
 
-        throw new MenuItemCannotBeAddedException("Cannot create This Menu Item!");
+        throw new MenuItemCannotBeAddedException("Cannot create This MenuItemRepository Item!");
     }
 
     @PUT
@@ -125,7 +125,7 @@ public class MenuResource {
             return Response.ok(x.get()).build();
         }
 
-        throw new MenuItemCannotBeAddedException("Cannot Update This Menu Item!");
+        throw new MenuItemCannotBeAddedException("Cannot Update This MenuItemRepository Item!");
     }
 
     //TODO add delete api!

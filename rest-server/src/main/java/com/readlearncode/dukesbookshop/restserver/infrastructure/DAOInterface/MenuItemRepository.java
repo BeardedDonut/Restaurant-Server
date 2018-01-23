@@ -1,4 +1,4 @@
-package com.readlearncode.dukesbookshop.restserver.infrastructure.abstractRepositories;
+package com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface;
 
 import com.readlearncode.dukesbookshop.restserver.domain.MenuItem;
 import com.readlearncode.dukesbookshop.restserver.domain.MenuItemCategory;
@@ -11,7 +11,7 @@ import java.util.Optional;
 /**
  * Created by navid on 11/26/17.
  */
-public interface Menu {
+public interface MenuItemRepository {
 
     List<MenuItem> getMenuItemByCategory(MenuItemCategory givenCategory);
 

@@ -1,11 +1,7 @@
 package com.readlearncode.dukesbookshop.restserver.infrastructure;
 
 import com.readlearncode.dukesbookshop.restserver.domain.*;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.concreteRepositories.ReservationRepository;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.concreteRepositories.ConcreteTableRepository;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.abstractRepositories.CustomerRepository;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.abstractRepositories.Menu;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.abstractRepositories.OrderRepository;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.*;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -30,13 +26,13 @@ public class BootstrapData {
     private ReservationRepository resRepo;
 
     @EJB
-    private ConcreteTableRepository tableRepo;
+    private TableRepository tableRepo;
 
     @EJB
     private CustomerRepository customerRepo;
 
     @EJB
-    private Menu myRestaurantMenu;
+    private MenuItemRepository myRestaurantMenu;
 
     @EJB
     private OrderRepository orderRepo;
