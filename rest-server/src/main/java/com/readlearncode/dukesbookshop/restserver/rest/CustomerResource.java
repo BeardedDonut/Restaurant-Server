@@ -1,8 +1,8 @@
 package com.readlearncode.dukesbookshop.restserver.rest;
 
 import com.readlearncode.dukesbookshop.restserver.domain.Customer;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.CustomerAlreadySigned;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.CustomerNotFoundException;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.exceptions.CustomerAlreadySignedException;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.exceptions.CustomerNotFoundException;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.CustomerRepository;
 
 import javax.ejb.EJB;
@@ -50,10 +50,10 @@ public class CustomerResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createProfile(@Valid final Customer cs) throws CustomerAlreadySigned {
+    public Response createProfile(@Valid final Customer cs) throws CustomerAlreadySignedException {
 
         if (customerRepo.getCustomerByTel(cs.getPhoneNumber()).isPresent()) {
-            throw new CustomerAlreadySigned();
+            throw new CustomerAlreadySignedException();
         } else {
             Optional<Customer> regCs = customerRepo.createNewProfile(cs);
             return Response.ok(regCs.get()).build();

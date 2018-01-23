@@ -90,7 +90,7 @@ public class ReportResource {
                 }
             } else {
                 System.out.println("this order does not match any reservation!");
-                //TODO throw proper exception
+                //TODO throw proper exceptions
             }
         }
 

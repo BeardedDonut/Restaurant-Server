@@ -1,9 +1,9 @@
 package com.readlearncode.dukesbookshop.restserver.rest;
 
-import com.readlearncode.dukesbookshop.restserver.domain.Request;
+import com.readlearncode.dukesbookshop.restserver.domain.CheckRequest;
 import com.readlearncode.dukesbookshop.restserver.domain.Reservation;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOImplementation.ReservationManager;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.ReservationException;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.exceptions.ReservationException;
 
 import javax.ejb.EJB;
 import javax.validation.Valid;
@@ -41,8 +41,8 @@ public class ReservationResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response reserve(@Valid final Request request) throws ReservationException {
-        Reservation res = resManager.reserveResult(request);
+    public Response reserve(@Valid final CheckRequest checkRequest) throws ReservationException {
+        Reservation res = resManager.reserveResult(checkRequest);
         if (res != null) {
             return Response.ok(res).build();
         } else {

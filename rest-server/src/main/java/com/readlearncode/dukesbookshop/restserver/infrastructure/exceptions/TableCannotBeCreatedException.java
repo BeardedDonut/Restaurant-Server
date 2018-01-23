@@ -1,4 +1,4 @@
-package com.readlearncode.dukesbookshop.restserver.infrastructure.exception;
+package com.readlearncode.dukesbookshop.restserver.infrastructure.exceptions;
 
 /**
  * Created by navid on 1/21/18.

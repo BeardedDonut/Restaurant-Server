@@ -4,8 +4,8 @@ import com.readlearncode.dukesbookshop.restserver.domain.Customer;
 import com.readlearncode.dukesbookshop.restserver.domain.MenuItem;
 import com.readlearncode.dukesbookshop.restserver.domain.Order;
 import com.readlearncode.dukesbookshop.restserver.domain.Reservation;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.MenuItemNotFoundException;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.OrderNotFoundException;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.exceptions.MenuItemNotFoundException;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.exceptions.OrderNotFoundException;
 
 import java.util.ArrayList;
 import java.util.Optional;

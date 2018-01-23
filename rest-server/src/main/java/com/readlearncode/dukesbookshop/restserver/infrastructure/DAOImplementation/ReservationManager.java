@@ -1,6 +1,6 @@
 package com.readlearncode.dukesbookshop.restserver.infrastructure.DAOImplementation;
 
-import com.readlearncode.dukesbookshop.restserver.domain.Request;
+import com.readlearncode.dukesbookshop.restserver.domain.CheckRequest;
 import com.readlearncode.dukesbookshop.restserver.domain.Reservation;
 import com.readlearncode.dukesbookshop.restserver.domain.Table;
 import com.readlearncode.dukesbookshop.restserver.domain.TimeSpan;
@@ -25,7 +25,7 @@ public class ReservationManager {
     @EJB
     ReservationRepository reserveRepo;
 
-    public Reservation reserveResult(Request r) {
+    public Reservation reserveResult(CheckRequest r) {
         Reservation resResult = processRequest(r);
 
         if (resResult != null) {
@@ -41,7 +41,7 @@ public class ReservationManager {
         return reserveRepo.getAllResForDate(date);
     }
 
-    private Reservation processRequest(Request r) {
+    private Reservation processRequest(CheckRequest r) {
         List<Table> fittingTables = tableRepo.getTableBySeatSorted(r.getSeats());
 
         Table availableTable = isAvailable(r.getDate(), fittingTables, r.getTs());// check if they are available for the given time
@@ -84,7 +84,7 @@ public class ReservationManager {
             }
         }
 
-        //throw an exception
+        //throw an exceptions
         return null;
     }
 

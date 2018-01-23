@@ -1,6 +1,6 @@
 package com.readlearncode.dukesbookshop.restserver.infrastructure.exceptionManagers;
 
-import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.OrderNotFoundException;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.exceptions.OrderNotFoundException;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;

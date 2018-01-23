@@ -4,7 +4,7 @@ package com.readlearncode.dukesbookshop.restserver.infrastructure.DAOImplementat
 import com.readlearncode.dukesbookshop.restserver.DatabaseConfig;
 import com.readlearncode.dukesbookshop.restserver.domain.Table;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.TableRepository;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.TableNotFoundException;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.exceptions.TableNotFoundException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 

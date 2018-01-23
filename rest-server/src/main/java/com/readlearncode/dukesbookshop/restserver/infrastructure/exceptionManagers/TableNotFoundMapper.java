@@ -1,6 +1,6 @@
 package com.readlearncode.dukesbookshop.restserver.infrastructure.exceptionManagers;
 
-import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.TableNotFoundException;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.exceptions.TableNotFoundException;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;

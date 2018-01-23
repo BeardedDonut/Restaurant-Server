@@ -1,7 +1,7 @@
 package com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface;
 
 import com.readlearncode.dukesbookshop.restserver.domain.Table;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.TableNotFoundException;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.exceptions.TableNotFoundException;
 
 import java.util.List;
 import java.util.Optional;

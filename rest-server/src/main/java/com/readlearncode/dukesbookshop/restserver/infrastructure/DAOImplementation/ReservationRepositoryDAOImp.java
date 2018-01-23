@@ -54,7 +54,7 @@ public class ReservationRepositoryDAOImp implements ReservationRepository {
         /*
             NOTE:   since we will eventually use an dbms to fetch data from
                     and since we have not yet get to there we are going to just
-                    throw an exception..
+                    throw an exceptions..
          */
         //TODO:
         throw new NotImplementedException();

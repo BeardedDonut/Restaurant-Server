@@ -1,8 +1,8 @@
 package com.readlearncode.dukesbookshop.restserver.rest;
 
 import com.readlearncode.dukesbookshop.restserver.domain.Order;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.MenuItemNotFoundException;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.OrderNotFoundException;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.exceptions.MenuItemNotFoundException;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.exceptions.OrderNotFoundException;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.OrderRepository;
 
 import javax.ejb.EJB;
@@ -73,7 +73,7 @@ public class OrderResource {
         //TODO check whether the order items are available
 
         if (order.getAccordingReservation() != null) {
-            //TODO throw exception cause this order does not belong to anyone who reserved before
+            //TODO throw exceptions cause this order does not belong to anyone who reserved before
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
@@ -81,7 +81,7 @@ public class OrderResource {
         if (registeredOrder.isPresent()) {
             return Response.ok(registeredOrder.get()).build();
         }
-        //TODO throw exception cause we could'nt create the order
+        //TODO throw exceptions cause we could'nt create the order
         return null;
     }
     

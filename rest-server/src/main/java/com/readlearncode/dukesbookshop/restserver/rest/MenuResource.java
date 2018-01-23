@@ -3,8 +3,8 @@ package com.readlearncode.dukesbookshop.restserver.rest;
 import com.readlearncode.dukesbookshop.restserver.domain.MenuItem;
 import com.readlearncode.dukesbookshop.restserver.domain.MenuItemCategory;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.MenuItemRepository;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.MenuItemCannotBeAddedException;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.MenuItemNotFoundException;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.exceptions.MenuItemCannotBeAddedException;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.exceptions.MenuItemNotFoundException;
 
 import javax.ejb.EJB;
 import javax.validation.Valid;

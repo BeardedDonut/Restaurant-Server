@@ -2,8 +2,8 @@ package com.readlearncode.dukesbookshop.restserver.rest;
 
 import com.readlearncode.dukesbookshop.restserver.domain.Table;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.TableRepository;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.TableCannotBeCreatedException;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.TableNotFoundException;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.exceptions.TableCannotBeCreatedException;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.exceptions.TableNotFoundException;
 
 import javax.ejb.EJB;
 import javax.validation.Valid;

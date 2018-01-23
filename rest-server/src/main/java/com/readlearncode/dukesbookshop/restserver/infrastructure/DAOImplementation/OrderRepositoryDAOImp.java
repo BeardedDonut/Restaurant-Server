@@ -5,8 +5,8 @@ import com.readlearncode.dukesbookshop.restserver.domain.MenuItem;
 import com.readlearncode.dukesbookshop.restserver.domain.Order;
 import com.readlearncode.dukesbookshop.restserver.domain.Reservation;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.ReservationRepository;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.MenuItemNotFoundException;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.OrderNotFoundException;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.exceptions.MenuItemNotFoundException;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.exceptions.OrderNotFoundException;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.MenuItemRepository;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.OrderRepository;
 

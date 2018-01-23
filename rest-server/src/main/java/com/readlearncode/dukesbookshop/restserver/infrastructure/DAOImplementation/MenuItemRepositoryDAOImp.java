@@ -4,8 +4,8 @@ import com.readlearncode.dukesbookshop.restserver.DatabaseConfig;
 import com.readlearncode.dukesbookshop.restserver.domain.MenuItem;
 import com.readlearncode.dukesbookshop.restserver.domain.MenuItemCategory;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.MenuItemRepository;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.MenuItemCannotBeAddedException;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.MenuItemNotFoundException;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.exceptions.MenuItemCannotBeAddedException;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.exceptions.MenuItemNotFoundException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
