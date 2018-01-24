@@ -38,7 +38,7 @@ public class CustomerRepositoryDAOImp implements CustomerRepository {
     public Optional<Customer> getCustomerById(final int id) {
         Session session = DatabaseConfig.createSessionFactory().openSession();
 
-        Customer cs = (Customer) session.load(Customer.class, id);
+        Customer cs = (Customer) session.get(Customer.class, id);
 
         session.close();
         return Optional.ofNullable(cs);

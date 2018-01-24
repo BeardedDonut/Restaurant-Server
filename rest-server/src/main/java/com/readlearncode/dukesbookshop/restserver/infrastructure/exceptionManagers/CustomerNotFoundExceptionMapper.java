@@ -14,7 +14,9 @@ public class CustomerNotFoundExceptionMapper implements ExceptionMapper<Customer
 
     @Override
     public Response toResponse(CustomerNotFoundException e) {
-        return Response.status(Response.Status.NOT_FOUND).build();
+        return Response.status(Response.Status.NOT_FOUND).
+                entity(e).
+                header("X-Validation-Failure", e.getMessage()).
+                build();
     }
-
 }

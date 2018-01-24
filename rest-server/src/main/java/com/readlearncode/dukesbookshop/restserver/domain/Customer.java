@@ -34,7 +34,7 @@ public class Customer implements Serializable {
     @Column(name = "phoneNumber")
     private String phoneNumber;
 
-    @OneToMany(mappedBy = "relatedCustomer", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "relatedCustomer", fetch = FetchType.EAGER)
     private List<CheckRequest> myCheckRequests;
 
     //TODO: add authentication properties
@@ -113,7 +113,6 @@ public class Customer implements Serializable {
                 "customerId=" + customerId +
                 ", fullName='" + fullName + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", myCheckRequests=" + myCheckRequests +
                 '}';
     }
 }

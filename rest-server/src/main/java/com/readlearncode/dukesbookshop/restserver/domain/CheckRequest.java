@@ -28,6 +28,7 @@ public class CheckRequest implements Serializable {
     private Integer numberOfSeats;
 
     @ManyToOne
+    @NotNull
     @JoinColumn(name = "customerId")
     private Customer relatedCustomer;
 
@@ -95,10 +96,9 @@ public class CheckRequest implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = 0;
         result = 31 * result + date.hashCode();
         result = 31 * result + numberOfSeats.hashCode();
-        result = 31 * result + relatedCustomer.hashCode();
         result = 31 * result + ts.hashCode();
         return result;
     }

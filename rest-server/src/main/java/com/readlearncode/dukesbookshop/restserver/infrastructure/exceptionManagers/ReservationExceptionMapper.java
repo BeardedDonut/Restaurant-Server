@@ -14,6 +14,9 @@ public class ReservationExceptionMapper implements ExceptionMapper<ReservationEx
 
     @Override
     public Response toResponse(ReservationException e) {
-        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).
+                entity(e).
+                header("X-Validation-Failure", e.getMessage()).
+                build();
     }
 }

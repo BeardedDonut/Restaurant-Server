@@ -41,7 +41,9 @@ public class CustomerResource {
         Optional<Customer> customer = customerRepo.getCustomerById(id);
 
         if (customer.isPresent()) {
-            return Response.ok(customer.get()).build();
+            GenericEntity<Customer> customerWrapper = new GenericEntity<Customer>(customer.get()) {
+            };
+            return Response.ok(customerWrapper).build();
         }
 
         throw new CustomerNotFoundException();
@@ -61,5 +63,6 @@ public class CustomerResource {
     }
 
     //TODO add delete api!
+
 
 }

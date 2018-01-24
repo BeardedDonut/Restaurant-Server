@@ -14,6 +14,9 @@ public class TableNotFoundMapper implements ExceptionMapper<TableNotFoundExcepti
 
     @Override
     public Response toResponse(TableNotFoundException e) {
-        return Response.status(Response.Status.NOT_FOUND).build();
+        return Response.status(Response.Status.NOT_FOUND).
+                entity(e).
+                header("X-Validation-Failure", e.getMessage()).
+                build();
     }
 }

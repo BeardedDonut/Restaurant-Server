@@ -29,11 +29,11 @@ public class TableRepositoryDAOImp implements TableRepository {
     }
 
     @Override
-    public List<Table> getTableBySeatSorted(int numberOfSeats) {
+    public List<Table> getTableBySeatSorted(int minNumberOFSeats) {
         Session session = DatabaseConfig.createSessionFactory().openSession();
 
-        String hql = "FROM restaurantTable order by numberOfSeats";
-        Query query = session.createQuery(hql);
+        String hql = "FROM restaurantTable where numberOfSeats >= :minSeats order by numberOfSeats";
+        Query query = session.createQuery(hql).setParameter("minSeats", minNumberOFSeats);
 
         @SuppressWarnings("unchecked")
         List<Table> tables = query.list();
