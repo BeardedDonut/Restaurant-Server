@@ -15,6 +15,7 @@ import java.sql.Date;
 @javax.persistence.Table(name = "checkRequest")
 public class CheckRequest implements Serializable {
 
+    // <editor-fold desc="properties">
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -35,11 +36,15 @@ public class CheckRequest implements Serializable {
     @NotNull
     @Embedded
     private TimeSpan ts;
+    // </editor-fold>
 
+    // <editor-fold desc="constructor">
     public CheckRequest() {
 
     }
+    // </editor-fold>
 
+    // <editor-fold desc="getters and setters">
     public int getId() {
         return id;
     }
@@ -79,6 +84,8 @@ public class CheckRequest implements Serializable {
     public void setTs(TimeSpan ts) {
         this.ts = ts;
     }
+
+    // </editor-fold>
 
     @Override
     public boolean equals(Object o) {

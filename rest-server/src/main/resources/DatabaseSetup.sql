@@ -29,11 +29,28 @@ CREATE TABLE `restaurantTable` (
 
 # CheckRequest Table
 CREATE TABLE `checkRequest` (
-  `id`            INT(10) NOT NULL AUTO_INCREMENT,
-  `date`          DATE    NOT NULL,
-  `numberOfSeats` INT(2)  NOT NULL,
-  `customerId`    INT(11) NOT NULL,
+  `id`                INT(10)      NOT NULL AUTO_INCREMENT,
+  `date`              DATE         NOT NULL,
+  `numberOfSeats`     INT(2)       NOT NULL,
+  `customerId`        INT(11)      NOT NULL,
+  `start`             CHAR(4)      NOT NULL,
+  `end`               CHAR(4)      NOT NULL,
+  `otherRequirements` VARCHAR(255) NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (`customerId`) REFERENCES `customer` (id),
+  FOREIGN KEY (`customerId`) REFERENCES `customer` (`id`),
   CHECK (`numberOfSeats` > 2)
-)
+);
+
+# Reservation Table
+CREATE TABLE `reservation` (
+  `id`              INT(10) NOT NULL AUTO_INCREMENT,
+  `submissionDate`  DATE    NOT NULL,
+  `reservationDate` DATE    NOT NULL,
+  `start`           CHAR(4),
+  `end`             CHAR(4),
+  `customerId`      INT(11) NOT NULL,
+  `tableId`         INT(5)  NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`customerId`) REFERENCES `customer` (`id`),
+  FOREIGN KEY (`tableId`) REFERENCES `restaurantTable` (`id`)
+);

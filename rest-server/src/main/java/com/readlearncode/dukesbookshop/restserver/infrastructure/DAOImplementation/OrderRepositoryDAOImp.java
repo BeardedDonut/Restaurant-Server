@@ -41,7 +41,7 @@ public class OrderRepositoryDAOImp implements OrderRepository {
     public Optional<Order> createNewOrder(Reservation res, HashMap<String, Integer> orderedItems) {
         Order newOrder = new Order(++orderNumber, res, orderedItems);
 
-        HashMap<Integer, Order> orderOnlyMap = ordersMap.get(res.getReservationId());
+        HashMap<Integer, Order> orderOnlyMap = ordersMap.get(res.getId());
 
         if (orderOnlyMap == null) {
             orderOnlyMap = new HashMap<>();

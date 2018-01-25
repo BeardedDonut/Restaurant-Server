@@ -35,9 +35,9 @@ public class ReservationRepositoryDAOImp implements ReservationRepository {
             reservations.put(date.toString(), resMap);
         }
 
-        Reservation newRes = new Reservation(reservationNumber++, csId, table.getId(), date, ts, "");
+        Reservation newRes = new Reservation();
 
-        resMap.put(newRes.getReservationId(), newRes);
+        resMap.put(newRes.getId(), newRes);
 
         return newRes;
     }
@@ -81,7 +81,7 @@ public class ReservationRepositoryDAOImp implements ReservationRepository {
             ArrayList<Reservation> wantedResvs = new ArrayList<>();
 
             for (Reservation resv : resForTheGivenDate) {
-                if (resv.getTableId() == tableId) {
+                if (resv.getRelatedTable().getId() == tableId) {
                     wantedResvs.add(resv);
                 }
             }

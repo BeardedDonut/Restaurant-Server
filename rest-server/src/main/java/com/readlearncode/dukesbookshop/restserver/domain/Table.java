@@ -6,6 +6,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -25,6 +26,9 @@ public class Table implements Serializable {
     @Column(name = "numberOfSeats")
     @Min(2)
     private Integer numberOfSeats;
+
+    @OneToMany(mappedBy = "relatedTable")
+    private List<Reservation> reservationList;
 
     public Table() {
 

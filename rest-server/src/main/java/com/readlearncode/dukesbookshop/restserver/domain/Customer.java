@@ -19,6 +19,7 @@ import java.util.Objects;
 @javax.persistence.Table(name = "customer")
 public class Customer implements Serializable {
 
+    //<editor-fold desc="properties">
     @Min(0)
     @Max(120)
     @Id
@@ -37,8 +38,14 @@ public class Customer implements Serializable {
     @OneToMany(mappedBy = "relatedCustomer", fetch = FetchType.EAGER)
     private List<CheckRequest> myCheckRequests;
 
+    @OneToMany(mappedBy = "relatedCustomer", fetch = FetchType.EAGER)
+    private List<Reservation> myReservations;
+
+    //</editor-fold>
+
     //TODO: add authentication properties
 
+    //<editor-fold desc="constructors">
     public Customer() {
 
     }
@@ -53,7 +60,9 @@ public class Customer implements Serializable {
         this.fullName = name;
         this.phoneNumber = phoneNumber;
     }
+    //</editor-fold>
 
+    //<editor-fold desc="setters and getters">
     public Integer getCustomerId() {
         return customerId;
     }
@@ -78,19 +87,6 @@ public class Customer implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Customer customer = (Customer) o;
-
-        if (!Objects.equals(customerId, customer.customerId)) return false;
-        if (fullName != null ? !fullName.equals(customer.fullName) : customer.fullName != null) return false;
-        return phoneNumber != null ? phoneNumber.equals(customer.phoneNumber) : customer.phoneNumber == null;
-    }
-
-
     public List<CheckRequest> getMyCheckRequests() {
         return myCheckRequests;
     }
@@ -99,20 +95,38 @@ public class Customer implements Serializable {
         this.myCheckRequests = myCheckRequests;
     }
 
+    public List<Reservation> getMyReservations() {
+        return myReservations;
+    }
+
+    public void setMyReservations(List<Reservation> myReservations) {
+        this.myReservations = myReservations;
+    }
+    //</editor-fold desc="properties">
+
+
     @Override
-    public int hashCode() {
-        int result = 0;
-        result = 31 * result + (fullName != null ? fullName.hashCode() : 0);
-        result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
-        return result;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Customer customer = (Customer) o;
+
+        if (customerId != null ? !customerId.equals(customer.customerId) : customer.customerId != null) return false;
+        if (!fullName.equals(customer.fullName)) return false;
+        if (!phoneNumber.equals(customer.phoneNumber)) return false;
+        if (myCheckRequests != null ? !myCheckRequests.equals(customer.myCheckRequests) : customer.myCheckRequests != null)
+            return false;
+        return myReservations != null ? myReservations.equals(customer.myReservations) : customer.myReservations == null;
     }
 
     @Override
-    public String toString() {
-        return "Customer{" +
-                "customerId=" + customerId +
-                ", fullName='" + fullName + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                '}';
+    public int hashCode() {
+        int result = customerId != null ? customerId.hashCode() : 0;
+        result = 31 * result + fullName.hashCode();
+        result = 31 * result + phoneNumber.hashCode();
+        result = 31 * result + (myCheckRequests != null ? myCheckRequests.hashCode() : 0);
+        result = 31 * result + (myReservations != null ? myReservations.hashCode() : 0);
+        return result;
     }
 }
