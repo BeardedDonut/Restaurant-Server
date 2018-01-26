@@ -35,15 +35,7 @@ public class Customer implements Serializable {
     @Column(name = "phoneNumber")
     private String phoneNumber;
 
-    @OneToMany(mappedBy = "relatedCustomer", fetch = FetchType.EAGER)
-    private List<CheckRequest> myCheckRequests;
-
-    @OneToMany(mappedBy = "relatedCustomer", fetch = FetchType.EAGER)
-    private List<Reservation> myReservations;
-
     //</editor-fold>
-
-    //TODO: add authentication properties
 
     //<editor-fold desc="constructors">
     public Customer() {
@@ -86,22 +78,6 @@ public class Customer implements Serializable {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-
-    public List<CheckRequest> getMyCheckRequests() {
-        return myCheckRequests;
-    }
-
-    public void setMyCheckRequests(List<CheckRequest> myCheckRequests) {
-        this.myCheckRequests = myCheckRequests;
-    }
-
-    public List<Reservation> getMyReservations() {
-        return myReservations;
-    }
-
-    public void setMyReservations(List<Reservation> myReservations) {
-        this.myReservations = myReservations;
-    }
     //</editor-fold desc="properties">
 
 
@@ -114,10 +90,7 @@ public class Customer implements Serializable {
 
         if (customerId != null ? !customerId.equals(customer.customerId) : customer.customerId != null) return false;
         if (!fullName.equals(customer.fullName)) return false;
-        if (!phoneNumber.equals(customer.phoneNumber)) return false;
-        if (myCheckRequests != null ? !myCheckRequests.equals(customer.myCheckRequests) : customer.myCheckRequests != null)
-            return false;
-        return myReservations != null ? myReservations.equals(customer.myReservations) : customer.myReservations == null;
+        return phoneNumber.equals(customer.phoneNumber);
     }
 
     @Override
@@ -125,8 +98,6 @@ public class Customer implements Serializable {
         int result = customerId != null ? customerId.hashCode() : 0;
         result = 31 * result + fullName.hashCode();
         result = 31 * result + phoneNumber.hashCode();
-        result = 31 * result + (myCheckRequests != null ? myCheckRequests.hashCode() : 0);
-        result = 31 * result + (myReservations != null ? myReservations.hashCode() : 0);
         return result;
     }
 }

@@ -60,7 +60,7 @@ public class OrderRepositoryDAOImp implements OrderRepository {
         for (Integer resId : allResIds) {
             HashMap<Integer, Order> correspondingOrder = ordersMap.get(resId);
             if (correspondingOrder.get(order.getOrderId()) != null) {
-                return Optional.ofNullable(resRepo.getByResIdOnly(resId));
+                return Optional.ofNullable(resRepo.getByResId(resId));
             }
         }
 

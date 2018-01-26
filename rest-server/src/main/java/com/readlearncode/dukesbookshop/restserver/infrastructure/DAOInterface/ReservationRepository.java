@@ -1,27 +1,34 @@
 package com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface;
 
+import com.readlearncode.dukesbookshop.restserver.domain.Customer;
 import com.readlearncode.dukesbookshop.restserver.domain.Reservation;
 import com.readlearncode.dukesbookshop.restserver.domain.Table;
 import com.readlearncode.dukesbookshop.restserver.domain.TimeSpan;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by navid on 1/23/18.
  */
 public interface ReservationRepository {
-    Reservation saveReserve(Table table, int csId, Date date, TimeSpan ts);
+    Reservation saveReserve(Table table,
+                            Customer customer,
+                            TimeSpan ts,
+                            Date submissionDate,
+                            Date reservationDate,
+                            String otherReq);
 
-    Reservation getByResId(int resId, Date date);
+    Reservation getByResId(Integer resId, Date date);
 
-    ArrayList<Reservation> getAllResBetweenDates(Date startDate, Date endDate) throws Exception;
+    Reservation getByResId(Integer resId);
 
-    Reservation getByResIdOnly(int resId);
+    ArrayList<Reservation> getByTableId(Integer tableId, Date date, TimeSpan ts);
 
-    ArrayList<Reservation> getByTableId(int tableId, Date date);
+    List<Reservation> getByTableId(Integer tableId, Date date);
 
-    ArrayList<Reservation> getByTableId(int tableId, Date date, TimeSpan ts);
+    List<Reservation> getAllResBetweenDates(Date startDate, Date endDate) throws Exception;
 
-    ArrayList<Reservation> getAllResForDate(Date date);
+    List<Reservation> getAllResForDate(Date date);
 }

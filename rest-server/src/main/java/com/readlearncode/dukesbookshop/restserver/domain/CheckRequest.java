@@ -8,7 +8,7 @@ import java.sql.Date;
 
 /**
  * Created by navid on 11/24/17.
- * CheckRequest Bean
+ * CheckRequest POJO
  */
 @XmlRootElement
 @Entity(name = "checkRequest")
@@ -116,7 +116,6 @@ public class CheckRequest implements Serializable {
                 "id=" + id +
                 ", date=" + date +
                 ", numberOfSeats=" + numberOfSeats +
-                ", relatedCustomer=" + relatedCustomer +
                 ", ts=" + ts +
                 '}';
     }

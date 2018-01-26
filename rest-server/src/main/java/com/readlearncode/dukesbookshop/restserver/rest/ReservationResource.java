@@ -48,7 +48,7 @@ public class ReservationResource {
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("check")
+    @Path("/check")
     public Response checkIfPossibleToReserve(final @Valid CheckRequest request) throws NoAvailableTableFoundException {
         //TODO: customer validation of customer mentioned in request!
 
@@ -73,6 +73,8 @@ public class ReservationResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response reserve(@Valid final CheckRequest checkRequest) throws ReservationException {
         Reservation res = resManager.reserveResult(checkRequest);
+        // TODO: check out if the table is available
+        // TODO: check if the customer is valid
         if (res != null) {
             return Response.ok(res).build();
         } else {

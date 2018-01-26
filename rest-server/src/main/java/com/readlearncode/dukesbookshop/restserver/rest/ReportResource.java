@@ -40,7 +40,6 @@ public class ReportResource {
     @EJB
     private ReservationRepository resRepo;
 
-    @RolesAllowed("Admin")
     @GET
     @Path("/reservation")
     public Response reservationReports(
@@ -52,7 +51,7 @@ public class ReportResource {
 
         //TODO remove the try catch once the resRepo.getAllResBetweenDates gets implemented
         try {
-            ArrayList<Reservation> allRes = resRepo.getAllResBetweenDates(newStartDate, newEndDate);
+            List<Reservation> allRes = resRepo.getAllResBetweenDates(newStartDate, newEndDate);
 
             GenericEntity<List<Reservation>> resultWrapper = new GenericEntity<List<Reservation>>(allRes) {
             };

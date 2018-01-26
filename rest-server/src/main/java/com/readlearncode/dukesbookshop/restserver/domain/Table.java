@@ -27,9 +27,6 @@ public class Table implements Serializable {
     @Min(2)
     private Integer numberOfSeats;
 
-    @OneToMany(mappedBy = "relatedTable")
-    private List<Reservation> reservationList;
-
     public Table() {
 
     }
@@ -50,6 +47,7 @@ public class Table implements Serializable {
         this.numberOfSeats = numberOfSeats;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -66,13 +64,5 @@ public class Table implements Serializable {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + numberOfSeats.hashCode();
         return result;
-    }
-
-    @Override
-    public String toString() {
-        return "Table{" +
-                "id=" + id +
-                ", numberOfSeats=" + numberOfSeats +
-                '}';
     }
 }

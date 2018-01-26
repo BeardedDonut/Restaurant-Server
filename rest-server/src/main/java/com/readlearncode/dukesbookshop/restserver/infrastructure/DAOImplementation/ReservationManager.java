@@ -10,6 +10,7 @@ import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.Ta
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +45,8 @@ public class ReservationManager {
     public Reservation processRequest(CheckRequest r) {
         List<Table> fittingTables = tableRepo.getTableBySeatSorted(r.getNumberOfSeats());
 
-        Table availableTable = isAvailable(r.getDate(), fittingTables, r.getTs());// check if they are available for the given time
+        // check if they are available for the given time
+        Table availableTable = isAvailable(r.getDate(), fittingTables, r.getTs());
 
         if (availableTable != null) {        // reserve it if you can
              /*
@@ -52,7 +54,15 @@ public class ReservationManager {
                     2- update the table state
                     3- return true
              */
-            return reserveRepo.saveReserve(availableTable, r.getRelatedCustomer().getCustomerId(), r.getDate(), r.getTs());
+            Date now = Date.valueOf(LocalDate.now());
+            return reserveRepo.saveReserve(
+                    availableTable,
+                    r.getRelatedCustomer(),
+                    r.getTs(),
+                    now,
+                    r.getDate(),
+                    "");
+
         }
         return null;
     }
@@ -71,7 +81,7 @@ public class ReservationManager {
 
         for (Table table : fittingTables) {
             /* fetch all the reservation for this table */
-            ArrayList<Reservation> allResForThisTable = reserveRepo.getByTableId(table.getId(), date);
+            List<Reservation> allResForThisTable = reserveRepo.getByTableId(table.getId(), date);
 
             if (allResForThisTable == null || allResForThisTable.size() == 0) {    // if not reserved before
                 return table;

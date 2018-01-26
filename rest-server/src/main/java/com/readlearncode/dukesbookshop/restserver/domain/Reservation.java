@@ -38,12 +38,12 @@ public class Reservation implements Serializable {
     private String otherRequirements;
 
     @NotNull
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customerId")
     private Customer relatedCustomer;
 
     @NotNull
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "tableId")
     private Table relatedTable;
 
