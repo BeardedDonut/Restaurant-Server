@@ -20,9 +20,11 @@ import java.util.Optional;
 @Stateless(name = "MenuItemRepositoryDAOImp")
 public class MenuItemRepositoryDAOImp implements MenuItemRepository {
 
-    public Optional<MenuItem>
-    addToMenuItem(MenuItem newItem, MenuItemCategory acceptedCategory)
-            throws MenuItemCannotBeAddedException, MenuItemNotFoundException {
+    public Optional<MenuItem> addToMenuItem
+            (MenuItem newItem, MenuItemCategory acceptedCategory)
+            throws
+            MenuItemCannotBeAddedException,
+            MenuItemNotFoundException {
 
         if (newItem.getCategory().equals(acceptedCategory)) {
             Session session = DatabaseConfig.createSessionFactory().openSession();
@@ -40,8 +42,8 @@ public class MenuItemRepositoryDAOImp implements MenuItemRepository {
     }
 
     @Override
-    public List<MenuItem>
-    getMenuItemByCategory(MenuItemCategory givenCategory) {
+    public List<MenuItem> getMenuItemByCategory
+            (MenuItemCategory givenCategory) {
 
         Session session = DatabaseConfig.createSessionFactory().openSession();
 
@@ -61,7 +63,11 @@ public class MenuItemRepositoryDAOImp implements MenuItemRepository {
 
 
     @Override
-    public List<MenuItem> getDrinks() throws MenuItemCannotBeAddedException, MenuItemNotFoundException {
+    public List<MenuItem> getDrinks()
+            throws
+            MenuItemCannotBeAddedException,
+            MenuItemNotFoundException {
+
         List<MenuItem> x = getMenuItemByCategory(MenuItemCategory.DRINK);
 
         if (x == null) {
@@ -72,7 +78,11 @@ public class MenuItemRepositoryDAOImp implements MenuItemRepository {
     }
 
     @Override
-    public List<MenuItem> getFoods() throws MenuItemCannotBeAddedException, MenuItemNotFoundException {
+    public List<MenuItem> getFoods()
+            throws
+            MenuItemCannotBeAddedException,
+            MenuItemNotFoundException {
+
         List<MenuItem> x = getMenuItemByCategory(MenuItemCategory.FOOD);
 
         if (x == null) {
@@ -83,7 +93,11 @@ public class MenuItemRepositoryDAOImp implements MenuItemRepository {
     }
 
     @Override
-    public List<MenuItem> getDesserts() throws MenuItemCannotBeAddedException, MenuItemNotFoundException {
+    public List<MenuItem> getDesserts()
+            throws
+            MenuItemCannotBeAddedException,
+            MenuItemNotFoundException {
+
         List<MenuItem> x = getMenuItemByCategory(MenuItemCategory.DESSERT);
 
         if (x == null) {
@@ -94,28 +108,41 @@ public class MenuItemRepositoryDAOImp implements MenuItemRepository {
     }
 
     @Override
-    public Optional<MenuItem> addToDrinks(MenuItem newItem)
-            throws MenuItemCannotBeAddedException, MenuItemNotFoundException {
+    public Optional<MenuItem> addToDrinks
+            (MenuItem newItem)
+            throws
+            MenuItemCannotBeAddedException,
+            MenuItemNotFoundException {
 
         return addToMenuItem(newItem, MenuItemCategory.DRINK);
     }
 
     @Override
-    public Optional<MenuItem> addToFoods(MenuItem newItem)
-            throws MenuItemCannotBeAddedException, MenuItemNotFoundException {
+    public Optional<MenuItem> addToFoods
+            (MenuItem newItem)
+            throws
+            MenuItemCannotBeAddedException,
+            MenuItemNotFoundException {
 
         return addToMenuItem(newItem, MenuItemCategory.FOOD);
     }
 
     @Override
-    public Optional<MenuItem> addToDesserts(MenuItem newItem)
-            throws MenuItemCannotBeAddedException, MenuItemNotFoundException {
+    public Optional<MenuItem> addToDesserts
+            (MenuItem newItem)
+            throws
+            MenuItemCannotBeAddedException,
+            MenuItemNotFoundException {
 
         return addToMenuItem(newItem, MenuItemCategory.DESSERT);
     }
 
     @Override
-    public Optional<MenuItem> updateMenuItem(String name, MenuItem newItem) throws MenuItemNotFoundException {
+    public Optional<MenuItem> updateMenuItem
+            (String name, MenuItem newItem)
+            throws
+            MenuItemNotFoundException {
+
         MenuItem retrievedMenuItem = findMenuItemByName(name).get();
 
         //TODO: fix updating -> check out table update process!
@@ -128,7 +155,11 @@ public class MenuItemRepositoryDAOImp implements MenuItemRepository {
     }
 
     @Override
-    public Optional<MenuItem> findMenuItemByName(String name) throws MenuItemNotFoundException {
+    public Optional<MenuItem> findMenuItemByName
+            (String name)
+            throws
+            MenuItemNotFoundException {
+
         Session session = DatabaseConfig.createSessionFactory().openSession();
 
         String query = "FROM menuItem WHERE name = :menuItemName";
@@ -146,7 +177,11 @@ public class MenuItemRepositoryDAOImp implements MenuItemRepository {
     }
 
     @Override
-    public Optional<MenuItem> findMenuItemById(int id) throws MenuItemNotFoundException {
+    public Optional<MenuItem> findMenuItemById
+            (int id)
+            throws
+            MenuItemNotFoundException {
+
         Session session = DatabaseConfig.createSessionFactory().openSession();
 
         MenuItem cs = (MenuItem) session.load(MenuItem.class, id);
@@ -160,7 +195,9 @@ public class MenuItemRepositoryDAOImp implements MenuItemRepository {
     }
 
     @Override
-    public Optional<MenuItem> createNewMenuItem(final MenuItem newItem) {
+    public Optional<MenuItem> createNewMenuItem
+            (final MenuItem newItem) {
+
         MenuItem mi = new MenuItem();
         mi.setImageFileName(newItem.getImageFileName());
         mi.setCategory(newItem.getCategory());

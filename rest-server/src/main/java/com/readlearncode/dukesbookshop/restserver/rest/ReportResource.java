@@ -42,8 +42,8 @@ public class ReportResource {
 
     @GET
     @Path("/reservation")
-    public Response reservationReports(
-            @QueryParam("startDate") final String startDate,
+    public Response reservationReports
+            (@QueryParam("startDate") final String startDate,
             @QueryParam("endDate") final String endDate) {
 
         Date newStartDate = Date.valueOf(startDate);
@@ -67,8 +67,8 @@ public class ReportResource {
 
     @GET
     @Path("/orders")
-    public Response orderReport(
-            @QueryParam("startDate") final String startDate,
+    public Response orderReport
+            (@QueryParam("startDate") final String startDate,
             @QueryParam("endDate") final String endDate) {
 
         Date newStartDate = Date.valueOf(startDate);

@@ -27,17 +27,24 @@ public class CustomerResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllCustomers() throws CustomerNotFoundException {
+    public Response getAllCustomers()
+            throws
+            CustomerNotFoundException {
+
         List<Customer> customers = customerRepo.getAllCustomers();
         GenericEntity<List<Customer>> customersWrapper = new GenericEntity<List<Customer>>(customers) {
         };
+
         return Response.ok(customersWrapper).build();
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("{customerId}")
-    public Response getCustomerById(final @PathParam("customerId") int id) throws CustomerNotFoundException {
+    public Response getCustomerById
+            (final @PathParam("customerId") int id)
+            throws
+            CustomerNotFoundException {
         Optional<Customer> customer = customerRepo.getCustomerById(id);
 
         if (customer.isPresent()) {
@@ -52,7 +59,10 @@ public class CustomerResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createProfile(@Valid final Customer cs) throws CustomerAlreadySignedException {
+    public Response createProfile
+            (@Valid final Customer cs)
+            throws
+            CustomerAlreadySignedException {
 
         if (customerRepo.getCustomerByTel(cs.getPhoneNumber()).isPresent()) {
             throw new CustomerAlreadySignedException();

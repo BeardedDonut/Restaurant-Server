@@ -10,13 +10,16 @@ import javax.ws.rs.ext.Provider;
  * Created by navid on 11/24/17.
  */
 @Provider
-public class ReservationExceptionMapper implements ExceptionMapper<ReservationException> {
+public class ReservationExceptionMapper
+        implements
+        ExceptionMapper<ReservationException> {
 
     @Override
     public Response toResponse(ReservationException e) {
+
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR).
                 entity(e).
-                header("X-Validation-Failure", e.getMessage()).
+                header("X-Failure", e.getMessage()).
                 build();
     }
 }

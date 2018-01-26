@@ -17,9 +17,11 @@ import java.util.Optional;
 @Stateless(name = "CustomerRepositoryDAOImp")
 public class CustomerRepositoryDAOImp implements CustomerRepository {
 
-
     @Override
-    public Optional<Customer> createNewProfile(final String fullName, final String telephoneNumber) {
+    public Optional<Customer> createNewProfile
+            (final String fullName,
+             final String telephoneNumber) {
+
         Customer cs = new Customer();
         cs.setFullName(fullName);
         cs.setPhoneNumber(telephoneNumber);
@@ -35,7 +37,9 @@ public class CustomerRepositoryDAOImp implements CustomerRepository {
     }
 
     @Override
-    public Optional<Customer> getCustomerById(final int id) {
+    public Optional<Customer> getCustomerById
+            (final int id) {
+
         Session session = DatabaseConfig.createSessionFactory().openSession();
 
         Customer cs = (Customer) session.get(Customer.class, id);
@@ -46,6 +50,7 @@ public class CustomerRepositoryDAOImp implements CustomerRepository {
 
     @Override
     public List<Customer> getAllCustomers() {
+
         Session session = DatabaseConfig.createSessionFactory().openSession();
 
         @SuppressWarnings("unchecked")
@@ -57,13 +62,17 @@ public class CustomerRepositoryDAOImp implements CustomerRepository {
     }
 
     @Override
-    public Optional<Customer> createNewProfile(Customer newCs) {
+    public Optional<Customer> createNewProfile
+            (Customer newCs) {
+
         Optional<Customer> registeredCustomer = this.createNewProfile(newCs.getFullName(), newCs.getPhoneNumber());
         return registeredCustomer;
     }
 
     @Override
-    public Optional<Customer> getCustomerByTel(String telNumber) {
+    public Optional<Customer> getCustomerByTel
+            (String telNumber) {
+
         Session session = DatabaseConfig.createSessionFactory().openSession();
 
         String hql = "FROM customer WHERE phoneNumber = :telNumber";

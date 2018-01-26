@@ -21,22 +21,27 @@ public class TestMenuItemRepositoryItemDB {
     @BeforeClass
     public static void createSessionFactory() {
         System.out.println("Creating Database Connection");
+
         Configuration configuration = new Configuration().configure();
         StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
                 .applySettings(configuration.getProperties());
         SessionFactory newSessionFactory = configuration
                 .buildSessionFactory(builder.build());
+
         session = newSessionFactory.openSession();
     }
 
     @AfterClass
     public static void closeSession() {
+
         System.out.println("Closing Database Connection!");
+
         session.close();
     }
 
     @Test
     public void MenuItemDatabaseTest() {
+
         MenuItem mi1 = new MenuItem();
         mi1.setName("Doogh Ab Ali");
         mi1.setPrice(10.50f);
@@ -82,13 +87,6 @@ public class TestMenuItemRepositoryItemDB {
 
     }
 
-    public static void create(MenuItem mi) {
-        session.beginTransaction();
-        session.save(mi);
-        session.getTransaction().commit();
-        System.out.println("SuccessFully created!");
-    }
-
     public static List<MenuItem> read() {
         @SuppressWarnings("unchecked")
         List<MenuItem> items = session.createQuery("FROM menuItem").list();
@@ -96,7 +94,27 @@ public class TestMenuItemRepositoryItemDB {
         return items;
     }
 
-    public static void delete(Integer id) {
+    @SuppressWarnings("Duplicates")
+    public static void deleteAll() {
+        session.beginTransaction();
+
+        Query query = session.createQuery("DELETE FROM customer");
+        query.executeUpdate();
+        session.getTransaction().commit();
+
+        System.out.println("Successfully deleted all customers.");
+    }
+
+    public static void create
+            (MenuItem mi) {
+        session.beginTransaction();
+        session.save(mi);
+        session.getTransaction().commit();
+        System.out.println("SuccessFully created!");
+    }
+
+    public static void delete
+            (Integer id) {
         session.beginTransaction();
         MenuItem mi = findByID(id);
         session.delete(mi);
@@ -104,17 +122,8 @@ public class TestMenuItemRepositoryItemDB {
         System.out.println("Successfully deleted " + mi.toString());
     }
 
-    @SuppressWarnings("Duplicates")
-    public static void deleteAll() {
-        session.beginTransaction();
-        Query query = session.createQuery("DELETE FROM customer");
-        query.executeUpdate();
-        session.getTransaction().commit();
-        System.out.println("Successfully deleted all customers.");
-
-    }
-
-    public static MenuItem findByID(Integer id) {
+    public static MenuItem findByID
+            (Integer id) {
         MenuItem mi = (MenuItem) session.load(MenuItem.class, id);
         return mi;
     }

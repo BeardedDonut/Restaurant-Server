@@ -19,7 +19,9 @@ import java.util.Optional;
 public class TableRepositoryDAOImp implements TableRepository {
 
     @Override
-    public Optional<Table> getTableById(final int id) {
+    public Optional<Table> getTableById
+            (final int id) {
+
         Session session = DatabaseConfig.createSessionFactory().openSession();
 
         Table tbl = (Table) session.get(Table.class, id);
@@ -29,7 +31,9 @@ public class TableRepositoryDAOImp implements TableRepository {
     }
 
     @Override
-    public List<Table> getTableBySeatSorted(int minNumberOFSeats) {
+    public List<Table> getTableBySeatSorted
+            (int minNumberOFSeats) {
+
         Session session = DatabaseConfig.createSessionFactory().openSession();
 
         String hql = "FROM restaurantTable where numberOfSeats >= :minSeats order by numberOfSeats";
@@ -44,6 +48,7 @@ public class TableRepositoryDAOImp implements TableRepository {
 
     @Override
     public List<Table> getAllTables() {
+
         Session session = DatabaseConfig.createSessionFactory().openSession();
 
         String hql = "FROM restaurantTable";
@@ -57,7 +62,9 @@ public class TableRepositoryDAOImp implements TableRepository {
     }
 
     @Override
-    public Optional<Table> createTable(int numberOfSeats) {
+    public Optional<Table> createTable
+            (int numberOfSeats) {
+
         Session session = DatabaseConfig.createSessionFactory().openSession();
         Table newTable = new Table();
         newTable.setNumberOfSeats(numberOfSeats);
@@ -72,12 +79,16 @@ public class TableRepositoryDAOImp implements TableRepository {
     }
 
     @Override
-    public Optional<Table> createTable(Table newTable) {
+    public Optional<Table> createTable
+            (Table newTable) {
+
         return this.createTable(newTable.getNumberOfSeats());
     }
 
     @Override
-    public void deleteTableById(int id) {
+    public void deleteTableById
+            (int id) {
+
         Session session = DatabaseConfig.createSessionFactory().openSession();
 
         Table tbl = getTableById(id).get();
@@ -88,7 +99,10 @@ public class TableRepositoryDAOImp implements TableRepository {
     }
 
     @Override
-    public Optional<Table> updateTable(int numberOfSeats, int id) throws TableNotFoundException {
+    public Optional<Table> updateTable
+            (int numberOfSeats, int id)
+            throws
+            TableNotFoundException {
 
         if (!getTableById(id).isPresent()) {
             throw new TableNotFoundException("No Table Found To Update!");

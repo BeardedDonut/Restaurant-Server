@@ -10,9 +10,13 @@ import javax.ws.rs.ext.Provider;
  * Created by navid on 11/25/17.
  */
 @Provider
-public class AlreadySignedCustomerMapper implements ExceptionMapper<CustomerAlreadySignedException> {
+public class AlreadySignedCustomerMapper
+        implements
+        ExceptionMapper<CustomerAlreadySignedException> {
     @Override
-    public Response toResponse(CustomerAlreadySignedException customerAlreadySignedException) {
+    public Response toResponse
+            (CustomerAlreadySignedException customerAlreadySignedException) {
+
         return Response.status(Response.Status.CONFLICT).build();
     }
 }

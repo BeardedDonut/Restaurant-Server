@@ -10,11 +10,16 @@ import javax.ws.rs.ext.Provider;
  * Created by navid on 11/27/17.
  */
 @Provider
-public class OrderNotFoundExceptionMapper implements ExceptionMapper<OrderNotFoundException> {
+public class OrderNotFoundExceptionMapper
+        implements
+        ExceptionMapper<OrderNotFoundException> {
+
     @Override
     public Response toResponse(OrderNotFoundException e) {
-        return Response.status(Response.Status.BAD_REQUEST)
-                .header("X-Validation-Failure", e.getMessage())
-                .build();
+
+        return Response.
+                status(Response.Status.BAD_REQUEST).
+                header("X-Validation-Failure", e.getMessage()).
+                build();
     }
 }

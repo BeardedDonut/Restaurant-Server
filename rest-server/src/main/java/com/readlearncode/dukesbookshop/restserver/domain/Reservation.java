@@ -156,9 +156,15 @@ public class Reservation implements Serializable {
 
     public boolean doesTimeSpanConflicts(TimeSpan ts) {
         int myTimeSpanEnd = Integer.parseInt(this.reservationTime.getEnd());
-        int givenTimeSpanStart = Integer.parseInt(ts.getStart());
+        int myTimeSpanStart = Integer.parseInt(this.reservationTime.getStart());
 
-        return myTimeSpanEnd > givenTimeSpanStart;
+        int givenTimeSpanStart = Integer.parseInt(ts.getStart());
+        int givenTimeSpanEnd = Integer.parseInt(ts.getEnd());
+
+        boolean endTimeIntersection = givenTimeSpanEnd <= myTimeSpanEnd && givenTimeSpanEnd >= myTimeSpanStart;
+        boolean startTimeIntersection = givenTimeSpanStart >= myTimeSpanStart && givenTimeSpanStart <= myTimeSpanEnd;
+
+        return endTimeIntersection || startTimeIntersection;
 
     }
 }

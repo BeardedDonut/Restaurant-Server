@@ -11,10 +11,12 @@ import java.util.stream.Collectors;
  */
 @Provider
 public class ConstraintViolationExceptionMapper
-        implements ExceptionMapper<ConstraintViolationException> {
+        implements
+        ExceptionMapper<ConstraintViolationException> {
 
     @Override
-    public Response toResponse(ConstraintViolationException e) {
+    public Response toResponse
+            (ConstraintViolationException e) {
 
         final String message = e.getConstraintViolations()
                 .stream()
@@ -25,7 +27,9 @@ public class ConstraintViolationExceptionMapper
                 .header("X-Validation-Failure", message).build();
     }
 
-    private String extractPropertyName(String path) {
+    private String extractPropertyName
+            (String path) {
+
         return path.substring(path.lastIndexOf(".") + 1);
     }
 }

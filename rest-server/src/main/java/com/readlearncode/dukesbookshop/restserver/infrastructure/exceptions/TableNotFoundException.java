@@ -3,14 +3,19 @@ package com.readlearncode.dukesbookshop.restserver.infrastructure.exceptions;
 /**
  * Created by navid on 11/25/17.
  */
-public class TableNotFoundException extends Exception {
+public class TableNotFoundException
+        extends
+        Exception {
+
     private String message;
 
     public TableNotFoundException() {
         this.message = "table not found!";
     }
 
-    public TableNotFoundException(String message) {
+    public TableNotFoundException
+            (String message) {
+
         this.message = message;
     }
 

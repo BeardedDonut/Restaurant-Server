@@ -35,8 +35,10 @@ public class TableResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("{tableId}")
-    public Response getTableById(final @PathParam("tableId") int tableId)
-            throws TableNotFoundException {
+    public Response getTableById
+            (final @PathParam("tableId") int tableId)
+            throws
+            TableNotFoundException {
 
         Optional<Table> table = tableRepo.getTableById(tableId);
 
@@ -50,7 +52,10 @@ public class TableResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createNewTable(final @Valid Table table) throws TableCannotBeCreatedException {
+    public Response createNewTable
+            (final @Valid Table table)
+            throws
+            TableCannotBeCreatedException {
         Optional<Table> createdTable = tableRepo.createTable(table);
 
         if (createdTable.isPresent()) {
@@ -63,7 +68,10 @@ public class TableResource {
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateTable(final @Valid Table table) throws TableNotFoundException {
+    public Response updateTable
+            (final @Valid Table table)
+            throws
+            TableNotFoundException {
 
         Optional<Table> updateTable = tableRepo.updateTable(table.getNumberOfSeats(), table.getId());
 
@@ -75,7 +83,10 @@ public class TableResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     // TODO: Test delete endpoint
-    public Response deleteTable(final Table table) throws TableNotFoundException {
+    public Response deleteTable
+            (final Table table)
+            throws
+            TableNotFoundException {
 
         Optional<Table> tableToUpdate = tableRepo.getTableById(table.getId());
         if (!tableToUpdate.isPresent()) {

@@ -98,7 +98,23 @@ public class TestCheckRequestDB {
         testInstancesId.add(alireza.getCustomerId());
     }
 
-    public static void readTest(int id) {
+    public static void deleteAll() {
+        for (Integer id : testInstancesId) {
+            delete(id);
+        }
+    }
+
+    public static void delete
+            (int id) {
+        session.beginTransaction();
+        CheckRequest cr = findCheckReqById(id);
+        session.delete(cr);
+        System.out.println("Successfully deleted " + cr.toString());
+        session.getTransaction().commit();
+    }
+
+    public static void readTest
+            (int id) {
         CheckRequest crEvicted = findCheckReqById(id);
         System.out.println(crEvicted.getId());
         System.out.println(crEvicted.getDate());
@@ -107,32 +123,22 @@ public class TestCheckRequestDB {
         System.out.println(crEvicted.getRelatedCustomer().toString());
     }
 
-    public static void deleteAll() {
-        for (Integer id : testInstancesId) {
-            delete(id);
-        }
-    }
+    public static CheckRequest findCheckReqById
+            (int id) {
 
-    public static void delete(int id) {
-        session.beginTransaction();
-        CheckRequest cr = findCheckReqById(id);
-        session.delete(cr);
-        System.out.println("Successfully deleted " + cr.toString());
-        session.getTransaction().commit();
-    }
-
-    public static CheckRequest findCheckReqById(int id) {
         return (CheckRequest) session.get(CheckRequest.class, id);
     }
 
-    public static void createCustomer(Customer cs) {
+    public static void createCustomer
+            (Customer cs) {
         session.beginTransaction();
         session.save(cs);
         session.getTransaction().commit();
         System.out.println("SuccessFully created!");
     }
 
-    public static void createRequestCheck(CheckRequest rs) {
+    public static void createRequestCheck
+            (CheckRequest rs) {
         session.beginTransaction();
         session.save(rs);
         session.getTransaction().commit();

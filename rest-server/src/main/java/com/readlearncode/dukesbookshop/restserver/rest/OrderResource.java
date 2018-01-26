@@ -29,6 +29,7 @@ public class OrderResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/listOrders")
     public Response getAllOrders() {
+
         ArrayList<Order> allOrders = orderRepo.getAllOrders();
         GenericEntity<List<Order>> ordersWrapper = new GenericEntity<List<Order>>(allOrders) {
         };
@@ -38,7 +39,8 @@ public class OrderResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/listOrders/{status}")
-    public Response getListOfOrdersByStatus(@PathParam("status") final int status) {
+    public Response getListOfOrdersByStatus
+            (@PathParam("status") final int status) {
         /*
             1- fetch the corresponding status.
             2- group by the given status.
@@ -56,7 +58,10 @@ public class OrderResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("{orderId}")
-    public Response getOrderById(@PathParam("orderId") final int orderId) throws OrderNotFoundException {
+    public Response getOrderById
+            (@PathParam("orderId") final int orderId)
+            throws
+            OrderNotFoundException {
         Optional<Order> order = orderRepo.getByOrderId(orderId);
 
         if(order.isPresent()) {
@@ -69,7 +74,8 @@ public class OrderResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response order(@Valid final Order order) {
+    public Response order
+            (@Valid final Order order) {
         //TODO check whether the order items are available
 
         if (order.getAccordingReservation() != null) {
@@ -88,10 +94,12 @@ public class OrderResource {
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/status")
-    public Response updateStatus(
-            @QueryParam("orderId") final int orderId,
+    public Response updateStatus
+            (@QueryParam("orderId") final int orderId,
             @QueryParam("status") final int statusNumber)
-            throws OrderNotFoundException, MenuItemNotFoundException {
+            throws
+            OrderNotFoundException,
+            MenuItemNotFoundException {
 
         Optional<Order> order = orderRepo.getByOrderId(orderId);
         //TODO check if the status number is valid

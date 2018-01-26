@@ -26,7 +26,9 @@ public class ReservationManager {
     @EJB
     ReservationRepository reserveRepo;
 
-    public Reservation reserveResult(CheckRequest r) {
+    public Reservation reserveResult
+            (CheckRequest r) {
+
         Reservation resResult = processRequest(r);
 
         if (resResult != null) {
@@ -38,11 +40,15 @@ public class ReservationManager {
         return null;
     }
 
-    public List<Reservation> retrieveAllReservation(Date date) {
+    public List<Reservation> retrieveAllReservation
+            (Date date) {
+
         return reserveRepo.getAllResForDate(date);
     }
 
-    public Reservation processRequest(CheckRequest r) {
+    public Reservation processRequest
+            (CheckRequest r) {
+
         List<Table> fittingTables = tableRepo.getTableBySeatSorted(r.getNumberOfSeats());
 
         // check if they are available for the given time
@@ -67,7 +73,10 @@ public class ReservationManager {
         return null;
     }
 
-    public Table isAvailable(Date date, List<Table> fittingTables, TimeSpan reqTimeSpan) {
+    public Table isAvailable
+            (Date date,
+             List<Table> fittingTables,
+             TimeSpan reqTimeSpan) {
          /*
             check for each table whether it is available or not:
                 return the first one that is not even booked for the given date.

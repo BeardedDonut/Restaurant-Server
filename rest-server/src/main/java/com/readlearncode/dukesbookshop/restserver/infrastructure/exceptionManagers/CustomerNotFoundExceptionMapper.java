@@ -10,10 +10,14 @@ import javax.ws.rs.ext.Provider;
  * Created by navid on 11/25/17.
  */
 @Provider
-public class CustomerNotFoundExceptionMapper implements ExceptionMapper<CustomerNotFoundException> {
+public class CustomerNotFoundExceptionMapper
+        implements
+        ExceptionMapper<CustomerNotFoundException> {
 
     @Override
-    public Response toResponse(CustomerNotFoundException e) {
+    public Response toResponse
+            (CustomerNotFoundException e) {
+
         return Response.status(Response.Status.NOT_FOUND).
                 entity(e).
                 header("X-Validation-Failure", e.getMessage()).

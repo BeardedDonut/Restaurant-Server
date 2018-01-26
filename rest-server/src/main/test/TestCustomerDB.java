@@ -20,25 +20,31 @@ public class TestCustomerDB {
 
     static Session session;
 
+    @SuppressWarnings("Duplicates")
     @BeforeClass
     public static void createSessionFactory() {
         System.out.println("Creating Database Connection");
+
         Configuration configuration = new Configuration().configure();
         StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
                 .applySettings(configuration.getProperties());
         SessionFactory newSessionFactory = configuration
                 .buildSessionFactory(builder.build());
+
         session = newSessionFactory.openSession();
     }
 
     @AfterClass
     public static void closeSession() {
+
         System.out.println("Closing Database Connection!");
+
         session.close();
     }
 
     @Test
     public void customerDatabaseTest() {
+
         Customer cs1 = new Customer();
         cs1.setFullName("Navid");
         cs1.setPhoneNumber("989383709786");
@@ -86,30 +92,17 @@ public class TestCustomerDB {
 
     }
 
-    public static void create(Customer cs) {
-        session.beginTransaction();
-        session.save(cs);
-        session.getTransaction().commit();
-        System.out.println("SuccessFully created!");
-    }
-
     public static List<Customer> read() {
+
         @SuppressWarnings("unchecked")
         List<Customer> customers = session.createQuery("FROM customer").list();
+
         System.out.println("Found " + customers.size() + " Customers");
         return customers;
     }
 
-    public static void delete(Integer id) {
-        session.beginTransaction();
-        Customer cs = findByID(id);
-        session.delete(cs);
-        session.getTransaction().commit();
-        System.out.println("Successfully deleted " + cs.toString());
-
-    }
-
     public static void deleteAll() {
+
         session.beginTransaction();
         Query query = session.createQuery("DELETE FROM customer");
         query.executeUpdate();
@@ -118,7 +111,30 @@ public class TestCustomerDB {
 
     }
 
-    public static Customer findByID(Integer id) {
+    public static void delete
+            (Integer id) {
+
+        session.beginTransaction();
+        Customer cs = findByID(id);
+        session.delete(cs);
+        session.getTransaction().commit();
+
+        System.out.println("Successfully deleted " + cs.toString());
+    }
+
+    public static void create
+            (Customer cs) {
+
+        session.beginTransaction();
+        session.save(cs);
+        session.getTransaction().commit();
+
+        System.out.println("SuccessFully created!");
+    }
+
+    public static Customer findByID
+            (Integer id) {
+
         Customer cs = (Customer) session.load(Customer.class, id);
         return cs;
     }

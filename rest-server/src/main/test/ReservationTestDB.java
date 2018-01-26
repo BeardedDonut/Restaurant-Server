@@ -99,7 +99,8 @@ public class ReservationTestDB {
         }
     }
 
-    public static void delete(int id) {
+    public static void delete
+            (int id) {
         session.beginTransaction();
         Reservation res = findReservationById(id);
         session.delete(res);
@@ -107,18 +108,22 @@ public class ReservationTestDB {
         session.getTransaction().commit();
     }
 
-    public static Reservation findReservationById(int id) {
+    public static Reservation findReservationById
+            (int id) {
+
         return (Reservation) session.get(Reservation.class, id);
     }
 
-    public static void persistReservation(Reservation res) {
+    public static void persistReservation
+            (Reservation res) {
         session.beginTransaction();
         session.save(res);
         session.getTransaction().commit();
         System.out.println("SuccessFully created!");
     }
 
-    public static void createCustomer(Customer cs) {
+    public static void createCustomer
+            (Customer cs) {
         session.beginTransaction();
         session.save(cs);
         session.getTransaction().commit();

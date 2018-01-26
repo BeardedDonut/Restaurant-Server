@@ -20,11 +20,13 @@ public class TestTableDB {
     @SuppressWarnings("Duplicates")
     public static void createSessionFactory() {
         System.out.println("Creating Database Connection");
+
         Configuration configuration = new Configuration().configure();
         StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
                 .applySettings(configuration.getProperties());
         SessionFactory newSessionFactory = configuration
                 .buildSessionFactory(builder.build());
+
         session = newSessionFactory.openSession();
     }
 
@@ -82,27 +84,11 @@ public class TestTableDB {
         deleteAll();
     }
 
-    public static void create(Table tbl) {
-        session.beginTransaction();
-        session.save(tbl);
-        session.getTransaction().commit();
-        System.out.println("SuccessFully created!");
-    }
-
     public static List<Table> read() {
         @SuppressWarnings("unchecked")
         List<Table> tables = session.createQuery("FROM restaurantTable").list();
         System.out.println("Found " + tables.size() + " Tables");
         return tables;
-    }
-
-    public static void delete(Integer id) {
-        session.beginTransaction();
-        Table tbl = findByID(id);
-        session.delete(tbl);
-        session.getTransaction().commit();
-        System.out.println("Successfully deleted " + tbl.toString());
-
     }
 
     public static void deleteAll() {
@@ -111,6 +97,22 @@ public class TestTableDB {
         query.executeUpdate();
         session.getTransaction().commit();
         System.out.println("Successfully deleted all tables.");
+
+    }
+
+    public static void create(Table tbl) {
+        session.beginTransaction();
+        session.save(tbl);
+        session.getTransaction().commit();
+        System.out.println("SuccessFully created!");
+    }
+
+    public static void delete(Integer id) {
+        session.beginTransaction();
+        Table tbl = findByID(id);
+        session.delete(tbl);
+        session.getTransaction().commit();
+        System.out.println("Successfully deleted " + tbl.toString());
 
     }
 

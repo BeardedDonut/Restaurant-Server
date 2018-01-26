@@ -19,17 +19,15 @@ import java.util.List;
  */
 @Stateless(name = "ReservationRepositoryDAOImp")
 public class ReservationRepositoryDAOImp implements ReservationRepository {
-    /*
-       TODO: realize from the ReservationRepositoryDAOImp
-     */
 
     @Override
-    public Reservation saveReserve(Table table,
-                                   Customer customer,
-                                   TimeSpan ts,
-                                   Date submissionDate,
-                                   Date reservationDate,
-                                   String otherReq) {
+    public Reservation saveReserve
+            (Table table,
+             Customer customer,
+             TimeSpan ts,
+             Date submissionDate,
+             Date reservationDate,
+             String otherReq) {
         Session session = DatabaseConfig.createSessionFactory().openSession();
 
         Reservation res = new Reservation();
@@ -50,7 +48,9 @@ public class ReservationRepositoryDAOImp implements ReservationRepository {
 
 
     @Override
-    public Reservation getByResId(Integer resId) {
+    public Reservation getByResId
+            (Integer resId) {
+
         Session session = DatabaseConfig.createSessionFactory().openSession();
 
         Reservation reservation = (Reservation) session.get(Reservation.class, resId);
@@ -65,7 +65,9 @@ public class ReservationRepositoryDAOImp implements ReservationRepository {
     }
 
     @Override
-    public Reservation getByResId(Integer resId, Date date) {
+    public Reservation getByResId
+            (Integer resId, Date date) {
+
         Session session = DatabaseConfig.createSessionFactory().openSession();
 
         String hql = "FROM reservation AS Res " +
@@ -89,7 +91,8 @@ public class ReservationRepositoryDAOImp implements ReservationRepository {
     }
 
     @Override
-    public List<Reservation> getByTableId(Integer tableId, Date date) {
+    public List<Reservation> getByTableId
+            (Integer tableId, Date date) {
         Session session = DatabaseConfig.createSessionFactory().openSession();
 
         String hql = "FROM reservation AS Res " +
@@ -115,13 +118,9 @@ public class ReservationRepositoryDAOImp implements ReservationRepository {
     }
 
     @Override
-    public ArrayList<Reservation> getByTableId(Integer tableId, Date date, TimeSpan ts) {
-        //TODO
-        return null;
-    }
+    public List<Reservation> getAllResForDate
+            (Date date) {
 
-    @Override
-    public List<Reservation> getAllResForDate(Date date) {
         Session session = DatabaseConfig.createSessionFactory().openSession();
 
         String hql = "FROM reservation " +
@@ -143,7 +142,10 @@ public class ReservationRepositoryDAOImp implements ReservationRepository {
     }
 
     @Override
-    public List<Reservation> getAllResBetweenDates(Date startDate, Date endDate) throws Exception {
+    public List<Reservation> getAllResBetweenDates
+            (Date startDate, Date endDate)
+            throws
+            Exception {
         Session session = DatabaseConfig.createSessionFactory().openSession();
 
         String hql = "FROM reservation " +
@@ -160,5 +162,12 @@ public class ReservationRepositoryDAOImp implements ReservationRepository {
         session.close();
 
         return reservations;
+    }
+
+    @Override
+    public ArrayList<Reservation> getByTableId
+            (Integer tableId, Date date, TimeSpan ts) {
+        //TODO
+        return null;
     }
 }

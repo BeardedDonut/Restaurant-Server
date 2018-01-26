@@ -57,7 +57,9 @@ public class MenuResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/drinks")
     public Response getDrinksMenu()
-            throws MenuItemCannotBeAddedException, MenuItemNotFoundException {
+            throws
+            MenuItemCannotBeAddedException,
+            MenuItemNotFoundException {
 
         ArrayList<MenuItem> allItems = new ArrayList<>();
 
@@ -72,7 +74,9 @@ public class MenuResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/foods")
     public Response getFoodsMenu()
-            throws MenuItemCannotBeAddedException, MenuItemNotFoundException {
+            throws
+            MenuItemCannotBeAddedException,
+            MenuItemNotFoundException {
 
         ArrayList<MenuItem> allItems = new ArrayList<>();
 
@@ -87,7 +91,9 @@ public class MenuResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/desserts")
     public Response getDessertsMenu()
-            throws MenuItemCannotBeAddedException, MenuItemNotFoundException {
+            throws
+            MenuItemCannotBeAddedException,
+            MenuItemNotFoundException {
 
         ArrayList<MenuItem> allItems = new ArrayList<>();
 
@@ -102,7 +108,8 @@ public class MenuResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createNewMenuItem(@Valid final MenuItem newMenuItem)
-            throws MenuItemCannotBeAddedException {
+            throws
+            MenuItemCannotBeAddedException {
 
         Optional<MenuItem> x = myRestaurantMenu.createNewMenuItem(newMenuItem);
 
@@ -117,7 +124,9 @@ public class MenuResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateItem(@Valid final MenuItem newMenuItem)
-            throws MenuItemCannotBeAddedException, MenuItemNotFoundException {
+            throws
+            MenuItemCannotBeAddedException,
+            MenuItemNotFoundException {
 
         Optional<MenuItem> x = myRestaurantMenu.updateMenuItem(newMenuItem.getName(), newMenuItem);
 
