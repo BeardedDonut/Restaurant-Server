@@ -74,7 +74,7 @@ public class ReportResource {
         Date newStartDate = Date.valueOf(startDate);
         Date newEndDate = Date.valueOf(endDate);
 
-        ArrayList<Order> allOrders = orderRepo.getAllOrders();
+        List<Order> allOrders = orderRepo.getAllOrders();
         ArrayList<Order> result = new ArrayList<>();
 
         for (Order order : allOrders) {

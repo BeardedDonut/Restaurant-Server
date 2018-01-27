@@ -18,12 +18,15 @@
         <property name="format_sql">true</property>
         <property name="hbm2ddl.auto">update</property>
 
-        <!--Domain Object Maping-->
+        <!--Domain Object Mapping-->
         <mapping class="com.readlearncode.dukesbookshop.restserver.domain.Customer"/>
         <mapping class="com.readlearncode.dukesbookshop.restserver.domain.MenuItem"/>
         <mapping class="com.readlearncode.dukesbookshop.restserver.domain.Table"/>
         <mapping class="com.readlearncode.dukesbookshop.restserver.domain.CheckRequest"/>
         <mapping class="com.readlearncode.dukesbookshop.restserver.domain.Reservation"/>
+        <mapping class="com.readlearncode.dukesbookshop.restserver.domain.Order"/>
+        <mapping class="com.readlearncode.dukesbookshop.restserver.domain.MenuItemOrder"/>
+
 
     </session-factory>
 </hibernate-configuration>

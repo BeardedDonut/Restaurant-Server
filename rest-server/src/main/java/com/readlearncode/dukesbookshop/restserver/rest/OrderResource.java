@@ -1,6 +1,7 @@
 package com.readlearncode.dukesbookshop.restserver.rest;
 
 import com.readlearncode.dukesbookshop.restserver.domain.Order;
+import com.readlearncode.dukesbookshop.restserver.domain.OrderStatus;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.exceptions.MenuItemNotFoundException;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.exceptions.OrderNotFoundException;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.OrderRepository;
@@ -30,7 +31,7 @@ public class OrderResource {
     @Path("/listOrders")
     public Response getAllOrders() {
 
-        ArrayList<Order> allOrders = orderRepo.getAllOrders();
+        List<Order> allOrders = orderRepo.getAllOrders();
         GenericEntity<List<Order>> ordersWrapper = new GenericEntity<List<Order>>(allOrders) {
         };
         return Response.ok(ordersWrapper).build();
@@ -47,8 +48,8 @@ public class OrderResource {
             3- return the list.
         */
 
-        Order.OrderStatus correspondingStatus = Order.OrderStatus.values()[status];
-        ArrayList<Order> allOrders = orderRepo.getOrdersWithStatus(correspondingStatus);
+        OrderStatus correspondingStatus = OrderStatus.values()[status];
+        List<Order> allOrders = orderRepo.getOrdersWithStatus(correspondingStatus);
 
         GenericEntity<List<Order>> ordersWrapper = new GenericEntity<List<Order>>(allOrders) {
         };
@@ -103,7 +104,7 @@ public class OrderResource {
 
         Optional<Order> order = orderRepo.getByOrderId(orderId);
         //TODO check if the status number is valid
-        Order.OrderStatus updateToStatus = Order.OrderStatus.values()[statusNumber];
+        OrderStatus updateToStatus = OrderStatus.values()[statusNumber];
 
         if (order.isPresent()) {
             return Response.ok(orderRepo.changeOrderStatus(order.get(), updateToStatus).get()).build();

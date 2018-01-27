@@ -1,21 +1,17 @@
 package com.readlearncode.dukesbookshop.restserver.infrastructure.DAOImplementation;
 
-import com.readlearncode.dukesbookshop.restserver.domain.Customer;
-import com.readlearncode.dukesbookshop.restserver.domain.MenuItem;
-import com.readlearncode.dukesbookshop.restserver.domain.Order;
-import com.readlearncode.dukesbookshop.restserver.domain.Reservation;
+import com.readlearncode.dukesbookshop.restserver.DatabaseConfig;
+import com.readlearncode.dukesbookshop.restserver.domain.*;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.ReservationRepository;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.exceptions.MenuItemNotFoundException;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.exceptions.OrderNotFoundException;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.MenuItemRepository;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.OrderRepository;
+import org.hibernate.Session;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by navid on 11/27/17.
@@ -23,66 +19,101 @@ import java.util.Set;
 @Stateless(name = "OrderRepositoryDAOImp")
 public class OrderRepositoryDAOImp implements OrderRepository {
 
-    private static int orderNumber = 1;
-
-    private HashMap<Integer, HashMap<Integer, Order>> ordersMap = new HashMap<>();
-    //e.g. <ReservationId, <OrderId, (Order Object)>> -> < resId:23, <orderId:23531, Order:orderObj>>
-
-    private HashMap<Integer, Order> allOrdersShortCutList = new HashMap<>();
-    //e.g. <OrderId, (Order Object)> -> <orderId:23531, Order:orderObj>
-
-
     @EJB
     private ReservationRepository resRepo;
 
     @EJB
     private MenuItemRepository myRestaurantMenu;
 
-    public Optional<Order> createNewOrder(Reservation res, HashMap<String, Integer> orderedItems) {
-        Order newOrder = new Order(++orderNumber, res, orderedItems);
+    public Optional<Order> createNewOrder
+            (Reservation res,
+             HashMap<MenuItem, Integer> orderedItems) {
 
-        HashMap<Integer, Order> orderOnlyMap = ordersMap.get(res.getId());
+        Session session = DatabaseConfig.createSessionFactory().openSession();
+        session.beginTransaction();
 
-        if (orderOnlyMap == null) {
-            orderOnlyMap = new HashMap<>();
+        Order newOrder = new Order();
+        newOrder.setStatus(OrderStatus.PREPARING);
+        newOrder.setAccordingReservation(res);
+        newOrder = saveOrder(newOrder).get();
+
+
+        float totalCost = 0;
+        Set<MenuItem> itemSet = orderedItems.keySet();
+        for (MenuItem item : itemSet) {
+            MenuItemOrder menuItemOrder = new MenuItemOrder();
+            MenuItemOrderId id = new MenuItemOrderId();
+            int number = orderedItems.get(item);
+
+            id.setMenuItem(item);
+            id.setOrder(newOrder);
+
+            menuItemOrder.setPk(id);
+            menuItemOrder.setNumber(number);
+
+            totalCost += number * item.getPrice();
+            session.save(menuItemOrder);
+
+            newOrder.getMenuItemOrders().add(menuItemOrder);
         }
+        newOrder.setTotalCost(totalCost);
 
-        orderOnlyMap.put(newOrder.getOrderId(), newOrder);
-        this.allOrdersShortCutList.put(newOrder.getOrderId(), newOrder);
+        session.merge(newOrder);
+        session.save(newOrder);
+        session.getTransaction().commit();
 
+        session.close();
         return Optional.of(newOrder);
     }
 
-    @Override
-    public Optional<Reservation> findReservationByOrder(Order order) {
-        ArrayList<Integer> allResIds = new ArrayList<>(ordersMap.keySet());
+    @SuppressWarnings("Duplicates")
+    public Optional<Order> saveOrder(Order order) {
+        Session session = DatabaseConfig.createSessionFactory().openSession();
 
-        for (Integer resId : allResIds) {
-            HashMap<Integer, Order> correspondingOrder = ordersMap.get(resId);
-            if (correspondingOrder.get(order.getOrderId()) != null) {
-                return Optional.ofNullable(resRepo.getByResId(resId));
-            }
-        }
+        session.beginTransaction();
+        session.save(order);
+        session.getTransaction().commit();
 
-        return null;
+        return Optional.of(order);
+    }
+
+    @SuppressWarnings("Duplicates")
+    public Optional<MenuItemOrder> saveMenuItemOrder(MenuItemOrder menuItemOrder) {
+        Session session = DatabaseConfig.createSessionFactory().openSession();
+
+        session.beginTransaction();
+        session.save(menuItemOrder);
+        session.getTransaction().commit();
+
+        return Optional.of(menuItemOrder);
     }
 
     @Override
-    public Optional<Order> saveOrderForReservation(Reservation res, Order newOrder) {
-        return this.createNewOrder(res, newOrder.getOrderItems());
+    public Optional<Reservation> findReservationByOrder
+            (Order order) {
+        return Optional.ofNullable(order.getAccordingReservation());
     }
 
     @Override
-    public Optional<Order>
-    changeOrderStatus(Order order, Order.OrderStatus status)
-            throws MenuItemNotFoundException {
+    public Optional<Order> saveOrderForReservation
+            (Reservation res, Order newOrder) {
 
-        Optional<Order> registeredOrder = this.getByOrderId(order.getOrderId());
+        //TODO
+        return this.createNewOrder(res, null);
+    }
+
+    @Override
+    public Optional<Order> changeOrderStatus
+            (Order order, OrderStatus status)
+            throws
+            MenuItemNotFoundException {
+
+        Optional<Order> registeredOrder = this.getByOrderId(order.getId());
 
         if (registeredOrder.isPresent()) {
             registeredOrder.get().setStatus(status);
 
-            if (status.equals(Order.OrderStatus.CONFIRMED)) {   /* if the order is confirmed then calculate its cost */
+            if (status.equals(OrderStatus.CONFIRMED)) {   /* if the order is confirmed then calculate its cost */
                 this.calculateTotalCost(order);
             }
 
@@ -94,20 +125,26 @@ public class OrderRepositoryDAOImp implements OrderRepository {
     }
 
     @Override
-    public Optional<Order> getByOrderId(int orderId) {
-        return Optional.ofNullable(allOrdersShortCutList.get(orderId));
+    public Optional<Order> getByOrderId
+            (int orderId) {
+        Session session = DatabaseConfig.createSessionFactory().openSession();
+        Order order = (Order) session.get(Order.class, orderId);
+        session.close();
+
+        return Optional.ofNullable(order);
     }
 
     @Override
     @Deprecated
-    public Optional<Order>
-    confirmOrder(int orderId)
-            throws OrderNotFoundException, MenuItemNotFoundException {
+    public Optional<Order> confirmOrder(int orderId)
+            throws
+            OrderNotFoundException,
+            MenuItemNotFoundException {
 
         Optional<Order> order = this.getByOrderId(orderId);
 
         if (order.isPresent()) {
-            this.changeOrderStatus(order.get(), Order.OrderStatus.CONFIRMED);
+            this.changeOrderStatus(order.get(), OrderStatus.CONFIRMED);
             return order;
         } else {
             return null;
@@ -115,14 +152,23 @@ public class OrderRepositoryDAOImp implements OrderRepository {
     }
 
     @Override
-    public Optional<Order>
-    addItemToOrder(Order order, MenuItem item, int itemOrderedNumber)
-            throws MenuItemNotFoundException {
+    public Optional<Order> addItemToOrder
+            (Order order, MenuItem item, int itemOrderedNumber)
+            throws
+            MenuItemNotFoundException {
 
-        if (order.getOrderItems() == null) {
-            order.setOrderItems(new HashMap<>());
+        if (order.getMenuItemOrders() == null) {
+            order.setMenuItemOrders(new LinkedHashSet<>());
         }
-        order.getOrderItems().put(item.getName(), itemOrderedNumber);
+
+
+        MenuItemOrder menuItemOrder = new MenuItemOrder();
+        menuItemOrder.getPk().setMenuItem(item);
+        menuItemOrder.getPk().setOrder(order);
+        menuItemOrder.setNumber(itemOrderedNumber);
+        saveMenuItemOrder(menuItemOrder);
+
+        order.getMenuItemOrders().add(menuItemOrder);
 
         this.calculateTotalCost(order);
 
@@ -130,14 +176,18 @@ public class OrderRepositoryDAOImp implements OrderRepository {
     }
 
     @Override
-    public float calculateTotalCost(Order order) throws MenuItemNotFoundException {
-        float totalCost = 0;
-        Set<String> orderedItems = order.getOrderItems().keySet();
+    public float calculateTotalCost
+            (Order order)
+            throws
+            MenuItemNotFoundException {
 
-        for (String itm : orderedItems) {
-            Optional<MenuItem> menuItem = myRestaurantMenu.findMenuItemByName(itm);
+        float totalCost = 0;
+        Set<MenuItemOrder> orderedItems = order.getMenuItemOrders();
+
+        for (MenuItemOrder itm : orderedItems) {
+            Optional<MenuItem> menuItem = myRestaurantMenu.findMenuItemByName(itm.getPk().getMenuItem().getName());
             if (menuItem.isPresent()) {
-                totalCost += menuItem.get().getPrice() * order.getOrderItems().get(itm); // item price * item count
+                totalCost += menuItem.get().getPrice() * itm.getNumber(); // item price * item count
             }
         }
 
@@ -147,21 +197,32 @@ public class OrderRepositoryDAOImp implements OrderRepository {
     }
 
     @Override
-    public ArrayList<Order> getAllOrders() {
-        return new ArrayList<>(allOrdersShortCutList.values());
+    public List<Order> getAllOrders() {
+        Session session = DatabaseConfig.createSessionFactory().openSession();
+
+        @SuppressWarnings("unchecked")
+        List<Order> orders = session.createQuery("FROM Order").list();
+        System.out.println("Found " + orders.size() + " Customers");
+
+        session.close();
+
+        return orders;
     }
 
     @Override
-    public ArrayList<Order> getOrdersWithStatus(Order.OrderStatus orderStatus) {
-        ArrayList<Order> selectedOrders = new ArrayList<>();
+    public List<Order> getOrdersWithStatus
+            (OrderStatus orderStatus) {
 
-        for(Order order: allOrdersShortCutList.values()) {
-            if (order.getStatus().equals(orderStatus)) {
-                selectedOrders.add(order);
-            }
-        }
+        Session session = DatabaseConfig.createSessionFactory().openSession();
+        String query = "FROM Order AS ord WHERE ord.status = :status";
 
-        return selectedOrders;
+        @SuppressWarnings("unchecked")
+        List<Order> orders = session.createQuery(query).setParameter("status", orderStatus).list();
+        System.out.println("Found " + orders.size() + " Orders");
+
+        session.close();
+
+        return orders;
     }
 
     //TODO implement

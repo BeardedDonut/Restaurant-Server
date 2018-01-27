@@ -1,13 +1,11 @@
 package com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface;
 
-import com.readlearncode.dukesbookshop.restserver.domain.Customer;
-import com.readlearncode.dukesbookshop.restserver.domain.MenuItem;
-import com.readlearncode.dukesbookshop.restserver.domain.Order;
-import com.readlearncode.dukesbookshop.restserver.domain.Reservation;
+import com.readlearncode.dukesbookshop.restserver.domain.*;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.exceptions.MenuItemNotFoundException;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.exceptions.OrderNotFoundException;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -21,7 +19,7 @@ public interface OrderRepository {
 
     Optional<Order> getByOrderId(int orderId);
 
-    Optional<Order> changeOrderStatus(Order order, Order.OrderStatus status) throws MenuItemNotFoundException;
+    Optional<Order> changeOrderStatus(Order order, OrderStatus status) throws MenuItemNotFoundException;
 
     Optional<Order> confirmOrder(int orderId) throws OrderNotFoundException, MenuItemNotFoundException;
 
@@ -29,12 +27,12 @@ public interface OrderRepository {
 
     float calculateTotalCost(Order order) throws MenuItemNotFoundException;
 
-    ArrayList<Order> getAllOrders();
+    List<Order> getAllOrders();
 
-    ArrayList<Order> getOrdersWithStatus(final Order.OrderStatus orderStatus);
+    List<Order> getOrdersWithStatus(OrderStatus orderStatus);
 
     Optional<Order> findOrderByReservationInfo(Reservation res);
 
-    ArrayList<Order> findAllReservationsByCustomers(Customer cs);
+    List<Order> findAllReservationsByCustomers(Customer cs);
 
 }
