@@ -1,6 +1,8 @@
 package com.readlearncode.dukesbookshop.restserver.infrastructure.DAOImplementation;
 
 import com.readlearncode.dukesbookshop.restserver.DatabaseConfig;
+import com.readlearncode.dukesbookshop.restserver.dataTransferObjects.MenuItemOrderDTO;
+import com.readlearncode.dukesbookshop.restserver.dataTransferObjects.OrderRequestDTO;
 import com.readlearncode.dukesbookshop.restserver.domain.*;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.ReservationRepository;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.exceptions.MenuItemNotFoundException;
@@ -24,6 +26,7 @@ public class OrderRepositoryDAOImp implements OrderRepository {
 
     @EJB
     private MenuItemRepository myRestaurantMenu;
+
 
     public Optional<Order> createNewOrder
             (Reservation res,
@@ -209,6 +212,7 @@ public class OrderRepositoryDAOImp implements OrderRepository {
         return orders;
     }
 
+
     @Override
     public List<Order> getOrdersWithStatus
             (OrderStatus orderStatus) {
@@ -229,6 +233,47 @@ public class OrderRepositoryDAOImp implements OrderRepository {
     @Override
     public Optional<Order> findOrderByReservationInfo(Reservation res) {
         return null;
+    }
+
+    @Override
+    public Optional<Order> processOrderRequest(OrderRequestDTO orderReq) throws MenuItemNotFoundException {
+
+        Reservation accordingReservation = resRepo.getByResId(orderReq.getReservationId());
+
+        if (accordingReservation == null) {
+            // TODO: throw not valid reservation
+        }
+
+        Session session = DatabaseConfig.createSessionFactory().openSession();
+        session.beginTransaction();
+
+        Order newOrder = new Order();
+
+        newOrder.setAccordingReservation(accordingReservation);
+        newOrder.setStatus(OrderStatus.ON_HOLD);
+
+        float totalPrice = 0;
+        for (MenuItemOrderDTO mi : orderReq.getOrderedItems()) {
+            Optional<MenuItem> menuItem = myRestaurantMenu.findMenuItemByName(mi.getName());
+
+            if (menuItem.isPresent()) {
+                totalPrice += menuItem.get().getPrice() * mi.getNumber();
+
+                MenuItemOrder menuItem_Order = new MenuItemOrder();
+                menuItem_Order.setOrder(newOrder);
+                menuItem_Order.setNumber(mi.getNumber());
+                menuItem_Order.setMenuItem(menuItem.get());
+
+                newOrder.getMenuItemOrders().add(menuItem_Order);
+            }
+        }
+        newOrder.setTotalCost(totalPrice);
+
+        session.save(newOrder);
+        session.getTransaction().commit();
+        session.close();
+
+        return Optional.of(newOrder);
     }
 
     //TODO implement

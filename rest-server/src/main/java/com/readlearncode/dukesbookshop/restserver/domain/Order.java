@@ -22,14 +22,15 @@ public class Order implements Serializable {
     @Column(name = "totalCost")
     private Float totalCost;
 
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
+
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "reservationId")
     private Reservation accordingReservation;
 
-    @Column(name = "status")
-    private OrderStatus status;
-
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "pk.menuItem")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "pk.order")
     private Set<MenuItemOrder> menuItemOrders = new HashSet<MenuItemOrder>(0);
 
     //<editor-fold desc="constructor">

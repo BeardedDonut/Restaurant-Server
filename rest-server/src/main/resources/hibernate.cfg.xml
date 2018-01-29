@@ -22,7 +22,7 @@
         <mapping class="com.readlearncode.dukesbookshop.restserver.domain.Customer"/>
         <mapping class="com.readlearncode.dukesbookshop.restserver.domain.MenuItem"/>
         <mapping class="com.readlearncode.dukesbookshop.restserver.domain.Table"/>
-        <mapping class="com.readlearncode.dukesbookshop.restserver.domain.CheckRequest"/>
+        <mapping class="com.readlearncode.dukesbookshop.restserver.dataTransferObjects.CheckRequestDTO"/>
         <mapping class="com.readlearncode.dukesbookshop.restserver.domain.Reservation"/>
         <mapping class="com.readlearncode.dukesbookshop.restserver.domain.Order"/>
         <mapping class="com.readlearncode.dukesbookshop.restserver.domain.MenuItemOrder"/>

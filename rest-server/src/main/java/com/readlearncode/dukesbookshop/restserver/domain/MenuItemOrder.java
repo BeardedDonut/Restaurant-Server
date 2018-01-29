@@ -2,6 +2,7 @@ package com.readlearncode.dukesbookshop.restserver.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 
 /**
@@ -19,19 +20,25 @@ public class MenuItemOrder implements Serializable {
 
     @EmbeddedId
     private MenuItemOrderId pk = new MenuItemOrderId();
+
+    private String name;
+    private int menuItem;
+    private float price;
     private Integer number = 0;
 
 
-    @Transient
+    @XmlTransient
     public MenuItem getMenuItem() {
         return getPk().getMenuItem();
     }
 
     public void setMenuItem(MenuItem mi) {
+        this.name = mi.getName();
+        this.price = mi.getPrice();
         getPk().setMenuItem(mi);
     }
 
-    @Transient
+    @XmlTransient
     public Order getOrder() {
         return getPk().getOrder();
     }
@@ -58,6 +65,23 @@ public class MenuItemOrder implements Serializable {
     public void setNumber(Integer number) {
         this.number = number;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
 
     @Override
     public boolean equals(Object o) {

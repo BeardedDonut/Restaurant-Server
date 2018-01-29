@@ -1,6 +1,6 @@
 package com.readlearncode.dukesbookshop.restserver.rest;
 
-import com.readlearncode.dukesbookshop.restserver.domain.CheckRequest;
+import com.readlearncode.dukesbookshop.restserver.dataTransferObjects.CheckRequestDTO;
 import com.readlearncode.dukesbookshop.restserver.domain.Customer;
 import com.readlearncode.dukesbookshop.restserver.domain.Reservation;
 import com.readlearncode.dukesbookshop.restserver.domain.Table;
@@ -9,8 +9,6 @@ import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.Cu
 import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.TableRepository;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.exceptions.NoAvailableTableFoundException;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.exceptions.ReservationException;
-import com.sun.mail.iap.ResponseInputStream;
-import netscape.javascript.JSObject;
 
 import javax.ejb.EJB;
 import javax.validation.Valid;
@@ -55,23 +53,24 @@ public class ReservationResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/check")
-    public Response checkIfPossibleToReserve(final @Valid CheckRequest checkRequest)
+    public Response checkIfPossibleToReserve(final @Valid CheckRequestDTO checkRequestDTO)
             throws
             NoAvailableTableFoundException,
             ReservationException {
 
         /* Check if Customer is valid */
-        Optional<Customer> cs = customerRepo.getCustomerById(checkRequest.getRelatedCustomer().getCustomerId());
+        Optional<Customer> cs = customerRepo.getCustomerById(checkRequestDTO.getRelatedCustomer().getCustomerId());
 
         if (!cs.isPresent()) {
             throw new ReservationException("Customer Is Not Valid");
         }
+        checkRequestDTO.setRelatedCustomer(cs.get());
 
         /* getting a list of all tables which has the requested number of seats or more */
-        List<Table> tables = tableRepo.getTableBySeatSorted(checkRequest.getNumberOfSeats());
+        List<Table> tables = tableRepo.getTableBySeatSorted(checkRequestDTO.getNumberOfSeats());
 
         /* get the first table which is possible to reserve! */
-        Table tbl = resManager.isAvailable(checkRequest.getDate(), tables, checkRequest.getTs());
+        Table tbl = resManager.isAvailable(checkRequestDTO.getDate(), tables, checkRequestDTO.getTs());
 
         if (tbl != null) {
             return Response.ok(tbl).build();
@@ -85,19 +84,21 @@ public class ReservationResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response reserve(@Valid final CheckRequest checkRequest)
+    public Response reserve(@Valid final CheckRequestDTO checkRequestDTO)
             throws
             ReservationException {
 
         /* Check if Customer is valid */
-        Optional<Customer> cs = customerRepo.getCustomerById(checkRequest.getRelatedCustomer().getCustomerId());
+        Optional<Customer> cs = customerRepo.getCustomerById(checkRequestDTO.getRelatedCustomer().getCustomerId());
 
         if (!cs.isPresent()) {
             throw new ReservationException("Customer Is Not Valid");
         }
+        checkRequestDTO.setRelatedCustomer(cs.get());
+
 
         /* Reserve if possible */
-        Reservation res = resManager.reserveResult(checkRequest);
+        Reservation res = resManager.reserveResult(checkRequestDTO);
 
         if (res != null) {
             return Response.ok(res).build();

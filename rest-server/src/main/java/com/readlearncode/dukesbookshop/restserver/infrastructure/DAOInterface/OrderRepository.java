@@ -1,5 +1,6 @@
 package com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface;
 
+import com.readlearncode.dukesbookshop.restserver.dataTransferObjects.OrderRequestDTO;
 import com.readlearncode.dukesbookshop.restserver.domain.*;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.exceptions.MenuItemNotFoundException;
 import com.readlearncode.dukesbookshop.restserver.infrastructure.exceptions.OrderNotFoundException;
@@ -25,13 +26,15 @@ public interface OrderRepository {
 
     Optional<Order> addItemToOrder(Order order, MenuItem item, int itemOrderedNumber) throws MenuItemNotFoundException;
 
+    Optional<Order> findOrderByReservationInfo(Reservation res);
+
+    Optional<Order> processOrderRequest(OrderRequestDTO orderReq) throws MenuItemNotFoundException;
+
     float calculateTotalCost(Order order) throws MenuItemNotFoundException;
 
     List<Order> getAllOrders();
 
     List<Order> getOrdersWithStatus(OrderStatus orderStatus);
-
-    Optional<Order> findOrderByReservationInfo(Reservation res);
 
     List<Order> findAllReservationsByCustomers(Customer cs);
 

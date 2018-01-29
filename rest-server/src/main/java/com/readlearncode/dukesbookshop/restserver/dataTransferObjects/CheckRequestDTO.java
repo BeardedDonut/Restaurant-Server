@@ -1,4 +1,7 @@
-package com.readlearncode.dukesbookshop.restserver.domain;
+package com.readlearncode.dukesbookshop.restserver.dataTransferObjects;
+
+import com.readlearncode.dukesbookshop.restserver.domain.Customer;
+import com.readlearncode.dukesbookshop.restserver.domain.TimeSpan;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -8,12 +11,12 @@ import java.sql.Date;
 
 /**
  * Created by navid on 11/24/17.
- * CheckRequest POJO
+ * CheckRequestDTO POJO
  */
 @XmlRootElement
 @Entity(name = "checkRequest")
 @javax.persistence.Table(name = "checkRequest")
-public class CheckRequest implements Serializable {
+public class CheckRequestDTO implements Serializable {
 
     // <editor-fold desc="properties">
     @Id
@@ -39,7 +42,7 @@ public class CheckRequest implements Serializable {
     // </editor-fold>
 
     // <editor-fold desc="constructor">
-    public CheckRequest() {
+    public CheckRequestDTO() {
 
     }
     // </editor-fold>
@@ -92,7 +95,7 @@ public class CheckRequest implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        CheckRequest that = (CheckRequest) o;
+        CheckRequestDTO that = (CheckRequestDTO) o;
 
         if (id != that.id) return false;
         if (!date.equals(that.date)) return false;
@@ -112,7 +115,7 @@ public class CheckRequest implements Serializable {
 
     @Override
     public String toString() {
-        return "CheckRequest{" +
+        return "CheckRequestDTO{" +
                 "id=" + id +
                 ", date=" + date +
                 ", numberOfSeats=" + numberOfSeats +

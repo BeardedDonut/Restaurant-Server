@@ -40,11 +40,12 @@ public class CustomerResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("{customerId}")
+    @Path("id/{customerId}")
     public Response getCustomerById
             (final @PathParam("customerId") int id)
             throws
             CustomerNotFoundException {
+
         Optional<Customer> customer = customerRepo.getCustomerById(id);
 
         if (customer.isPresent()) {
@@ -70,6 +71,21 @@ public class CustomerResource {
             Optional<Customer> regCs = customerRepo.createNewProfile(cs);
             return Response.ok(regCs.get()).build();
         }
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("phone/{phoneNumber}")
+    public Response getCustomerByPhoneNumber
+            (final @PathParam("phoneNumber") String phoneNumber) throws CustomerNotFoundException {
+
+        Optional<Customer> customer = customerRepo.getCustomerByTel(phoneNumber);
+
+        if (!customer.isPresent()) {
+            throw new CustomerNotFoundException("Customer Not Found!");
+        }
+
+        return Response.ok(customer.get()).build();
     }
 
     //TODO add delete api!

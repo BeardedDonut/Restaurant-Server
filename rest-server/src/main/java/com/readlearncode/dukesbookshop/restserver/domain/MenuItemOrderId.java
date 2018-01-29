@@ -4,6 +4,7 @@ import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
 import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 
 /**
@@ -22,6 +23,7 @@ public class MenuItemOrderId implements Serializable {
     public MenuItemOrderId() {
     }
 
+    @XmlTransient
     public Order getOrder() {
         return order;
     }
@@ -30,6 +32,7 @@ public class MenuItemOrderId implements Serializable {
         this.order = order;
     }
 
+    @XmlTransient
     public MenuItem getMenuItem() {
         return menuItem;
     }
@@ -51,8 +54,8 @@ public class MenuItemOrderId implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = order.hashCode();
-        result = 31 * result + menuItem.hashCode();
+        int result = order != null ? order.hashCode() : 0;
+        result = 31 * result + (menuItem != null ? menuItem.hashCode() : 0);
         return result;
     }
 }

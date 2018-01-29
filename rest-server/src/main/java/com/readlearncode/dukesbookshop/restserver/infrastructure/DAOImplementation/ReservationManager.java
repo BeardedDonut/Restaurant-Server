@@ -1,6 +1,6 @@
 package com.readlearncode.dukesbookshop.restserver.infrastructure.DAOImplementation;
 
-import com.readlearncode.dukesbookshop.restserver.domain.CheckRequest;
+import com.readlearncode.dukesbookshop.restserver.dataTransferObjects.CheckRequestDTO;
 import com.readlearncode.dukesbookshop.restserver.domain.Reservation;
 import com.readlearncode.dukesbookshop.restserver.domain.Table;
 import com.readlearncode.dukesbookshop.restserver.domain.TimeSpan;
@@ -11,7 +11,6 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,7 +26,7 @@ public class ReservationManager {
     ReservationRepository reserveRepo;
 
     public Reservation reserveResult
-            (CheckRequest r) {
+            (CheckRequestDTO r) {
 
         Reservation resResult = processRequest(r);
 
@@ -47,7 +46,7 @@ public class ReservationManager {
     }
 
     public Reservation processRequest
-            (CheckRequest r) {
+            (CheckRequestDTO r) {
 
         List<Table> fittingTables = tableRepo.getTableBySeatSorted(r.getNumberOfSeats());
 

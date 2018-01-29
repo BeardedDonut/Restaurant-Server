@@ -1,9 +1,8 @@
-import com.readlearncode.dukesbookshop.restserver.domain.CheckRequest;
+import com.readlearncode.dukesbookshop.restserver.dataTransferObjects.CheckRequestDTO;
 import com.readlearncode.dukesbookshop.restserver.domain.Customer;
 import com.readlearncode.dukesbookshop.restserver.domain.TimeSpan;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.annotations.Check;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.junit.AfterClass;
@@ -19,7 +18,7 @@ import java.util.ArrayList;
  * Created by navid on 1/23/18.
  */
 
-public class TestCheckRequestDB {
+public class TestCheckRequestDTODB {
     static Session session;
     static ArrayList<Integer> testInstancesId = new ArrayList<>();
 
@@ -63,11 +62,11 @@ public class TestCheckRequestDB {
         alireza.setFullName("Legolong");
         alireza.setPhoneNumber("9383039303");
 
-        CheckRequest cr1 = new CheckRequest();
+        CheckRequestDTO cr1 = new CheckRequestDTO();
         cr1.setDate(Date.valueOf(LocalDate.now()));
         cr1.setNumberOfSeats(4);
 
-        CheckRequest cr2 = new CheckRequest();
+        CheckRequestDTO cr2 = new CheckRequestDTO();
         cr2.setDate(Date.valueOf("2018-01-28"));
         cr2.setNumberOfSeats(2);
 
@@ -107,7 +106,7 @@ public class TestCheckRequestDB {
     public static void delete
             (int id) {
         session.beginTransaction();
-        CheckRequest cr = findCheckReqById(id);
+        CheckRequestDTO cr = findCheckReqById(id);
         session.delete(cr);
         System.out.println("Successfully deleted " + cr.toString());
         session.getTransaction().commit();
@@ -115,7 +114,7 @@ public class TestCheckRequestDB {
 
     public static void readTest
             (int id) {
-        CheckRequest crEvicted = findCheckReqById(id);
+        CheckRequestDTO crEvicted = findCheckReqById(id);
         System.out.println(crEvicted.getId());
         System.out.println(crEvicted.getDate());
         System.out.println(crEvicted.getNumberOfSeats());
@@ -123,10 +122,10 @@ public class TestCheckRequestDB {
         System.out.println(crEvicted.getRelatedCustomer().toString());
     }
 
-    public static CheckRequest findCheckReqById
+    public static CheckRequestDTO findCheckReqById
             (int id) {
 
-        return (CheckRequest) session.get(CheckRequest.class, id);
+        return (CheckRequestDTO) session.get(CheckRequestDTO.class, id);
     }
 
     public static void createCustomer
@@ -138,7 +137,7 @@ public class TestCheckRequestDB {
     }
 
     public static void createRequestCheck
-            (CheckRequest rs) {
+            (CheckRequestDTO rs) {
         session.beginTransaction();
         session.save(rs);
         session.getTransaction().commit();
