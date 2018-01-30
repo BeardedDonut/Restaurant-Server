@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+        <!--Hibernate Properties Setup-->
+        <property name="hibernate.current_session_context_class">
+            org.hibernate.context.internal.ThreadLocalSessionContext
+        </property>
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/jersey</property>
+        <property name="hibernate.connection.username">jersey</property>
+        <property name="hibernate.connection.password">12341234</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="show_sql">true</property>
+        <property name="format_sql">true</property>
+        <property name="hbm2ddl.auto">update</property>
+
+        <!--Domain Object Mapping-->
+        <mapping class="com.readlearncode.dukesbookshop.restserver.domain.Customer"/>
+        <mapping class="com.readlearncode.dukesbookshop.restserver.domain.MenuItem"/>
+        <mapping class="com.readlearncode.dukesbookshop.restserver.domain.Table"/>
+        <mapping class="com.readlearncode.dukesbookshop.restserver.dataTransferObjects.CheckRequestDTO"/>
+        <mapping class="com.readlearncode.dukesbookshop.restserver.domain.Reservation"/>
+        <mapping class="com.readlearncode.dukesbookshop.restserver.domain.Order"/>
+        <mapping class="com.readlearncode.dukesbookshop.restserver.domain.MenuItemOrder"/>
+
+
+    </session-factory>
+</hibernate-configuration>

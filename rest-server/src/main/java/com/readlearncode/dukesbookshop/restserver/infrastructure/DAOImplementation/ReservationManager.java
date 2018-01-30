@@ -1,20 +1,22 @@
-package com.readlearncode.dukesbookshop.restserver.infrastructure;
+package com.readlearncode.dukesbookshop.restserver.infrastructure.DAOImplementation;
 
-import com.readlearncode.dukesbookshop.restserver.domain.Request;
+import com.readlearncode.dukesbookshop.restserver.dataTransferObjects.CheckRequestDTO;
 import com.readlearncode.dukesbookshop.restserver.domain.Reservation;
 import com.readlearncode.dukesbookshop.restserver.domain.Table;
 import com.readlearncode.dukesbookshop.restserver.domain.TimeSpan;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.ReservationRepository;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.TableRepository;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import java.sql.Date;
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
  * Created by navid on 11/24/17.
  */
-@Stateless
+@Stateless(name = "ReservationManager")
 public class ReservationManager {
 
     @EJB
@@ -23,7 +25,9 @@ public class ReservationManager {
     @EJB
     ReservationRepository reserveRepo;
 
-    public Reservation reserveResult(Request r) {
+    public Reservation reserveResult
+            (CheckRequestDTO r) {
+
         Reservation resResult = processRequest(r);
 
         if (resResult != null) {
@@ -35,14 +39,19 @@ public class ReservationManager {
         return null;
     }
 
-    public List<Reservation> retrieveAllReservation(Date date) {
+    public List<Reservation> retrieveAllReservation
+            (Date date) {
+
         return reserveRepo.getAllResForDate(date);
     }
 
-    private Reservation processRequest(Request r) {
-        ArrayList<Table> fittingTables = tableRepo.getTableBySeatSorted(r.getSeats());
+    public Reservation processRequest
+            (CheckRequestDTO r) {
 
-        Table availableTable = isAvailable(r.getDate(), fittingTables, r.getTs());// check if they are available for the given time
+        List<Table> fittingTables = tableRepo.getTableBySeatSorted(r.getNumberOfSeats());
+
+        // check if they are available for the given time
+        Table availableTable = isAvailable(r.getDate(), fittingTables, r.getTs());
 
         if (availableTable != null) {        // reserve it if you can
              /*
@@ -50,12 +59,23 @@ public class ReservationManager {
                     2- update the table state
                     3- return true
              */
-            return reserveRepo.saveReserve(availableTable, r.getCustomerId(), r.getDate(), r.getTs());
+            Date now = Date.valueOf(LocalDate.now());
+            return reserveRepo.saveReserve(
+                    availableTable,
+                    r.getRelatedCustomer(),
+                    r.getTs(),
+                    now,
+                    r.getDate(),
+                    "");
+
         }
         return null;
     }
 
-    private Table isAvailable(Date date, ArrayList<Table> fittingTables, TimeSpan reqTimeSpan) {
+    public Table isAvailable
+            (Date date,
+             List<Table> fittingTables,
+             TimeSpan reqTimeSpan) {
          /*
             check for each table whether it is available or not:
                 return the first one that is not even booked for the given date.
@@ -69,7 +89,7 @@ public class ReservationManager {
 
         for (Table table : fittingTables) {
             /* fetch all the reservation for this table */
-            ArrayList<Reservation> allResForThisTable = reserveRepo.getByTableId(table.getTableId(), date);
+            List<Reservation> allResForThisTable = reserveRepo.getByTableId(table.getId(), date);
 
             if (allResForThisTable == null || allResForThisTable.size() == 0) {    // if not reserved before
                 return table;
@@ -82,7 +102,7 @@ public class ReservationManager {
             }
         }
 
-        //throw an exception
+        //TODO: throw an exceptions
         return null;
     }
 

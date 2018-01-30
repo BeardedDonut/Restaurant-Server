@@ -1,9 +1,9 @@
 package com.readlearncode.dukesbookshop.restserver.rest;
 
 import com.readlearncode.dukesbookshop.restserver.domain.Customer;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.CustomerAlreadySigned;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.exception.CustomerNotFoundException;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.repositories.CustomerRepository;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.exceptions.CustomerAlreadySignedException;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.exceptions.CustomerNotFoundException;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.CustomerRepository;
 
 import javax.ejb.EJB;
 import javax.validation.Valid;
@@ -27,21 +27,31 @@ public class CustomerResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllCustomers() throws CustomerNotFoundException {
+    public Response getAllCustomers()
+            throws
+            CustomerNotFoundException {
+
         List<Customer> customers = customerRepo.getAllCustomers();
         GenericEntity<List<Customer>> customersWrapper = new GenericEntity<List<Customer>>(customers) {
         };
+
         return Response.ok(customersWrapper).build();
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("{customerId}")
-    public Response getCustomerById(final @PathParam("customerId") int id) throws CustomerNotFoundException {
+    @Path("id/{customerId}")
+    public Response getCustomerById
+            (final @PathParam("customerId") int id)
+            throws
+            CustomerNotFoundException {
+
         Optional<Customer> customer = customerRepo.getCustomerById(id);
 
         if (customer.isPresent()) {
-            return Response.ok(customer.get()).build();
+            GenericEntity<Customer> customerWrapper = new GenericEntity<Customer>(customer.get()) {
+            };
+            return Response.ok(customerWrapper).build();
         }
 
         throw new CustomerNotFoundException();
@@ -50,14 +60,35 @@ public class CustomerResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createProfile(@Valid final Customer cs) throws CustomerAlreadySigned {
+    public Response createProfile
+            (@Valid final Customer cs)
+            throws
+            CustomerAlreadySignedException {
 
-        if (customerRepo.getCustomerByTel(cs.getTelephoneNumber()).isPresent()) {
-            throw new CustomerAlreadySigned();
+        if (customerRepo.getCustomerByTel(cs.getPhoneNumber()).isPresent()) {
+            throw new CustomerAlreadySignedException();
         } else {
             Optional<Customer> regCs = customerRepo.createNewProfile(cs);
             return Response.ok(regCs.get()).build();
         }
     }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("phone/{phoneNumber}")
+    public Response getCustomerByPhoneNumber
+            (final @PathParam("phoneNumber") String phoneNumber) throws CustomerNotFoundException {
+
+        Optional<Customer> customer = customerRepo.getCustomerByTel(phoneNumber);
+
+        if (!customer.isPresent()) {
+            throw new CustomerNotFoundException("Customer Not Found!");
+        }
+
+        return Response.ok(customer.get()).build();
+    }
+
+    //TODO add delete api!
+
 
 }

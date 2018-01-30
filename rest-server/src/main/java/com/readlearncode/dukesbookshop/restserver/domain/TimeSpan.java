@@ -1,5 +1,6 @@
 package com.readlearncode.dukesbookshop.restserver.domain;
 
+import javax.persistence.Embeddable;
 import javax.validation.constraints.Pattern;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
@@ -10,6 +11,7 @@ import java.sql.Time;
  * TimeSpan Bean
  */
 @XmlRootElement
+@Embeddable
 public class TimeSpan implements Serializable {
 
     @Pattern(regexp = "([01]?[0-9]|2[0-3])[0-5][0-9]")
@@ -41,4 +43,11 @@ public class TimeSpan implements Serializable {
         this.end = end;
     }
 
+    @Override
+    public String toString() {
+        return "TimeSpan{" +
+                "start='" + start + '\'' +
+                ", end='" + end + '\'' +
+                '}';
+    }
 }

@@ -1,9 +1,9 @@
 package com.readlearncode.dukesbookshop.restserver.domain;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.ws.rs.Consumes;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.sql.Date;
@@ -14,94 +14,64 @@ import java.util.Objects;
  * Reservation Bean
  */
 @XmlRootElement
+@Entity(name = "reservation")
+@javax.persistence.Table(name = "reservation")
 public class Reservation implements Serializable {
 
-    @Min(1)
-    @Max(1000)
-    @NotNull
-    private Integer reservationId;
+    // <editor-fold desc="properties">
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-    @Min(1)
-    @Max(100)
     @NotNull
-    private Integer customerId;
-
-    @Min(1)
-    @Max(100)
-    @NotNull
-    private Integer tableId;
+    @Column(name = "submissionDate")
+    private Date submissionDate;
 
     @NotNull
     private Date reservationDate;
 
     @NotNull
+    @Embedded
     private TimeSpan reservationTime;
 
-    @Size(max = 30)
+    @Size(max = 255)
     private String otherRequirements;
 
+    @NotNull
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "customerId")
+    private Customer relatedCustomer;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "tableId")
+    private Table relatedTable;
+
+    //</editor-fold>
+
+    // <editor-fold desc="constructors">
     public Reservation() {
 
     }
 
-    public Reservation(int reservationId, int customerId, int tableId, Date reservationDate, TimeSpan reservationTime, String otherRequirements) {
-        this.reservationId = reservationId;
-        this.tableId = tableId;
-        this.customerId = customerId;
+    public Reservation(int id, Customer relatedCustomer, Table relatedTable, Date reservationDate, TimeSpan reservationTime, String otherRequirements) {
+        this.id = id;
+        this.relatedCustomer = relatedCustomer;
+        this.relatedTable = relatedTable;
         this.reservationDate = reservationDate;
         this.reservationTime = reservationTime;
         this.otherRequirements = otherRequirements;
     }
+    // </editor-fold>
 
-    public boolean doesTimeSpanConflicts(TimeSpan ts) {
-        int myTimeSpanEnd = Integer.parseInt(this.reservationTime.getEnd());
-        int givenTimeSpanStart = Integer.parseInt(ts.getStart());
+    // <editor-fold desc="setters and getters">
 
-        if (myTimeSpanEnd > givenTimeSpanStart) {
-            return true;
-        }
-
-        return false;
+    public Integer getId() {
+        return id;
     }
 
-    public boolean tableIdMatches(int tableId) {
-        return this.tableId == tableId;
-    }
-
-    public void udpateTable(int tableId) {
-        //TODO: to change the table for customer
-    }
-
-    public void updateTime(Date newDate, TimeSpan newTimeSpan) {
-        //TODO: update the reservation time
-    }
-
-    public void updateRequirements() {
-        //TODO: update the requirements
-    }
-
-    public int getReservationId() {
-        return reservationId;
-    }
-
-    public void setReservationId(int reservationId) {
-        this.reservationId = reservationId;
-    }
-
-    public int getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
-    }
-
-    public int getTableId() {
-        return tableId;
-    }
-
-    public void setTableId(int tableId) {
-        this.tableId = tableId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Date getReservationDate() {
@@ -128,6 +98,33 @@ public class Reservation implements Serializable {
         this.otherRequirements = otherRequirements;
     }
 
+    public Date getSubmissionDate() {
+        return submissionDate;
+    }
+
+    public void setSubmissionDate(Date submissionDate) {
+        this.submissionDate = submissionDate;
+    }
+
+    public Customer getRelatedCustomer() {
+        return relatedCustomer;
+    }
+
+    public void setRelatedCustomer(Customer relatedCustomer) {
+        this.relatedCustomer = relatedCustomer;
+    }
+
+    public Table getRelatedTable() {
+        return relatedTable;
+    }
+
+    public void setRelatedTable(Table relatedTable) {
+        this.relatedTable = relatedTable;
+    }
+
+    // </editor-fold>
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -135,24 +132,39 @@ public class Reservation implements Serializable {
 
         Reservation that = (Reservation) o;
 
-        if (!Objects.equals(reservationId, that.reservationId)) return false;
-        if (!Objects.equals(customerId, that.customerId)) return false;
-        if (!Objects.equals(tableId, that.tableId)) return false;
-        if (reservationDate != null ? !reservationDate.equals(that.reservationDate) : that.reservationDate != null)
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (!reservationDate.equals(that.reservationDate)) return false;
+        if (!reservationTime.equals(that.reservationTime)) return false;
+        if (otherRequirements != null ? !otherRequirements.equals(that.otherRequirements) : that.otherRequirements != null)
             return false;
-        if (reservationTime != null ? !reservationTime.equals(that.reservationTime) : that.reservationTime != null)
-            return false;
-        return otherRequirements != null ? otherRequirements.equals(that.otherRequirements) : that.otherRequirements == null;
+        if (!submissionDate.equals(that.submissionDate)) return false;
+        if (!relatedCustomer.equals(that.relatedCustomer)) return false;
+        return relatedTable.equals(that.relatedTable);
     }
 
     @Override
     public int hashCode() {
-        int result = reservationId;
-        result = 31 * result + customerId;
-        result = 31 * result + tableId;
-        result = 31 * result + (reservationDate != null ? reservationDate.hashCode() : 0);
-        result = 31 * result + (reservationTime != null ? reservationTime.hashCode() : 0);
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + reservationDate.hashCode();
+        result = 31 * result + reservationTime.hashCode();
         result = 31 * result + (otherRequirements != null ? otherRequirements.hashCode() : 0);
+        result = 31 * result + submissionDate.hashCode();
+        result = 31 * result + relatedCustomer.hashCode();
+        result = 31 * result + relatedTable.hashCode();
         return result;
+    }
+
+    public boolean doesTimeSpanConflicts(TimeSpan ts) {
+        int myTimeSpanEnd = Integer.parseInt(this.reservationTime.getEnd());
+        int myTimeSpanStart = Integer.parseInt(this.reservationTime.getStart());
+
+        int givenTimeSpanStart = Integer.parseInt(ts.getStart());
+        int givenTimeSpanEnd = Integer.parseInt(ts.getEnd());
+
+        boolean endTimeIntersection = givenTimeSpanEnd <= myTimeSpanEnd && givenTimeSpanEnd >= myTimeSpanStart;
+        boolean startTimeIntersection = givenTimeSpanStart >= myTimeSpanStart && givenTimeSpanStart <= myTimeSpanEnd;
+
+        return endTimeIntersection || startTimeIntersection;
+
     }
 }

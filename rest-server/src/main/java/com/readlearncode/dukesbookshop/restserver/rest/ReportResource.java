@@ -3,11 +3,12 @@ package com.readlearncode.dukesbookshop.restserver.rest;
 import com.readlearncode.dukesbookshop.restserver.domain.Customer;
 import com.readlearncode.dukesbookshop.restserver.domain.Order;
 import com.readlearncode.dukesbookshop.restserver.domain.Reservation;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.CustomerRepositoryBean;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.ReservationRepository;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.repositories.Menu;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.repositories.OrderRepository;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.CustomerRepository;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.MenuItemRepository;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.OrderRepository;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.ReservationRepository;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -24,24 +25,25 @@ import java.util.Optional;
  */
 
 @Path("/report")
+@RolesAllowed({"ADMIN", "USER"})
 public class ReportResource {
 
     @EJB
     private OrderRepository orderRepo;
 
     @EJB
-    private Menu myMenu;
+    private MenuItemRepository myMenu;
 
     @EJB
-    private CustomerRepositoryBean customerRepo;
+    private CustomerRepository customerRepo;
 
     @EJB
     private ReservationRepository resRepo;
 
     @GET
     @Path("/reservation")
-    public Response reservationReports(
-            @QueryParam("startDate") final String startDate,
+    public Response reservationReports
+            (@QueryParam("startDate") final String startDate,
             @QueryParam("endDate") final String endDate) {
 
         Date newStartDate = Date.valueOf(startDate);
@@ -49,7 +51,7 @@ public class ReportResource {
 
         //TODO remove the try catch once the resRepo.getAllResBetweenDates gets implemented
         try {
-            ArrayList<Reservation> allRes = resRepo.getAllResBetweenDates(newStartDate, newEndDate);
+            List<Reservation> allRes = resRepo.getAllResBetweenDates(newStartDate, newEndDate);
 
             GenericEntity<List<Reservation>> resultWrapper = new GenericEntity<List<Reservation>>(allRes) {
             };
@@ -65,14 +67,14 @@ public class ReportResource {
 
     @GET
     @Path("/orders")
-    public Response orderReport(
-            @QueryParam("startDate") final String startDate,
+    public Response orderReport
+            (@QueryParam("startDate") final String startDate,
             @QueryParam("endDate") final String endDate) {
 
         Date newStartDate = Date.valueOf(startDate);
         Date newEndDate = Date.valueOf(endDate);
 
-        ArrayList<Order> allOrders = orderRepo.getAllOrders();
+        List<Order> allOrders = orderRepo.getAllOrders();
         ArrayList<Order> result = new ArrayList<>();
 
         for (Order order : allOrders) {
@@ -87,7 +89,7 @@ public class ReportResource {
                 }
             } else {
                 System.out.println("this order does not match any reservation!");
-                //TODO throw proper exception
+                //TODO throw proper exceptions
             }
         }
 
@@ -100,7 +102,7 @@ public class ReportResource {
     @GET
     @Path("/customers")
     public Response customerReport() {
-        ArrayList<Customer> customers = customerRepo.getAllCustomers();
+        List<Customer> customers = customerRepo.getAllCustomers();
 
         GenericEntity<List<Customer>> customerWrapper = new GenericEntity<List<Customer>>(customers) {
         };

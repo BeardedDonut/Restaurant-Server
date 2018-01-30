@@ -1,26 +1,23 @@
 package com.readlearncode.dukesbookshop.restserver.infrastructure;
 
 import com.readlearncode.dukesbookshop.restserver.domain.*;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.repositories.CustomerRepository;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.repositories.Menu;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.repositories.OrderRepository;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.*;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.ejb.Singleton;
-import javax.ejb.Startup;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Optional;
 
 /**
- * @author Alex Theedom www.readlearncode.com
+ * @author navid
  * @version 1.0
+ * Deleted since the hibernate and database connected to the project!
  */
-@Singleton
-@Startup
+
 public class BootstrapData {
 
     private static final String API_URL = "http://localhost:8081/rest-server";
@@ -36,7 +33,7 @@ public class BootstrapData {
     private CustomerRepository customerRepo;
 
     @EJB
-    private Menu myRestaurantMenu;
+    private MenuItemRepository myRestaurantMenu;
 
     @EJB
     private OrderRepository orderRepo;
@@ -51,9 +48,9 @@ public class BootstrapData {
             Optional<Customer> john = customerRepo.createNewProfile("John Doe", "9383719786");
             Optional<Customer> batman = customerRepo.createNewProfile("Bruce Wayne", "9383709786");
 
-            Table tb1 = tableRepo.addTable(4).get();
-            Table tb2 = tableRepo.addTable(6).get();
-            Table tb3 = tableRepo.addTable(12).get();
+            Table tb1 = tableRepo.createTable(4).get();
+            Table tb2 = tableRepo.createTable(6).get();
+            Table tb3 = tableRepo.createTable(12).get();
 
             // most fanciest Iranian menu :D
             myRestaurantMenu.addToFoods(new MenuItem("Mast-o-Khiar", 8.00f));
@@ -68,7 +65,8 @@ public class BootstrapData {
             myRestaurantMenu.addToDesserts(new MenuItem("Faloode-shirazi", 5.00f));
             myRestaurantMenu.addToDesserts(new MenuItem("Bastani Sonnati", 4.00f));
 
-            Reservation reservation = resRepo.saveReserve(tb1, 3, Date.valueOf("2017-02-03"), new TimeSpan("1400", "1600"));
+
+            //Reservation reservation = resRepo.saveReserve(tb1, navid, new TimeSpan("1400", "1600"), LocalDate.now());
 
             HashMap<String, Integer> myOrderItems = new HashMap<>();
             myOrderItems.put("Abgoosht", 3);
@@ -77,14 +75,14 @@ public class BootstrapData {
             myOrderItems.put("Faloode-shirazi",4);
 
 
-            Order myOrder = new Order(1, reservation, myOrderItems);
+            //Order myOrder = new Order(1, reservation, myOrderItems);
 
             /*
                 following line saves an order its also included in the postman test...
                 so if you want to add it you can un comment the line below...
                 or just call the api from postman
             */
-            orderRepo.saveOrderForReservation(reservation, myOrder);
+            //orderRepo.saveOrderForReservation(reservation, myOrder);
 
         } catch (Exception e) {
             System.out.println("Exception thrown while bootstrapping. " + e);
