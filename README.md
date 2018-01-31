@@ -13,6 +13,9 @@ Java Backend of a Restaurant App Using Jersey Jax-RS
   - JUnit
   - Postman
   
+  ### Note: 
+  We have also provided some endpoint test using Postman you can import them and test the application as you wish 
+  
   ### Front End Application
   We have also developed a front-end application using Angular 5 you can find the application in the link below:
   
