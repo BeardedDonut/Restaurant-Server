@@ -55,6 +55,7 @@ CREATE TABLE `reservation` (
   FOREIGN KEY (`tableId`) REFERENCES `restaurantTable` (`id`)
 );
 
+# Food Order Table -> Many to Many Extra Table
 CREATE TABLE `foodOrder` (
   `id`            INT(10) NOT NULL AUTO_INCREMENT,
   `totalCost`     FLOAT(4, 2),
@@ -64,6 +65,7 @@ CREATE TABLE `foodOrder` (
   FOREIGN KEY (`reservationId`) REFERENCES `reservation` (`id`)
 );
 
+# (MenuItem, Order) Pair Table
 CREATE TABLE `menuItemOrder` (
   `orderId`    INT(10)     NOT NULL,
   `menuItemId` INT(5)      NOT NULL,
@@ -74,3 +76,51 @@ CREATE TABLE `menuItemOrder` (
   FOREIGN KEY (`orderId`) REFERENCES `foodOrder` (`id`),
   FOREIGN KEY (`menuItemId`) REFERENCES `menuItem` (`id`)
 );
+
+# Creating Stored Procedures...
+# NOTE: be careful of delimiter change
+
+DELIMITER //
+# Total Sale Per Day Procedure
+CREATE PROCEDURE `totalSalePerDay`()
+  BEGIN
+    SELECT
+      `reservationDate`,
+      sum(`totalCost`)
+    FROM `reservation`
+      JOIN `foodOrder`
+        ON `reservation`.`id` = `reservationId`
+    GROUP BY `reservationDate`;
+  END;
+//
+
+DELIMITER //
+# Total Sale Between Given Dates
+CREATE PROCEDURE `totalSaleGroupByDate`(IN startDate DATE, IN endDate DATE)
+  BEGIN
+    SELECT
+      `reservationDate`,
+      sum(`totalCost`)
+    FROM `reservation`
+      JOIN `foodOrder`
+        ON `reservation`.`id` = `foodOrder`.`reservationId`
+    WHERE
+      `reservation`.`reservationDate` <= `endDate` AND
+      `reservation`.`reservationDate` >= `startDate`
+    GROUP BY `reservationDate`;
+  END;
+//
+
+DELIMITER //
+# Total Income
+CREATE PROCEDURE `totalIncome`()
+  BEGIN
+    SELECT sum(`totalCost`) AS `totalIncome`
+    FROM `reservation`
+      JOIN `foodOrder`
+        ON `reservation`.id = `reservationId`;
+  END;
+//
+
+DELIMITER ;
+

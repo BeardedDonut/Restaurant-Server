@@ -1,19 +1,19 @@
 package com.readlearncode.dukesbookshop.restserver.rest;
 
+import com.readlearncode.dukesbookshop.restserver.dataTransferObjects.TotalIncomeDTO;
 import com.readlearncode.dukesbookshop.restserver.domain.Customer;
 import com.readlearncode.dukesbookshop.restserver.domain.Order;
 import com.readlearncode.dukesbookshop.restserver.domain.Reservation;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.CustomerRepository;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.MenuItemRepository;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.OrderRepository;
-import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.ReservationRepository;
+import com.readlearncode.dukesbookshop.restserver.infrastructure.DAOInterface.*;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.GenericEntity;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -25,7 +25,6 @@ import java.util.Optional;
  */
 
 @Path("/report")
-@RolesAllowed({"ADMIN", "USER"})
 public class ReportResource {
 
     @EJB
@@ -39,6 +38,9 @@ public class ReportResource {
 
     @EJB
     private ReservationRepository resRepo;
+
+    @EJB
+    private ReportRepository reportRepository;
 
     @GET
     @Path("/reservation")
@@ -67,6 +69,7 @@ public class ReportResource {
 
     @GET
     @Path("/orders")
+    @Produces(MediaType.APPLICATION_JSON)
     public Response orderReport
             (@QueryParam("startDate") final String startDate,
             @QueryParam("endDate") final String endDate) {
@@ -101,7 +104,8 @@ public class ReportResource {
 
     @GET
     @Path("/customers")
-    public Response customerReport() {
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllCustomers() {
         List<Customer> customers = customerRepo.getAllCustomers();
 
         GenericEntity<List<Customer>> customerWrapper = new GenericEntity<List<Customer>>(customers) {
@@ -110,4 +114,27 @@ public class ReportResource {
         return Response.ok(customerWrapper).build();
     }
 
+    @GET
+    @Path("/sales")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getTotalSales
+            (@QueryParam("startDate") final String startDate,
+             @QueryParam("endDate") final String endDate) {
+
+        return null;
+    }
+
+    @GET
+    @Path("/totalIncome")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getTotalIncome() {
+        Optional<TotalIncomeDTO> opt = reportRepository.getTotalIncome();
+
+        if (opt.isPresent()) {
+            return Response.ok(opt.get()).build();
+        }
+
+        // TODO: throw proper exception
+        return Response.ok().build();
+    }
 }
